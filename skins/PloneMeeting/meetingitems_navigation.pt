@@ -1,0 +1,159 @@
+<tal:comment replace="nothing">Macro that shows the navigation controls on a paginated
+    list of items (meetingitems_list)</tal:comment>
+<metal:nav define-macro="itemsNavigation" tal:condition="python: batchSize and (totalNbOfItems &gt; batchSize)"
+   i18n:domain="PloneMeeting">
+  <table cellspacing="0" cellpadding="0" class="itemsNavigation" align="center"
+         tal:define="jsParams python:'\'%s\',\'%s\',\'%s\'' % (meeting.UID(), whichItems, showColors);
+                     startItem python: int(request['startNumber'])">
+    <tr>
+      <tal:comment replace="nothing">Go to the first page</tal:comment>
+      <td tal:condition="python: (startItem != 1) and (startItem != 1+batchSize)">
+        <img style="cursor:pointer" title="goto_first_items" i18n:attributes="title"
+             tal:attributes="src string: $portal_url/arrowLeftDouble.png;
+                             onClick python: 'getItemsList(%s,\'%s\')' % (jsParams, 1)"/></td>
+      <tal:comment replace="nothing">Go to the previous page</tal:comment>
+      <td tal:condition="python: startItem != 1">
+        <img tal:define="previousNumber python: startItem - batchSize;
+                         label python: meeting.utranslate('goto_previous_items', {'number': batchSize}, domain='PloneMeeting')"
+             tal:attributes="src string: $portal_url/arrowLeftSimple.png;
+                             onClick python: 'getItemsList(%s,\'%s\')' % (jsParams, previousNumber);
+                             title label" style="cursor:pointer"/></td>
+      <tal:comment replace="nothing">Explain which items are currently shown</tal:comment>
+      <td class="discreet">&nbsp;
+        <span i18n:translate="">PloneMeeting_label_body</span>&nbsp;
+        <span tal:replace="python: startItem+firstNumber-1"/>
+        <img tal:attributes="src string: $portal_url/to.png"/>
+        <span tal:replace="python: startItem+firstNumber-1+len(meetingItems)-1"/>&nbsp;&nbsp;
+      </td>
+      <tal:comment replace="nothing">Go to the next page</tal:comment>
+      <td tal:define="nextNumber python: startItem + batchSize;
+                      nbOfNextItems python: totalNbOfItems - (startItem+len(meetingItems)-1);
+                      nextBatchSize python: min(batchSize, nbOfNextItems)"
+          tal:condition="python: nextNumber &lt;= totalNbOfItems">
+        <img tal:define="label python: meeting.utranslate('goto_next_items', {'number': nextBatchSize}, domain='PloneMeeting')"
+            tal:attributes="src string: $portal_url/arrowRightSimple.png;
+                            onClick python: 'getItemsList(%s,\'%s\')' % (jsParams, nextNumber);
+                            title label" style="cursor:pointer"/></td>
+      <tal:comment replace="nothing">Go to the last page</tal:comment>
+      <td tal:define="lastPageIsIncomplete python: totalNbOfItems % batchSize;
+                      nbOfCompletePages python: totalNbOfItems/batchSize;
+                      nbOfCountedPages python: test(lastPageIsIncomplete, nbOfCompletePages, nbOfCompletePages-1);
+                      lastNumber python: (nbOfCountedPages*batchSize)+1"
+          tal:condition="python: (startItem != lastNumber) and (startItem != lastNumber-batchSize)">
+        <img tal:attributes="src string: $portal_url/arrowRightDouble.png;
+                             onClick python: 'getItemsList(%s,\'%s\')' % (jsParams, lastNumber)"
+             style="cursor:pointer" title="goto_last_items" i18n:attributes="title"/></td>
+      <tal:comment replace="nothing">Go to the page containing a given item number</tal:comment>
+      <td class="discreet" tal:condition="meetingConfig/getEnableGotoPage">&nbsp;&nbsp;<span i18n:translate="">goto_page</span>&nbsp;&nbsp;<input type="text" size="1"/><img
+          tal:attributes="src string: $portal_url/gotoItem.png;
+                          onClick python: 'getItemsListByNumber(%s, this.previousSibling, %s, %s, %s)' % (jsParams, totalNbOfItems, batchSize, firstNumber)" style="cursor:pointer"/></td>
+      <tal:comment replace="nothing">Go to meetingitem_view for a given item number</tal:comment>
+      <td class="discreet" tal:condition="meetingConfig/getEnableGotoItem">&nbsp;&nbsp;<span i18n:translate="">goto_item</span>&nbsp;&nbsp;<input type="text" size="1"/><img
+          tal:attributes="src string: $portal_url/gotoItem.png;
+                          onClick python: 'gotoItem(this.previousSibling, %d, \'%s\')' % (meeting.numberOfItems() + meeting.numberOfItems(True), meeting.UID())" style="cursor:pointer"/></td>
+    </tr>
+  </table>
+</metal:nav>
+
+<tal:comment replace="nothing">Macro that shows the navigation controls on meetingitem_view</tal:comment>
+<metal:itemnav define-macro="itemNavigation" i18n:domain="PloneMeeting" tal:condition="mayView"
+               tal:define="meeting context/getMeeting;
+                           mayView python: context.portal_plonemeeting.checkMayView(meeting);
+                           itemNumber python: context.getItemNumber(relativeTo='meeting');
+                           totalNbOfItems python: meeting.numberOfItems() + meeting.numberOfItems(True);
+                           firstItemUid python:context.getSiblingItemUid('first');
+                           previousItemUid python:context.getSiblingItemUid('previous');
+                           nextItemUid python:context.getSiblingItemUid('next');
+                           lastItemUid python:context.getSiblingItemUid('last')">
+  <script language="javascript">
+  <!--
+  function gotoMeeting(meetingUrl, isLate, itemNumber, numberOfMeetingItems, totalNbOfItems, iBatchSize, lBatchSize) {
+    // This function allows the user to go back to the meeting,
+    // at the page where the current item is.
+    var params = '';
+    if (isLate == 'True') {
+        var lStartNumber = computeStartNumberFrom(itemNumber, totalNbOfItems, lBatchSize);
+        var iStartNumber = computeStartNumberFrom(numberOfMeetingItems, totalNbOfItems, iBatchSize);
+        // This way, the last page of normal items will be displayed.
+        params = '?iStartNumber='+iStartNumber+'&lStartNumber='+lStartNumber;
+    }
+    else {
+        var startNumber = computeStartNumberFrom(itemNumber, totalNbOfItems, iBatchSize);
+        params = '?iStartNumber=' + startNumber;
+    }
+    window.location = meetingUrl + params;
+  }
+  -->
+  </script>
+  <tal:comment replace="nothing">Go to the meeting</tal:comment>
+  <img title="pm_goto_meeting" i18n:attributes="title" style="cursor:pointer"
+       tal:define="relStartNumber context/getItemNumber;
+                   lBatchSize meetingConfig/getMaxShownLateItems;
+                   iBatchSize meetingConfig/getMaxShownMeetingItems;
+                   numberOfMeetingItems meeting/numberOfItems;"
+       tal:attributes="src string: $portal_url/gotoMeeting.png;
+                       onClick python:'gotoMeeting(\'%s\', \'%s\', %d, %d, %d, %d, %d)' % (meeting.absolute_url(), context.isLate(), relStartNumber, numberOfMeetingItems, totalNbOfItems, iBatchSize, lBatchSize)"/>
+  <tal:comment replace="nothing">Go to the first item</tal:comment>
+  <img tal:condition="python: (itemNumber != 1) and (itemNumber != 2) and firstItemUid"
+       style="cursor:pointer" title="pm_goto_first" i18n:attributes="title"
+       tal:attributes="src string: $portal_url/arrowLeftDouble.png;
+                       onClick python:'window.location=\'%s/object_goto?objectId=%s&amp;idType=uid\'' % (context.absolute_url(), firstItemUid)"/>
+  <tal:comment replace="nothing">Go to the previous item</tal:comment>
+  <img tal:condition="previousItemUid" style="cursor:pointer"
+       title="pm_goto_previous" i18n:attributes="title"
+       tal:attributes="src string: $portal_url/arrowLeftSimple.png;
+                       onClick python:'window.location=\'%s/object_goto?objectId=%s&amp;idType=uid\'' % (context.absolute_url(), previousItemUid)"/>
+  <tal:comment replace="nothing">Explain which item is currently shown.
+   Show total number of items only if the user has the permission to view the last item).</tal:comment>
+  <span class="discreet">
+    <span i18n:translate="">MeetingItem</span>&nbsp;
+    <span tal:replace="itemNumber"/><span tal:condition="python: lastItemUid!=False"> / <span tal:replace="totalNbOfItems"/></span>
+  </span>
+  <tal:comment replace="nothing">Go to the next item</tal:comment>
+  <img tal:condition="nextItemUid" style="cursor:pointer"
+       title="pm_goto_next" i18n:attributes="title"
+       tal:attributes="src string: $portal_url/arrowRightSimple.png;
+                       onClick python:'window.location=\'%s/object_goto?objectId=%s&amp;idType=uid\'' % (context.absolute_url(), nextItemUid)"/>
+  <tal:comment replace="nothing">Go to the last item</tal:comment>
+  <img tal:condition="python: (itemNumber != totalNbOfItems) and (itemNumber != totalNbOfItems-1) and lastItemUid"
+       style="cursor:pointer" title="pm_goto_last" i18n:attributes="title"
+       tal:attributes="src string: $portal_url/arrowRightDouble.png;
+                       onClick python:'window.location=\'%s/object_goto?objectId=%s&amp;idType=uid\'' % (context.absolute_url(), lastItemUid)"/>
+  <tal:comment replace="nothing">Go to meetingitem_view for a given item number</tal:comment>
+  <span class="discreet" tal:condition="python: lastItemUid!=False">&nbsp;&nbsp;<span i18n:translate="">goto_item</span>&nbsp;&nbsp;<input type="text" size="1"/><img
+      tal:attributes="src string: $portal_url/gotoItem.png;
+                      onClick python: 'gotoItem(this.previousSibling, %d, \'%s\')' % (meeting.numberOfItems() + meeting.numberOfItems(True), meeting.UID())" style="cursor:pointer"/></span>
+
+</metal:itemnav>
+
+<tal:comment replace="nothing">Macro that displays item title and reference on several item-related
+  pages (view, annexes, votes, etc)</tal:comment>
+<metal:itemHeader define-macro="itemHeader" i18n:domain="PloneMeeting">
+<metal:actions use-macro="here/document_actions/macros/document_actions"/>
+<h1>
+  <tal:comment replace="nothing">Item title</tal:comment>
+  <tal:block replace="structure python:getattr(here, here.getIcon(1))"/>
+  <span tal:replace="here/Title"/>
+  <br/>
+
+  <tal:itemFullReference condition="python: context.adapted().mustShowItemReference()">
+  <tal:comment replace="nothing">toDiscuss field</tal:comment>
+  <span tal:condition="python: 'toDiscuss' in meetingConfig.getUsedItemAttributes()">
+    <img tal:condition="context/getToDiscuss"
+        tal:attributes="src string: $portal_url/toDiscussYes.png"
+        title="to_discuss_yes" i18n:attributes="title"/>
+    <img tal:condition="not: context/getToDiscuss"
+        tal:attributes="src string: $portal_url/toDiscussNo.png"
+        title="to_discuss_no" i18n:attributes="title"/>
+  </span>
+  <tal:comment replace="nothing">Item number and reference</tal:comment>
+  <span class="discreet" tal:content="python: str(context.getItemNumber(relativeTo='meeting')) + '.'"></span>
+  <span class="discreet" tal:content="python: context.adapted().getItemReference()"></span>
+  </tal:itemFullReference>
+</h1>
+<tal:has_document_byline tal:condition="exists:here/document_byline">
+  <div metal:use-macro="here/document_byline/macros/byline">
+      Get the byline - contains details about author and modification date.
+  </div>
+</tal:has_document_byline>
+</metal:itemHeader>

@@ -1,0 +1,7 @@
+[validators]
+validators = validate_content_status_modify
+
+[actions]
+action.failure=traverse_to:string:content_status_history
+action.success=redirect_to_action:string:view
+action.success_with_came_from=redirect_to:python:request.get('HTTP_REFERER')

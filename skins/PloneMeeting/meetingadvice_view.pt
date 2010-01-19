@@ -1,0 +1,126 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US" lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="PloneMeeting">
+
+<body metal:fill-slot="main"
+      tal:define="meetingConfig python:context.portal_plonemeeting.getMeetingConfig(context);
+                  showColors context/portal_plonemeeting/showColorsForUser">
+
+    <script language="javascript">
+    <!--
+    // Function that, depending on parameter mustShow, shows or hides the descriptions.
+    function setDescriptionsVisiblity(mustShow) {
+      var pmDescriptions = cssQuery('#pmDescription');
+      var tdIcon = document.getElementById('icon-toggleDescriptions');
+      for (var i=0; i<pmDescriptions.length; i++) {
+        var elem = pmDescriptions[i];
+        if (mustShow) {
+          // Show the descriptions
+          addClassName(elem, 'pmExpanded');
+          elem.style.display = 'inline';
+          tdIcon.src = 'collapseDescrs.png';
+          createCookie('pmShowDescriptions', 'true');
+        }
+        else {
+          // Hide the descriptions
+          removeClassName(elem, 'pmExpanded');
+          elem.style.display = 'none';
+          tdIcon.src = 'expandDescrs.png';
+          createCookie('pmShowDescriptions', 'false');
+        }
+      }
+    };
+
+    // Function that toggles the descriptions visibility
+    function toggleMeetingDescriptions() {
+      if (readCookie('pmShowDescriptions') == 'true') {
+         // Descriptions are not shown. So show them.
+         setDescriptionsVisiblity(false);
+      }
+      else {
+         // Descriptions are not shown. So show them.
+         setDescriptionsVisiblity(true);
+      }
+    };
+    // On page display, must I show the item descriptions or not?
+    function toggleDescriptionsLoad() {
+      if (readCookie('pmShowDescriptions') == null){
+          // No cookie? By default create one that shows the descriptions.
+          createCookie('pmShowDescriptions', 'true')
+      }
+      if (readCookie('pmShowDescriptions') == 'true') {
+         // Descriptions are not shown. So show them.
+         setDescriptionsVisiblity(true);
+      }
+      else {
+         // Descriptions are shown. So hide them.
+         setDescriptionsVisiblity(false);
+      }
+    };
+    // toggleDescriptionsLoad will be called when a page is loaded.
+    registerPloneFunction(toggleDescriptionsLoad)
+
+    -->
+    </script>
+
+    <div tal:condition="not: context/isPublished" class="portalMessage" i18n:translate="warning_unpublished_advice">Warning, do not forget to publish this advice if you want other users to see it!</div>
+
+    <div metal:use-macro="here/document_actions/macros/document_actions">
+       Document actions (print, sendto etc)
+    </div>
+
+    <!-- Title -->
+    <h1>
+     <tal:block replace="structure python:getattr(here, here.getIcon(1))"/>
+     <span tal:content="here/Title" tal:omit-tag="">Advice Title</span>
+     <br/>
+    </h1>
+    <span metal:use-macro="here/plonemeeting_list_pod_templates/macros/listPodTemplates"/>
+
+    <tal:has_document_byline tal:condition="exists:here/document_byline">
+        <div metal:use-macro="here/document_byline/macros/byline">
+            Get the byline - contains details about author and modification date.
+        </div>
+    </tal:has_document_byline>
+
+    <tal:info define="adviceInfo python: context.getAdviceInfo()">
+
+    <!-- Adviser -->
+    <div class="discreet">
+      <i><span i18n:translate="PloneMeeting_label_adviserName">Advisers group</span></i>:&nbsp;&nbsp;
+         <span tal:content="python: adviceInfo['adviser_Title']"></span>
+    </div>
+
+    <br />
+    <a class="link-parent" href="#" tal:attributes="href python: context.getMeetingItem().absolute_url() + '/advices_form'" i18n:translate="backto_item_advices">Back to the advices of the item</a>
+
+    <!-- Agreement -->
+    <fieldset>
+      <legend i18n:translate="PloneMeeting_label_agreementLevel">Agreement level</legend>
+      <img tal:attributes="src python: adviceInfo['agLevel_iconUrl']"/>&nbsp;
+      <span i18n:translate="" tal:content="python: adviceInfo['agLevel_Title']" />
+    </fieldset>
+
+    </tal:info>
+
+    <!-- Details -->
+    <fieldset tal:condition="not: context/descriptionFieldIsEmpty">
+      <legend i18n:translate="advice_description">Advice details</legend>
+      <div tal:replace="structure context/Description"></div>
+    </fieldset>
+
+    <!-- Actions -->
+    <br/>
+    <span tal:define="itemOrMeeting python:here">
+      <div metal:use-macro="here/plonemeeting_actions/macros/ploneMeetingActions" />
+    </span>
+    <br/>
+
+    <!-- Remember in session when this advice was last accessed -->
+    <span tal:define="dummy python: context.portal_plonemeeting.rememberAccess(context.UID())"></span>
+</body>
+</html>

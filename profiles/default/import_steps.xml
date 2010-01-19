@@ -1,0 +1,9 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="installproducts-PloneMeeting" version="20060707-01"
+              handler="Products.PloneMeeting.exportimport.content.installProducts"
+              title="Install necessary products for PloneMeeting.">
+  <dependency step="toolset"/>
+  Install necessary products for PloneMeeting.
+ </import-step>
+</import-steps>

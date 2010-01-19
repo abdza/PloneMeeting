@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<import-steps>
+ <import-step id="installproducts-PloneMeeting" version="20060707-01"
+              handler="Products.PloneMeeting.exportimport.content.installProducts"
+              title="Install necessary products for PloneMeeting.">
+  <dependency step="toolset"/>
+  Install necessary products for PloneMeeting.
+ </import-step>
+ <import-step id="initialize-PloneMeeting-archive-site" version="20090729-01"
+              handler="Products.PloneMeeting.exportimport.content.initializeTool"
+              title="Initialize portal_plonemeeting folders.">
+   <dependency step="installproducts-PloneMeeting"/>
+  Initializes a PloneMeeting site specifically for archiving purposes.
+ </import-step>
+</import-steps>

@@ -1,0 +1,381 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US" lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="PloneMeeting">
+
+<body>
+ <metal:main fill-slot="main">
+
+  <script language="javascript"
+    tal:content="python: 'ploneEditor = \'%s\';' % member.getProperty('wysiwyg_editor', '')">
+  </script>
+  <script language="javascript">
+  <!--
+  var xhrObjects = new Array();
+  var currentFieldName = ''; // Field being currently ajax-edited.
+  // Wrapper class for a XMLHttpRequest
+  function XhrObject() {
+    this.freed = 1; // Is this xhr object already dealing with a request or not?
+    this.xhr = false;
+    if (window.XMLHttpRequest) this.xhr = new XMLHttpRequest();
+    else this.xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    this.uid = false;
+    this.fieldName = false;
+  }
+  function initKupuField() {
+    window.kupu = initPloneKupu('kupu-editor-' + currentFieldName);
+    window.kupuui = window.kupu.getTool('ui');
+    window.drawertool = window.kupu.getTool('drawertool');
+    window.kupu.initialize();
+  }
+  function getEditZone(pos) {
+    // First, find back the correct XMLHttpRequest object
+    if ( (typeof(xhrObjects[pos]) != 'undefined') &&
+         (xhrObjects[pos].freed == 0)) {
+      var uid = xhrObjects[pos].uid;
+      var fieldName = xhrObjects[pos].fieldName;
+      if (xhrObjects[pos].xhr.readyState == 1) {
+        // The request has been initialized: display the waiting radar
+        var fieldHook = document.getElementById('hook_' + fieldName);
+        if (fieldHook) fieldHook.innerHTML = "<div align=\"center\"><br/><img src=\"waiting.gif\"/><\/div>";
+      }
+      if (xhrObjects[pos].xhr.readyState == 4) {
+        // We have received the edit view: fetch it into the page
+        var fieldHook = document.getElementById('hook_' + fieldName);
+        if (fieldHook && (xhrObjects[pos].xhr.status == 200)) {
+          fieldHook.innerHTML = xhrObjects[pos].xhr.responseText;
+          // Javascripts inside this zone will not be executed. So find them
+          // and trigger their execution here.
+          var scripts = cssQuery('script', fieldHook);
+          for (var i=0; i<scripts.length; i++) {
+            var scriptContent = scripts[i].innerHTML;
+            if (scriptContent.search('addEventHandler') != -1) {
+              // This is a kupu field that will register an event onLoad on
+              // window but this event will never be triggered. So do it by
+              // hand.
+              currentFieldName = xhrObjects[pos].fieldName;
+              setTimeout("initKupuField()", 1000);
+            }
+            else { eval(scriptContent); }
+          }
+          // Initialize FCK editor if it is the used editor
+          if (ploneEditor == 'FCKeditor') { FCKeditor_Plone_Init(); }
+        }
+        xhrObjects[pos].freed = 1;
+      }
+    }
+  }
+  function askEditZone(uid, fieldName) {
+    // Gets the edit view of the field through an AJAX request.
+    // First, get a non-busy XMLHttpRequest object
+    var pos = -1;
+    for (var i=0; i < xhrObjects.length; i++) {
+      if (xhrObjects[i].freed == 1) { pos = i; break; }
+    }
+    if (pos == -1) {
+      pos = xhrObjects.length;
+      xhrObjects[pos] = new XhrObject();
+    }
+    if (xhrObjects[pos].xhr) {
+      xhrObjects[pos].freed = 0;
+      xhrObjects[pos].uid = uid;
+      xhrObjects[pos].fieldName = fieldName;
+      xhrObjects[pos].xhr.open('GET', "ajaxedit_field?uid=" +
+        uid + "&fieldName="+fieldName, true);
+      xhrObjects[pos].xhr.onreadystatechange = function(){ getEditZone(pos); }
+      if (window.XMLHttpRequest) { xhrObjects[pos].xhr.send(null); }
+      else if (window.ActiveXObject) { xhrObjects[pos].xhr.send(); }
+    }
+  }
+  function getSaveField(pos) {
+    // First, find back the correct XMLHttpRequest object
+    if ( (typeof(xhrObjects[pos]) != 'undefined') &&
+         (xhrObjects[pos].freed == 0)) {
+      var uid = xhrObjects[pos].uid;
+      var fieldName = xhrObjects[pos].fieldName;
+      if (xhrObjects[pos].xhr.readyState == 1) {
+        // The request has been initialized: display the waiting radar
+        var fieldHook = cssQuery('#hook_' + fieldName)[0];
+        if (fieldHook) fieldHook.innerHTML = "<div align=\"center\"><br/><img src=\"waiting.gif\"/><\/div>";
+      }
+      if (xhrObjects[pos].xhr.readyState == 4) {
+        // We have received the consult view: fetch it into the page
+        var fieldHook = cssQuery('#hook_' + fieldName)[0];
+        if (fieldHook && (xhrObjects[pos].xhr.status == 200)) {
+          fieldHook.innerHTML = xhrObjects[pos].xhr.responseText;
+        }
+        xhrObjects[pos].freed = 1;
+      }
+    }
+  }
+
+  function askSaveField(uid, fieldName) {
+    // Asks to save the field named p_fieldName.
+    // First, get a non-busy XMLHttpRequest object
+    var pos = -1;
+    for (var i=0; i < xhrObjects.length; i++) {
+      if (xhrObjects[i].freed == 1) { pos = i; break; }
+    }
+    if (pos == -1) {
+      pos = xhrObjects.length;
+      xhrObjects[pos] = new XhrObject();
+    }
+    if (xhrObjects[pos].xhr) {
+      var rq = xhrObjects[pos];
+      rq.freed = 0;
+      rq.uid = uid;
+      rq.fieldName = fieldName;
+      var formId = 'ajax_edit_' + fieldName;
+      var theForm = document.getElementById(formId);
+      var decisionWidget = theForm[fieldName];
+      if (ploneEditor == 'Kupu') {
+        // Save the Kupu content to the field in the form.
+        window.kupu.saveDataToField(theForm, decisionWidget);
+        var drawer = window.document.getElementById('kupu-librarydrawer');
+        if (drawer) { drawer.parentNode.removeChild(drawer); }
+      }
+      if (ploneEditor == 'FCKeditor'){
+        if ( typeof( window.parent.FCKeditor_OnComplete ) == 'function' ) {
+          var fckObject = FCKeditorAPI.Instances.decision;
+          fckObject.SetStatus(FCK_STATUS_COMPLETE);
+          finalizePublication(fckObject);
+          }
+      }
+      window.onbeforeunload = null; // Disable the Plone automatic detection
+        // that changes to the page will be lost because an unsubmitted form
+        // contains changed data.
+      // Prepare the POST request for saving field content
+      var data = "uid=" + uid +  "&fieldName=" +
+          encodeURIComponent(fieldName) + '&fieldContent=' + encodeURIComponent(decisionWidget.value);
+      rq.xhr.open('POST', "ajaxsave_field", true);
+      rq.xhr.setRequestHeader(
+        "Content-Type", "application/x-www-form-urlencoded");
+      rq.xhr.setRequestHeader("Content-length", data.length);
+      //rq.xhr.setRequestHeader('Content-Type','charset=utf-8');
+      rq.xhr.setRequestHeader("Connection", "close");
+      rq.xhr.onreadystatechange = function(){ getSaveField(pos); }
+      rq.xhr.send(data);
+    }
+  }
+
+  -->
+  </script>
+  <div metal:define-macro="body"
+       tal:define="tool python: context.portal_plonemeeting;
+                   meetingConfig python:tool.getMeetingConfig(context);
+                   showColors tool/showColorsForUser">
+    <tal:comment replace="nothing">Item header (title, reference, etc)</tal:comment>
+    <metal:header use-macro="here/meetingitems_navigation/macros/itemHeader"/>
+
+    <tal:comment replace="nothing">Form used for going to meetingitem_view for an item
+        whose number is given by the user.</tal:comment>
+
+    <form name="formGotoItem" tal:attributes="action python: context.absolute_url_path() + '/object_goto'">
+        <input type="hidden" name="objectId"/>
+        <input type="hidden" name="meetingUid"/>
+        <input type="hidden" name="idType" value="number"/>
+    </form>
+
+    <tal:comment replace="nothing">Show POD templates</tal:comment>
+    <table class="no-style-table" width="100%" valign="top">
+      <tr valign="top">
+        <td align="right">
+          <metal:podTemplates use-macro="here/plonemeeting_list_pod_templates/macros/listPodTemplates"/>
+        </td>
+      </tr>
+    </table>
+
+    <tal:comment replace="nothing">Show navigation between items of the same meeting</tal:comment>
+    <div align="center" tal:condition="context/hasMeeting">
+      <metal:itemNavigation use-macro="here/meetingitems_navigation/macros/itemNavigation"/>
+    </div>
+
+    <table class="no-style-table" width="100%">
+      <tr valign="top">
+        <td width="50%">
+        <tal:comment replace="nothing">Classifier</tal:comment>
+        <table class="discreet" tal:condition="python: context.attributeIsUsed('classifier')"
+               cellpadding="0" cellspacing="0">
+          <tr valign="top">
+            <td><i><span i18n:translate="PloneMeeting_label_classifier"></span></i>&nbsp;:&nbsp;&nbsp;</td>
+            <td tal:condition="context/getClassifier" tal:content="python: context.getClassifier().Title()"></td>
+            <td tal:condition="not: context/getClassifier">-</td>
+          </tr>
+        </table>
+
+        <tal:comment replace="nothing">Category or proposing group (if group is used as category)</tal:comment>
+        <div class="discreet">
+          <i><span tal:condition="not: meetingConfig/getUseGroupsAsCategories"
+                   i18n:translate="MeetingCategory"></span>
+             <span tal:condition="meetingConfig/getUseGroupsAsCategories"
+                   i18n:translate="PloneMeeting_label_proposingGroup"></span></i>:&nbsp;&nbsp;
+             <span tal:condition="python: context.getCategory(True)"
+                   tal:content="python: context.getCategory(True).Title()"></span>
+        </div>
+
+        <tal:comment replace="nothing">Proposing group (if group is not used as category)</tal:comment>
+        <div class="discreet" tal:condition="not: meetingConfig/getUseGroupsAsCategories">
+          <i><span i18n:translate="PloneMeeting_label_proposingGroup"></span></i>:&nbsp;&nbsp;
+             <span tal:content="python: getattr(tool, context.getProposingGroup()).Title()"></span>
+        </div>
+
+        <tal:comment replace="nothing">Associated groups</tal:comment>
+        <div class="discreet" tal:condition="python: context.attributeIsUsed('associatedGroups')">
+          <i><span i18n:translate="PloneMeeting_label_associatedGroups"></span></i>:&nbsp;&nbsp;
+             <span tal:repeat="associatedGroup here/getAssociatedGroups"
+                   tal:content="structure python: getattr(tool, associatedGroup).Title() + '&nbsp;&nbsp;'"></span>
+        </div>
+
+        <tal:comment replace="nothing">Copy groups for this item</tal:comment>
+        <div class="discreet" tal:condition="python: context.isCopiesEnabled()">
+          <i><span i18n:translate="PloneMeeting_label_copyGroups"></span></i>:&nbsp;&nbsp;
+             <span metal:use-macro="python: here.widget('copyGroups', mode='view')" />
+        </div>
+
+        <tal:comment replace="nothing">Item keywords</tal:comment>
+        <div class="discreet" tal:condition="python: context.attributeIsUsed('itemKeywords')">
+          <i><span i18n:translate="PloneMeeting_label_itemKeywords"></span></i>:&nbsp;&nbsp;
+             <span tal:content="context/itemKeywords"></span>
+        </div>
+
+        <tal:comment replace="nothing">Item tags</tal:comment>
+        <div class="discreet" tal:condition="python: context.attributeIsUsed('itemTags')">
+          <i><span i18n:translate="PloneMeeting_label_itemTags"></span></i>:&nbsp;&nbsp;
+             <span tal:content="python: ', '.join(context.getItemTags())"></span>
+        </div>
+        </td>
+        <td width="50%" align="right">
+        <tal:comment replace="nothing">Preferred meeting</tal:comment>
+        <div class="discreet">
+          <i><span i18n:translate="PloneMeeting_label_preferredMeeting"></span></i>:&nbsp;&nbsp;
+            <span tal:define="meetings python:here.uid_catalog(UID=here.getPreferredMeeting())">
+            <span tal:condition="meetings">
+                <tal:block define="meeting python:meetings[0];
+                                   mayView python: tool.checkMayView(meeting)">
+                <a tal:condition="mayView"
+                    tal:attributes="href python: meeting.getObject().absolute_url()"
+                    tal:content="python: meeting.getObject().adapted().getDisplayableName()"></a>
+                <span tal:condition="not: mayView" tal:content="meeting/Title">
+                </span>
+                </tal:block>
+            </span>
+            <span tal:condition="not: meetings">-
+            </span>
+          </span>
+        </div>
+
+        <tal:comment replace="nothing">Meeting where this item is presented</tal:comment>
+        <div class="discreet">
+           <i><span i18n:translate="presented_in_meeting">Presented in meeting</span></i>:&nbsp;&nbsp;
+           <tal:hasMeeting condition="context/hasMeeting">
+             <tal:block define="meeting context/getMeeting;
+                                mayView python: tool.checkMayView(meeting)">
+               <a tal:condition="mayView"
+                  tal:attributes="href meeting/absolute_url"
+                  tal:content="python: meeting.adapted().getDisplayableName()"></a>
+               <span tal:condition="not: mayView" tal:content="context/getLinkedMeetingTitle"></span>
+             </tal:block>
+           </tal:hasMeeting>
+           <span tal:condition="not: context/hasMeeting">-</span>
+         </div>
+        <tal:comment replace="nothing">Are the votes on this item secret?</tal:comment>
+        <div class="discreet"
+             tal:condition="python: context.isVotesEnabled() and context.getVotesAreSecret()">
+         <i style="color:blue;" i18n:translate="PloneMeeting_label_votesAreSecret"></i>
+        </div>
+        </td>
+      </tr>
+    </table>
+
+    <tal:comment replace="nothing">Description</tal:comment>
+    <fieldset tal:condition="not: context/descriptionFieldIsEmpty">
+      <legend i18n:translate="meeting_item_description">Meeting description</legend>
+      <div tal:replace="structure context/Description"></div>
+    </fieldset>
+
+    <tal:comment replace="nothing">Decision</tal:comment>
+    <div id="hook_decision">
+    <fieldset tal:condition="python: member.has_permission('PloneMeeting: Read decision', context) and not context.decisionFieldIsEmpty()">
+      <legend><span tal:condition="python: member.has_permission('PloneMeeting: Write decision', context)">
+                <img style="cursor:pointer"
+                     tal:attributes="src string:$portal_url/edit.gif;
+                                     onClick python:'javascript:askEditZone(\'%s\', \'decision\')' % context.UID()"/>
+              </span>
+              <span i18n:translate="decision"></span>
+      </legend>
+      <span tal:replace="structure context/getDecision"></span>
+    </fieldset>
+    </div>
+
+    <tal:comment replace="nothing">Annexes</tal:comment>
+    <table width="40%"><tr><td>
+    <fieldset tal:condition="python: context.hasAnnexesWhere(decisionRelated=False)"
+              tal:define="meetingItem python: here">
+      <legend i18n:translate="existing_annexes">Annexes</legend>
+      <span metal:use-macro="here/annexes_macros/macros/annexesIcons">Show item-related annexes if they exist</span>
+    </fieldset>
+    </td></tr></table>
+
+    <tal:comment replace="nothing">Annexes (decision-related)</tal:comment>
+    <table tal:define="meetingItem python: here;
+                       decisionRelated python:True"
+           tal:condition="python: member.has_permission('PloneMeeting: Read decision annex', context) and context.hasAnnexesWhere(decisionRelated=True)" width="40%"><tr><td>
+      <fieldset>
+        <legend i18n:translate="AnnexesDecision" i18n:domain="plone"></legend>
+        <span metal:use-macro="here/annexes_macros/macros/annexesIcons">Annexes icons</span>
+      </fieldset>
+      </td></tr>
+    </table>
+
+    <tal:comment replace="nothing">Advices</tal:comment>
+    <fieldset tal:condition="python: context.isAdvicesEnabled() and context.hasAdvices()"
+              tal:define="meetingItem python: here;">
+      <legend i18n:translate="existing_advices">Advices</legend>
+      <span metal:use-macro="here/advices_macros/macros/advicesItem">Show item-related advices if they exist</span>
+      <div class="discreet">
+       <i><span i18n:translate="PloneMeeting_label_mandatoryAdvisers"></span></i>:&nbsp;&nbsp;
+               <span tal:condition="context/getMandatoryAdvisers" metal:use-macro="python: here.widget('mandatoryAdvisers', mode='view')" />
+               <span tal:condition="not: context/getMandatoryAdvisers">-</span>
+       <br />
+       <i><span i18n:translate="PloneMeeting_label_optionalAdvisers"></span></i>:&nbsp;&nbsp;
+               <span tal:condition="context/getOptionalAdvisers" metal:use-macro="python: here.widget('optionalAdvisers', mode='view')" />
+               <span tal:condition="not: context/optionalAdvisers">-</span>
+      </div>
+    </fieldset>
+
+    <tal:comment replace="nothing">Votes</tal:comment>
+    <fieldset tal:condition="python: context.showVotes() and context.getMeetingUsers()"
+              tal:define="meetingItem python: here;">
+      <legend i18n:translate="existing_votes">Votes</legend>
+      <span metal:use-macro="here/votes_macros/macros/votesItem">Show item-related votes if they exist</span>
+    </fieldset>
+
+    <tal:comment replace="nothing">Observations</tal:comment>
+    <fieldset tal:condition="python: context.attributeIsUsed('observations') and member.has_permission('PloneMeeting: Read item observations', context) and not context.observationsFieldIsEmpty()">
+      <legend i18n:translate="PloneMeeting_itemObservations"></legend>
+      <span tal:replace="structure context/getObservations"></span>
+    </fieldset>
+
+    <tal:comment replace="nothing">Actions</tal:comment>
+    <br/>
+    <div tal:define="itemOrMeeting python: here">
+        <div metal:use-macro="here/plonemeeting_actions/macros/ploneMeetingActions" />
+    </div>
+    <p></p>
+
+    <tal:comment replace="nothing">Tasks</tal:comment>
+    <span tal:define="tasksMacro python:test(meetingConfig.getTasksMacro(), path(meetingConfig.getTasksMacro() + '|nothing'), None)"
+          tal:condition="python: tasksMacro and context.adapted().mayBeLinkedToTasks() and (member.has_role('TaskManager') or member.has_role('Owner', context))">
+      <br/>
+      <span metal:use-macro="tasksMacro"></span>
+    </span>
+
+    <tal:comment replace="nothing">Remember in session when this item was last accessed</tal:comment>
+    <span tal:define="dummy python: tool.rememberAccess(context.UID())"></span>
+   </div>
+ </metal:main>
+</body>
+</html>

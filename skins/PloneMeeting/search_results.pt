@@ -1,0 +1,82 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US" lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="PloneMeeting">
+
+<body>
+  <tal:comment replace="nothing">Disable the Standard Plone green tab</tal:comment>
+  <div metal:fill-slot="top_slot">
+    <metal:block metal:use-macro="here/global_defines/macros/defines" />
+    <div tal:define="dummy python:request.set('disable_border', 1)" />
+  </div>
+
+  <metal:main fill-slot="main"
+     tal:define="tool python: context.portal_plonemeeting;
+                 showColors tool/showColorsForUser;
+                 searchResults tool/performAdvancedSearch;
+                 meetingConfig python:searchResults[0];
+                 itemBrains python:searchResults[1];
+                 meetingBrains python:searchResults[2];
+                 annexBrains python: searchResults[3]">
+
+  <div class="documentActions"><tal:comment replace="nothing">Icon for hiding/showing item descriptions.</tal:comment>
+    <ul>
+      <li><a href="javascript:toggleMeetingDescriptions()">
+          <img id="icon-toggleDescriptions" title="show_or_hide_details" i18n:attributes="title"
+               tal:attributes="src string:$portal_url/collapseDescrs.png" i18n:domain="plone"/></a>
+      </li>
+    </ul>
+  </div>
+  <h1 i18n:translate="heading_search_results" i18n:domain="plone">Search results</h1>
+
+  <p class="discreet"><a tal:attributes="href python:context.absolute_url() + '/search_form'"
+                         i18n:translate="search_again"></a></p>
+
+  <tal:comment replace="nothing">Display matching items</tal:comment>
+  <tal:items define="searchResults itemBrains" condition="itemBrains">
+    <div i18n:translate="search_items_found">
+      <span i18n:name="number" tal:content="itemBrains/sequence_length"></span>
+    </div>
+    <div class="discreet" tal:condition="python: itemBrains.sequence_length == tool.getMaxSearchResults()"
+         i18n:translate="search_max_limit"><span i18n:name="number" tal:content="tool/getMaxSearchResults"></span></div>
+    <br/>
+    <tal:fakeTopic define="fakeTopic python: meetingConfig.topics.searchallitems">
+      <metal:showMatchingItems use-macro="here/plonemeeting_topic_result/macros/topicResult"/>
+    </tal:fakeTopic>
+  </tal:items>
+
+  <tal:comment replace="nothing">Display matching meetings</tal:comment>
+  <tal:meetings define="searchResults meetingBrains" condition="meetingBrains">
+    <br/><div i18n:translate="search_meetings_found">
+      <span i18n:name="number" tal:content="meetingBrains/sequence_length"></span>
+    </div>
+    <div class="discreet" tal:condition="python: meetingBrains.sequence_length == tool.getMaxSearchResults()"
+         i18n:translate="search_max_limit"><span i18n:name="number" tal:content="tool/getMaxSearchResults"></span></div>
+    <br/>
+    <tal:fakeTopic define="fakeTopic python: meetingConfig.topics.searchalldecisions">
+      <metal:showMatchingMeetings use-macro="here/plonemeeting_topic_result/macros/topicResult"/>
+    </tal:fakeTopic>
+  </tal:meetings>
+
+  <tal:comment replace="nothing">Display matching annexes</tal:comment>
+  <tal:items define="searchResults annexBrains" condition="annexBrains">
+    <br/><div i18n:translate="search_annexes_found">
+      <span i18n:name="number" tal:content="annexBrains/sequence_length"></span>
+    </div>
+    <div class="discreet" tal:condition="python: annexBrains.sequence_length == tool.getMaxSearchResults()"
+         i18n:translate="search_max_limit"><span i18n:name="number" tal:content="tool/getMaxSearchResults"></span></div>
+    <br/>
+    <tal:fakeTopic define="fakeTopic python: portal.events">
+      <metal:showMatchingAnnexes use-macro="here/plonemeeting_topic_result/macros/topicResult"/>
+    </tal:fakeTopic>
+  </tal:items>
+
+  <p class="discreet" tal:condition="python: not itemBrains and not meetingBrains and not annexBrains"
+     i18n:translate="search_no_result">No result.</p>
+  </metal:main>
+
+</body>
+</html>

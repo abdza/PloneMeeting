@@ -1,0 +1,156 @@
+<tal:comment replace="nothing">Requires "meetingConfig" and "showColors"</tal:comment>
+<div metal:define-macro="topicResult" i18n:domain="plone"
+     tal:define="fakeTopic nocall:fakeTopic|nothing;
+                 topic python:test(fakeTopic, fakeTopic, here);
+                 resultMetaType python:topic.getProperty('meeting_topic_type', 'MeetingFile');
+                 searchResults searchResults|python:tool.getTopicResults(topic);
+                 batch searchResults;
+                 dummy python:request.form.update({'resultMetaType':resultMetaType});
+                 fieldsToDisplay python: test(resultMetaType=='MeetingFile', ('Title', 'CreationDate', 'Creator'), topic.getCustomViewFields())">
+
+  <tal:comment replace="nothing">This macro is normally used to display the
+    results of a topic (="here"). But we also reuse it to display a custom
+    item- or meeting-related search in the catalog. In this case, this macro
+    receives a "fakeTopic" (which is one of the predefined topics of the
+    meeting configuration); query results in the portal_catalog are already
+    given in searchResults.</tal:comment>
+
+  <tal:comment replace="nothing">Show the result.</tal:comment>
+
+  <div tal:condition="searchResults">
+
+    <tal:topNavigation condition="not: fakeTopic">
+      <div metal:use-macro="topic/batch_macros/macros/navigation"/>
+    </tal:topNavigation>
+
+    <tal:comment replace="nothing">The table containing the result</tal:comment>
+    <table tal:define="vocab python:topic.listMetaDataFields(False);
+                       descrsStyle python: test((tool.readCookie('pmShowDescriptions') == 'false'), 'none', 'inline');"
+           class="listing" summary="Content listing" cellpadding="0"
+           cellspacing="0" width="100%"
+           i18n:attributes="summary summary_content_listing;">
+      <!-- <thead> If I enable this I enable sorting based on column which
+           is causes annexes/advices to bug.-->
+      <tr>
+        <th tal:repeat="field fieldsToDisplay" i18n:translate=""
+            tal:content="python:vocab.getValue(field, field)"/>
+        <th tal:condition="python: fakeTopic and (resultMetaType == 'MeetingItem')"
+            i18n:translate="Meeting" i18n:domain="PloneMeeting"></th>
+        <th i18n:domain="PloneMeeting" i18n:translate=""
+            tal:condition="python: resultMetaType == 'MeetingItem'"
+            tal:attributes="width python:meetingConfig.getAnnexesIconsWidth()">annexes</th>
+        <th i18n:domain="PloneMeeting" i18n:translate=""
+            tal:condition="python: (resultMetaType == 'MeetingItem') and meetingConfig.useAdvices"
+            tal:attributes="width python:meetingConfig.getAgreementLevelsIconsWidth()">advices</th>
+        <th i18n:domain="plone" i18n:translate=""
+            tal:condition="python: (not fakeTopic) and (topic.id != 'searchalldecisions')">heading_actions</th>
+      </tr>
+      <!-- </thead> -->
+      <tbody>
+      <tal:brain tal:repeat="obj searchResults">
+      <tr tal:define="oddrow repeat/obj/odd;"
+          tal:attributes="class python:test(oddrow, 'even', 'odd')" valign="top">
+        <tal:showStandardFields repeat="field fieldsToDisplay"
+          define="url obj/getURL;
+                  obj_type obj/portal_type;
+                  obj_typeinfo python: topic.portal_types.getTypeInfo(obj_type);
+                  icon python:portal_url+'/'+ obj_typeinfo.getIcon();
+                  obj_wf_state obj/review_state|python: wtool.getInfoFor(obj, 'review_state', '');
+                  obj_wf_state_class python:'state-' + normalizeString(obj_wf_state);
+                  title_or_id obj/pretty_title_or_id">
+          <tal:block define="value python: getattr(obj, field, None)">
+
+          <tal:comment replace="nothing">Show the "title" cell.</tal:comment>
+          <td class="pmLinks" tal:condition="python: field == 'Title'">
+            <a tal:attributes="href url"><tal:comment replace="nothing">Show the icon</tal:comment>
+              <img height="16" width="16" tal:attributes="src icon"/>
+            </a>
+            <tal:comment replace="nothing">For a meeting item, show its title with
+               a color that depends on the color scheme used in the meeting config,
+               and its description.</tal:comment>
+            <tal:showItemTitleAndDescr condition="python: resultMetaType == 'MeetingItem'">
+              <tal:wakeUpItem define="item obj/getObject">
+              <tal:showTitle replace="structure python: tool.getColoredLink(item, showColors)"/>
+              <span tal:condition="not: item/descriptionFieldIsEmpty"
+                    i18n:domain="PloneMeeting" id="pmDescription" class="pmExpanded"
+                    tal:attributes="style python:'display: %s' % descrsStyle">
+                <span tal:content="structure item/Description"></span>
+              </span>
+              </tal:wakeUpItem>
+            </tal:showItemTitleAndDescr>
+
+            <tal:comment replace="nothing">For a meeting, show its title without any color.
+               (an PloneMeeting-specific color scheme may be in use, so we do not use the
+               workflow-based color scheme for the meeting, it could perturbate users.</tal:comment>
+            <a tal:condition="python: (obj.portal_type not in ['Link', 'Image']) and (resultMetaType != 'MeetingItem')"
+              id="pmNoNewContent" tal:attributes="href url" tal:content="title_or_id" />
+
+            <tal:comment replace="nothing">For anything else, use standard Plone rendering.</tal:comment>
+            <a tal:condition="python: obj.portal_type == 'Image'" tal:content="title_or_id"
+               tal:attributes="href string:${url}/view;
+                               class obj_wf_state_class"/>
+            <a tal:condition="python: obj.portal_type == 'Link'" class="link-plain" tal:content="title_or_id" 
+               tal:attributes="href obj/getRemoteUrl;
+                               class obj_wf_state_class"/>
+          </td>
+
+          <tal:showOtherField condition="python: field != 'Title'">
+            <td tal:condition="python: field != 'Creator'"
+                tal:content="python:topic.formatCatalogMetadata(value)"
+                i18n:translate=""/>
+            <td tal:condition="python: field == 'Creator'"
+                tal:content="python: tool.getUserName(value)">
+            </td>
+          </tal:showOtherField>
+          </tal:block>
+        </tal:showStandardFields>
+
+        <tal:showPloneMeetingFields condition="python: topic.id != 'searchalldecisions'">
+          <tal:comment replace="nothing">For performance reasons, when displaying
+            all notifications, we do not display actions and other specific stuff
+            that need to access the real Meeting objects.</tal:comment>
+          <tal:wakeUpObject define="here obj/getObject">
+          <tal:comment replace="nothing">Show meeting if we display items as the result of an advanced search.</tal:comment>
+          <td tal:condition="python: fakeTopic and (resultMetaType == 'MeetingItem')">
+            <tal:tiedMeeting define="meetingBrain python: here.getMeeting(brain=True)">
+              <a tal:condition="meetingBrain" tal:content="meetingBrain/Title"
+                 tal:attributes="href python: meetingBrain.absolute_url()[:meetingBrain.absolute_url().find('/at_references/')]"></a>
+              <span tal:condition="not: meetingBrain">-</span>
+            </tal:tiedMeeting>
+          </td>
+          <tal:comment replace="nothing">Show annexes if object is a meeting item</tal:comment>
+          <td tal:define="meetingItem python: here"
+              tal:condition="python: resultMetaType == 'MeetingItem'" align="center">
+            <metal:showAnnexes use-macro="here/annexes_macros/macros/annexesIcons"/>
+          </td>
+          <tal:comment replace="nothing">Show advices if object is a meeting item</tal:comment>
+          <td tal:define="meetingItem python: here;" align="center"
+              tal:condition="python: (resultMetaType == 'MeetingItem') and meetingConfig.useAdvices">
+            <metal:showAdvices use-macro="here/advices_macros/macros/advicesIcons"/>
+          </td>
+          <tal:comment replace="nothing">Show actions on item or meeting (excepted on advanced search)</tal:comment>
+          <td tal:condition="not: fakeTopic"
+              tal:define="itemOrMeeting python: here;
+                          showIcons python:True" align="right" >
+            <metal:showActions use-macro="here/plonemeeting_actions/macros/ploneMeetingActions" />
+          </td>
+         </tal:wakeUpObject>
+        </tal:showPloneMeetingFields>
+      </tr>
+      </tal:brain>
+      </tbody>
+    </table>
+  </div>
+
+  <p class="discreet" tal:condition="python: not searchResults and topic.listCriteria()"
+     i18n:domain="atcontenttypes" i18n:translate="description_no_items_in_topic">
+     There are currently no results for this search.
+  </p>
+  <p class="discreet" tal:condition="python: not topic.listCriteria() and not request.get('scriptId', None)"
+      i18n:domain="atcontenttypes" i18n:translate="description_no_criteria_in_topic">
+      There are currently no criteria on which to search.
+      Please add them using the 'criteria' tab.
+  </p>
+
+  <tal:bottomNavigation><div metal:use-macro="here/batch_macros/macros/navigation" /></tal:bottomNavigation>
+</div>

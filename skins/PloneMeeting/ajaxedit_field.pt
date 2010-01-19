@@ -1,0 +1,42 @@
+<tal:comment replace="nothing">
+  This macro returns the edit view of an Archetypes field.
+  It requires a REQUEST with keys "uid" and "fieldName".
+</tal:comment>
+<tal:editField i18n:domain="PloneMeeting"
+     define="obj python: context.uid_catalog(UID=request.get('uid'))[0].getObject();
+             mode string:edit;
+             fieldName request/fieldName;
+             fields python: [obj.getField(f) for f in fieldName.split(',')];
+             portal context/portal_url/getPortalObject;
+             portal_url portal/absolute_url;
+             member context/portal_membership/getAuthenticatedMember;
+             dummy python:request.RESPONSE.setHeader('Content-Type','text/html;;charset=utf-8');
+             dummy python:request.RESPONSE.setHeader('Expires', 'Mon, 11 Dec 1975 12:05:05 GMT');
+             dummy python:request.RESPONSE.setHeader('CacheControl', 'no-cache')">
+  <tal:comment replace="nothing">Keys "Expires" and "CacheControl" are used for preventing IE to cache
+    this page. Indeed, this page is retrieved through an asynchronous XMLHttpRequest by the browser, and
+    IE caches this by default.</tal:comment>
+  <img align="left" style="cursor:pointer;"
+       tal:attributes="src string:$portal_url/save.png;
+                       onClick python:'javascript:askSaveField(\'%s\', \'%s\')' % (obj.UID(), fieldName)"/>
+  <form tal:attributes="id string:ajax_edit_$fieldName;" class="">
+  <div tal:define="errors python:{};
+                   Iterator python:modules['Products.Archetypes'].IndexIterator;
+                   schematas obj/Schemata;
+                   fieldsets python:[key for key in schematas.keys() if (key != 'metadata') and (schematas[key].editableFields(obj, visible_only=True))];
+                   default_fieldset python:(not schematas or schematas.has_key('default')) and 'default' or fieldsets[0];
+                   fieldset request/fieldset|options/fieldset|default_fieldset;
+                   fields python: [obj.getField(f) for f in request.get('fieldName').split(',')];
+                   dummy python:here.at_isEditable(fields);
+                   portal_type obj/portal_type;
+                   default_language python:request.get('HTTP_ACCEPT_LANGUAGE', 'en').split(',')[0].split('-')[0];
+                   type_name portal_type;
+                   lockable python:hasattr(obj, 'wl_isLocked');
+                   isLocked python:lockable and obj.wl_isLocked();
+                   tabindex tabindex|python:Iterator(pos=7000);
+                   css python:here.getUniqueWidgetAttr(fields, 'helper_css');
+                   js python:here.getUniqueWidgetAttr(fields, 'helper_js');">
+  <metal:editMacro use-macro="python:obj.widget(fields[0].getName(), mode='edit', use_label=True)"/>
+  </div>
+  </form>
+</tal:editField>

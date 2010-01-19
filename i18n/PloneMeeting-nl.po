@@ -1,0 +1,2189 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"POT-Creation-Date: 2005-05-17 15:00-100\n"
+"PO-Revision-Date: 2008-04-25 12:53+0100\n"
+"Last-Translator: Wim Boucquaert <wim@infrae.com>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0\n"
+"Language-Code: nl\n"
+"Language-Name: Nederlands\n"
+"Preferred-Encodings: utf-8 latin1\n"
+"Domain: PloneMeeting\n"
+"X-is-fallback-for: nl-be\n"
+
+#. Default: "No preference"
+msgid "Any meeting"
+msgstr "Geen voorkeur"
+
+#. Default: "Item categories"
+msgid "Categories"
+msgstr "Item categorie�n"
+
+#. Default: "Item classifiers"
+msgid "Classifiers"
+msgstr ""
+
+#. Default: "Meeting"
+msgid "Meeting"
+msgstr ""
+
+# MeetingCategory
+#. Default: "Category"
+msgid "MeetingCategory"
+msgstr "Categorie"
+
+#. Default: "Annex types"
+msgid "MeetingFileTypes"
+msgstr "Type bijlagen"
+
+#. Default: "MeetingItem"
+msgid "MeetingItem"
+msgstr ""
+
+#. Default: "Special users"
+msgid "MeetingUsers"
+msgstr ""
+
+#. Default: "Add a new agreement level"
+msgid "PloneMeeting_add_agreement_level"
+msgstr "Toekenningsniveau toevoegen"
+
+#. Default: "Add a category"
+msgid "PloneMeeting_add_category"
+msgstr "Categorie toevoegen"
+
+#. Default: "Add a classifier"
+msgid "PloneMeeting_add_classifier"
+msgstr ""
+
+#. Default: "Add a new meeting configuration"
+msgid "PloneMeeting_add_config"
+msgstr "Voeg nieuwe vergadering configuratie toe"
+
+#. Default: "Add a new external application"
+msgid "PloneMeeting_add_external_application"
+msgstr "Voeg een nieuwe externe applicatie toe"
+
+#. Default: "Add a new PloneMeeting group"
+msgid "PloneMeeting_add_group"
+msgstr "Voeg een nieuwe PloneMeeting groep toe"
+
+#. Default: "Add an annex type"
+msgid "PloneMeeting_add_meeting_file_type"
+msgstr "Bijlage-type toevoegen"
+
+#. Default: "Add a special user"
+msgid "PloneMeeting_add_meeting_user"
+msgstr ""
+
+#. Default: "Add a new template"
+msgid "PloneMeeting_add_pod_template"
+msgstr "Sjabloon toevoegen"
+
+#. Default: "Add a recurring item"
+msgid "PloneMeeting_add_recurring_item"
+msgstr ""
+
+#. Default: "Observations"
+msgid "PloneMeeting_itemObservations"
+msgstr "Opmerkingen"
+
+#. Default: "Absents"
+msgid "PloneMeeting_label_absents"
+msgstr ""
+
+# MeetingGroup
+#. Default: "Acronym"
+msgid "PloneMeeting_label_acronym"
+msgstr "Acroniem"
+
+#. Default: "Interface allowing to use a specific Zope3 adapter for modifying the actions defined on the transitions of the advice workflow"
+msgid "PloneMeeting_label_adviceActionsInterface"
+msgstr ""
+
+#. Default: "Interface allowing to use a specific Zope3 adapter for modifying the conditions defined on the transitions of the advice workflow"
+msgid "PloneMeeting_label_adviceConditionsInterface"
+msgstr ""
+
+#. Default: "Advisers group"
+msgid "PloneMeeting_label_adviserName"
+msgstr "Adviseurs groep"
+
+#. Default: "Level of agreement"
+msgid "PloneMeeting_label_agreementLevel"
+msgstr ""
+
+#. Default: "Tags"
+msgid "PloneMeeting_label_allItemTags"
+msgstr ""
+
+#. Default: "Items presented to this meeting (including those that were presented after the meeting was published)."
+msgid "PloneMeeting_label_allItemsAtOnce"
+msgstr "Items voorgesteld bij deze meeting (incluis deze die voorgesteld werden nadat de meeting gepubliceerd was)."
+
+#. Default: "Default assembly"
+msgid "PloneMeeting_label_assembly"
+msgstr ""
+
+#. Default: "Associated group(s)"
+msgid "PloneMeeting_label_associatedGroups"
+msgstr "Geassiocieerde group(en)"
+
+#. Default: "Attendees"
+msgid "PloneMeeting_label_attendees"
+msgstr ""
+
+#. Default: "Available OCR languages"
+msgid "PloneMeeting_label_availableOcrLanguages"
+msgstr ""
+
+#. Default: "Items"
+msgid "PloneMeeting_label_body"
+msgstr "Agendapunten"
+
+#. Default: "Category"
+msgid "PloneMeeting_label_category"
+msgstr "Categorie"
+
+#. Default: "Category identifier"
+msgid "PloneMeeting_label_categoryId"
+msgstr ""
+
+#. Default: "Classifier"
+msgid "PloneMeeting_label_classifier"
+msgstr ""
+
+#. Default: "Disable color system for the following users"
+msgid "PloneMeeting_label_colorSystemDisabledFor"
+msgstr ""
+
+#. Default: "Identifier of this meeting configuration"
+msgid "PloneMeeting_label_configVersion"
+msgstr "Identificatie van deze meeting configuratie"
+
+#. Default: "Copy groups"
+msgid "PloneMeeting_label_copyGroups"
+msgstr "Kopieer groep"
+
+#. Default: "Date"
+msgid "PloneMeeting_label_date"
+msgstr "Datum"
+
+#. Default: "Format of dates used throughout PloneMeeting"
+msgid "PloneMeeting_label_dateFormat"
+msgstr ""
+
+#. Default: "Decision"
+msgid "PloneMeeting_label_decision"
+msgstr "Beslissing"
+
+#. Default: "This annex type is specifically linked to the decision taken on this item"
+msgid "PloneMeeting_label_decisionRelated"
+msgstr "Dit bijlage type is specifiek gelinkt aan de beslissing genomen op dit item"
+
+#. Default: "Meeting states that condition the display of meetings in the 'decisions' portlet"
+msgid "PloneMeeting_label_decisionTopicStates"
+msgstr ""
+
+#. Default: "Default OCR language"
+msgid "PloneMeeting_label_defaultOcrLanguage"
+msgstr ""
+
+#. Default: "Default vote value"
+msgid "PloneMeeting_label_defaultVoteValue"
+msgstr ""
+
+#. Default: "Duty"
+msgid "PloneMeeting_label_duty"
+msgstr ""
+
+#. Default: "Activate duplication functionnality"
+msgid "PloneMeeting_label_enableDuplication"
+msgstr ""
+
+#. Default: "Enable 'Go to item' functionality"
+msgid "PloneMeeting_label_enableGotoItem"
+msgstr ""
+
+#. Default: "Enable 'Go to page' functionality"
+msgid "PloneMeeting_label_enableGotoPage"
+msgstr ""
+
+#. Default: "Effective end date and hour"
+msgid "PloneMeeting_label_endDate"
+msgstr "Effektieve einddatum en -uur"
+
+#. Default: "Excused"
+msgid "PloneMeeting_label_excused"
+msgstr ""
+
+#. Default: "Extract text from files"
+msgid "PloneMeeting_label_extractTextFromFiles"
+msgstr ""
+
+#. Default: "Number of the first item contained in this meeting"
+msgid "PloneMeeting_label_firstItemNumber"
+msgstr "Nummer van het eerste item dat de meeting bevat"
+
+#. Default: "Name of the folder linked to this configuration"
+msgid "PloneMeeting_label_folderTitle"
+msgstr "Naam van de folder gekoppeld aan deze configuratie"
+
+#. Default: "Freeze event"
+msgid "PloneMeeting_label_freezeEvent"
+msgstr "Evenement bevriezen"
+
+#. Default: "Email of the functional administrator"
+msgid "PloneMeeting_label_functionalAdminEmail"
+msgstr "Email van de funktionele administrator"
+
+#. Default: "Name of the functional administrator"
+msgid "PloneMeeting_label_functionalAdminName"
+msgstr "Email van de funktionele administrator"
+
+#. Default: "Gives mandatory advice on"
+msgid "PloneMeeting_label_givesMandatoryAdviceOn"
+msgstr ""
+
+#. Default: "This configuration is the default meeting configuration"
+msgid "PloneMeeting_label_isDefault"
+msgstr "Deze configuratie is de standaard meeting configuratie"
+
+#. Default: "Interface allowing to use a specific Zope3 adapter for modifying the actions defined on the transitions of the item workflow"
+msgid "PloneMeeting_label_itemActionsInterface"
+msgstr ""
+
+#. Default: "Interface allowing to use a specific Zope3 adapter for modifying the conditions defined on the transitions of the item workflow"
+msgid "PloneMeeting_label_itemConditionsInterface"
+msgstr ""
+
+#. Default: "Keywords"
+msgid "PloneMeeting_label_itemKeywords"
+msgstr "Sleutelwoorden"
+
+#. Default: "Number"
+msgid "PloneMeeting_label_itemNumber"
+msgstr "Nummer"
+
+#. Default: "Format of the item reference"
+msgid "PloneMeeting_label_itemReferenceFormat"
+msgstr "Formaat van het referentie item"
+
+#. Default: "Signatures which are specific to this meeting item"
+msgid "PloneMeeting_label_itemSignatures"
+msgstr "Handtekeningen specifiek voor dit vergadering item"
+
+#. Default: "Tags"
+msgid "PloneMeeting_label_itemTags"
+msgstr ""
+
+#. Default: "Item states which are relevant for searches defined in the 'items' portlets"
+msgid "PloneMeeting_label_itemTopicStates"
+msgstr "Statussen van een Item die relevant zijn voor zoekopdrachten gedefinieerd in de 'items' portlets."
+
+#. Default: "Workflow that dictates the life cycle of every item into this configuration"
+msgid "PloneMeeting_label_itemWorkflow"
+msgstr ""
+
+#. Default: "Items"
+msgid "PloneMeeting_label_items"
+msgstr "Items"
+
+#. Default: "Items count"
+msgid "PloneMeeting_label_itemsCount"
+msgstr ""
+
+#. Default: "Columns to display in tables displaying items"
+msgid "PloneMeeting_label_itemsListVisibleColumns"
+msgstr "Aantal weer te geven kolommen voor een tabelweergave van items"
+
+#. Default: "Number of the last item of the last meeting"
+msgid "PloneMeeting_label_lastItemNumber"
+msgstr "Nummer van het laatste item van de laatste vergadering"
+
+#. Default: "Number of the last meeting in this config"
+msgid "PloneMeeting_label_lastMeetingNumber"
+msgstr "Nummer van de laatste vergadering in deze config"
+
+#. Default: "Name of the login key"
+msgid "PloneMeeting_label_loginHeaderKey"
+msgstr "Naam van de login sleutel"
+
+#. Default: "Item-related events that trigger e-mail notifications"
+msgid "PloneMeeting_label_mailItemEvents"
+msgstr "Gebeurtenissen gekoppeld aan een item dat een e-mail notifikatie aktiveren"
+
+#. Default: "Meeting-related events that trigger e-mail notifications"
+msgid "PloneMeeting_label_mailMeetingEvents"
+msgstr "Gebeurtenissen gekoppeld aan een vergadering die een e-mail notifikatie aktiveren"
+
+#. Default: "Mandatory advisers"
+msgid "PloneMeeting_label_mandatoryAdvisers"
+msgstr "Verplichte adviseurs"
+
+#. Default: "Maximum number of days during which decisions may appear direclty in the 'decisions' portlet."
+msgid "PloneMeeting_label_maxDaysDecisions"
+msgstr "Maximum aantal dagen dat een beslising direkt mag verschijnen in het 'decisions' portlet."
+
+#. Default: "Maximum number of search results"
+msgid "PloneMeeting_label_maxSearchResults"
+msgstr ""
+
+#. Default: "Maximum number of available items to show at once"
+msgid "PloneMeeting_label_maxShownAvailableItems"
+msgstr ""
+
+#. Default: "Maximum number of shown annexes at once"
+msgid "PloneMeeting_label_maxShownFoundAnnexes"
+msgstr ""
+
+#. Default: "Maximum number of shown items at once"
+msgid "PloneMeeting_label_maxShownFoundItems"
+msgstr ""
+
+#. Default: "Maximum number of shown meetings at once"
+msgid "PloneMeeting_label_maxShownFoundMeetings"
+msgstr ""
+
+#. Default: "Maximum number of late items to show at once"
+msgid "PloneMeeting_label_maxShownLateItems"
+msgstr ""
+
+#. Default: "Maximum number of meeting items to show at once"
+msgid "PloneMeeting_label_maxShownMeetingItems"
+msgstr ""
+
+#. Default: "Maximal number of meetings shown in the 'meetings' and 'decisions' portlets"
+msgid "PloneMeeting_label_maxShownMeetings"
+msgstr "Maximaal aantal vergaderingen die getoond worden in de 'vergaderingen' en de 'beslissingen' portlets."
+
+#. Default: "Interface allowing to use a specific Zope3 adapter for modifying the actions defined on the transitions of the meeting workflow"
+msgid "PloneMeeting_label_meetingActionsInterface"
+msgstr ""
+
+#. Default: "Default view when entering into PloneMeeting"
+msgid "PloneMeeting_label_meetingAppDefaultView"
+msgstr "Standaard view bij het binnengaan in Plonemeeting"
+
+#. Default: "Interface allowing to use a specific Zope3 adapter for modifying the conditions defined on the transitions of the meeting workflow"
+msgid "PloneMeeting_label_meetingConditionsInterface"
+msgstr ""
+
+#. Default: "Identifier of the configuration's version that is linked to this meeting"
+msgid "PloneMeeting_label_meetingConfigVersion"
+msgstr ""
+
+#. Default: "Title of the folder that PloneMeeting creates in each user folder"
+msgid "PloneMeeting_label_meetingFolderTitle"
+msgstr "Titel van de folder die Plonemeeting aanmaakt in elke gebruiker folder"
+
+#. Default: "Meeting number (sequence number automatically attributed)"
+msgid "PloneMeeting_label_meetingNumber"
+msgstr "Nummer van de vergadering (sequentieel nummer dat automatisch wordt toegekend)"
+
+#. Default: "Name of the parameter containing the meeting WebDAV URL"
+msgid "PloneMeeting_label_meetingParamName"
+msgstr ""
+
+#. Default: "Meeting states that condition the display of meetings in the 'meetings' portlet"
+msgid "PloneMeeting_label_meetingTopicStates"
+msgstr ""
+
+#. Default: "Meeting transition that triggers the insertion of this item as a recurring item"
+msgid "PloneMeeting_label_meetingTransitionInsertingMe"
+msgstr "De overgang van de vergadering die de toevoeging van dit punt als terugkomend punt teweegbrengt"
+
+#. Default: "Workflow that dictates the life cycle of every meeting into this configuration"
+msgid "PloneMeeting_label_meetingWorkflow"
+msgstr "Werkschema dat de levenscyclus van elke vergadering in deze configuratie dicteert"
+
+#. Default: "Does the navigation portlet allow to navigate in the user folder only"
+msgid "PloneMeeting_label_navigateLocally"
+msgstr ""
+
+# ExternalApplication
+#. Default: "This application will be contacted by the current site"
+msgid "PloneMeeting_label_notify"
+msgstr ""
+
+#. Default: "Email"
+msgid "PloneMeeting_label_notifyEmail"
+msgstr "Email adres dat toelaat om deze applikatie te verwittigen"
+
+#. Default: "Login"
+msgid "PloneMeeting_label_notifyLogin"
+msgstr "Te gebruiken login om de verwittigde applikatie te kontakteren"
+
+#. Default: "Password"
+msgid "PloneMeeting_label_notifyPassword"
+msgstr "Paswoord"
+
+#. Default: "Protocol to use for talking to the external application"
+msgid "PloneMeeting_label_notifyProtocol"
+msgstr "Protokol te gebruiken om de externe applikatie te bereiken"
+
+#. Default: "Proxy"
+msgid "PloneMeeting_label_notifyProxy"
+msgstr "Gebruikte Proxy voor het zenden van de HTTP notifikatie"
+
+# ExternalApplication
+#. Default: "URL"
+msgid "PloneMeeting_label_notifyUrl"
+msgstr "URL die toelaat deze applikatie te kontakteren"
+
+#. Default: "Open annexes in separate windows"
+msgid "PloneMeeting_label_openAnnexesInSeparateWindows"
+msgstr ""
+
+#. Default: "OpenOffice listens in server mode to this port"
+msgid "PloneMeeting_label_openOfficePort"
+msgstr "OpenOffice luistert in server modus naar deze poort"
+
+#. Default: "Optional advisers"
+msgid "PloneMeeting_label_optionalAdvisers"
+msgstr "Optionele adviseurs"
+
+#. Default: "Name of the password key"
+msgid "PloneMeeting_label_passwordHeaderKey"
+msgstr "Naam van de paswoord sleutel"
+
+#. Default: "Place"
+msgid "PloneMeeting_label_place"
+msgstr "Lokatie"
+
+#. Default: "Make users aware of Plone's 'virtual network disk'"
+msgid "PloneMeeting_label_ploneDiskAware"
+msgstr "Make users aware of Plone's 'virtual network disk'"
+
+#. Default: "Plone user ID"
+msgid "PloneMeeting_label_ploneUserId"
+msgstr ""
+
+#. Default: "Condition"
+msgid "PloneMeeting_label_podCondition"
+msgstr "Voorwaarde"
+
+#. Default: "Format into which you may generate documents from this template"
+msgid "PloneMeeting_label_podFormat"
+msgstr "Formaat waarin je voor deze template dokmenten kan genereren"
+
+#. Default: "Permission(s)"
+msgid "PloneMeeting_label_podPermission"
+msgstr "Permissies"
+
+#. Default: "POD template (ODT file)"
+msgid "PloneMeeting_label_podTemplate"
+msgstr "POD template (ODT file)"
+
+#. Default: "Predefined title that will be assigned to every uploaded file having this type"
+msgid "PloneMeeting_label_predefinedTitle"
+msgstr "Predefined title that will be assigned to every uploaded file having this type"
+
+#. Default: "Preferred meeting"
+msgid "PloneMeeting_label_preferredMeeting"
+msgstr "Aangewezen vergadering"
+
+#. Default: "Proposing group"
+msgid "PloneMeeting_label_proposingGroup"
+msgstr "Voorstellende groep"
+
+#. Default: "Item states into which events will be recorded in item's history"
+msgid "PloneMeeting_label_recordItemHistoryStates"
+msgstr ""
+
+#. Default: "'Restrict users' mode"
+msgid "PloneMeeting_label_restrictUsers"
+msgstr ""
+
+#. Default: "Groups that can be in copy for an item"
+msgid "PloneMeeting_label_selectableCopyGroups"
+msgstr "Groepen die in kopie voor een punt kunnen zijn"
+
+#. Default: "Short name for the meeting configuration"
+msgid "PloneMeeting_label_shortName"
+msgstr "Korte naam voor de vergadering configuratie"
+
+#. Default: "Signature image"
+msgid "PloneMeeting_label_signatureImage"
+msgstr ""
+
+#. Default: "This signature is the default signature"
+msgid "PloneMeeting_label_signatureIsDefault"
+msgstr ""
+
+#. Default: "Default signatures"
+msgid "PloneMeeting_label_signatures"
+msgstr "Standaard handtekeningen"
+
+#. Default: "Sort the tags alphabetically"
+msgid "PloneMeeting_label_sortAllItemTags"
+msgstr "De tags alfabetisch sorteren"
+
+#. Default: "Choose sorting method when adding an item to a meeting"
+msgid "PloneMeeting_label_sortingMethodOnAddItem"
+msgstr "Kies de sorteermethode wanneer je een item toevoegd aan een vergadering"
+
+#. Default: "Effective start date and hour"
+msgid "PloneMeeting_label_startDate"
+msgstr "Effektieve startdatum en startuur"
+
+#. Default: "Role shipped with the external task module, allowing to create tasks"
+msgid "PloneMeeting_label_taskCreatorRole"
+msgstr "Rollen geleverd door de externe taken module, die toelaat taken te maken"
+
+#. Default: "Macro shipped with an external task module, that allows to display tasks linked to a given meeting item"
+msgid "PloneMeeting_label_tasksMacro"
+msgstr "Sjabloon geleverd geleverd met de externe taak module die tolaat om taken weer te gegeven geassocieerd met een bepaald meeting item"
+
+# MeetingFileType
+#. Default: "Icon (16x16 pixels for optimal rendering)"
+msgid "PloneMeeting_label_theIcon"
+msgstr "Icon (16x16 pixels voor optimale weergave)"
+
+# Meeting
+#. Default: "Title"
+msgid "PloneMeeting_label_title"
+msgstr "Titel"
+
+#. Default: "To discuss ?"
+msgid "PloneMeeting_label_toDiscuss"
+msgstr "Te bespreken ?"
+
+#. Default: "Default value of the 'toDiscuss' attribute for normal items"
+msgid "PloneMeeting_label_toDiscussDefault"
+msgstr "Default value of the 'toDiscuss' attribute for normal items"
+
+#. Default: "Default value of the 'toDiscuss' attribute for late items"
+msgid "PloneMeeting_label_toDiscussLateDefault"
+msgstr "Default value of the 'toDiscuss' attribute for late items"
+
+#. Default: "List of topics to display in the 'todo' portlet"
+msgid "PloneMeeting_label_toDoListTopics"
+msgstr ""
+
+#. Default: "Absolute path to a Python interpreter having the UNO library (access to OpenOffice)"
+msgid "PloneMeeting_label_unoEnabledPython"
+msgstr "Absolute path to a Python interpreter having the UNO library (access to OpenOffice)"
+
+#. Default: "Unrestricted users when 'Restrict users' mode is on"
+msgid "PloneMeeting_label_unrestrictedUsers"
+msgstr ""
+
+#. Default: "Usages"
+msgid "PloneMeeting_label_usages"
+msgstr ""
+
+#. Default: "Use advices"
+msgid "PloneMeeting_label_useAdvices"
+msgstr "Gebruik adviezen"
+
+#. Default: "Use copies"
+msgid "PloneMeeting_label_useCopies"
+msgstr "Gebruik kopie�n"
+
+#. Default: "Use groups as categories"
+msgid "PloneMeeting_label_useGroupsAsCategories"
+msgstr "Gebruik groepen als categorie�n"
+
+#. Default: "Enable the voting system"
+msgid "PloneMeeting_label_useVotes"
+msgstr ""
+
+#. Default: "Used color system"
+msgid "PloneMeeting_label_usedColorSystem"
+msgstr "Gebruik kleurensysteem"
+
+#. Default: "Attributes used for characterizing an item"
+msgid "PloneMeeting_label_usedItemAttributes"
+msgstr "Attributen die voor het kenmerken van een punt worden gebruikt"
+
+#. Default: "Attributes used for characterizing a meeting"
+msgid "PloneMeeting_label_usedMeetingAttributes"
+msgstr "Attributen die voor het kenmerken van een vergadering worden gebruikt"
+
+#. Default: "Vote values in use"
+msgid "PloneMeeting_label_usedVoteValues"
+msgstr ""
+
+#. Default: "Votes are secret"
+msgid "PloneMeeting_label_votesAreSecret"
+msgstr ""
+
+#. Default: "Who does encode the votes?"
+msgid "PloneMeeting_label_votesEncoder"
+msgstr ""
+
+#. Default: "Observations"
+msgid "PloneMeeting_meetingObservations"
+msgstr "Opmerkingen"
+
+#. Default: "Document templates"
+msgid "PodTemplates"
+msgstr "Dokument templates"
+
+#. Default: "Recurring items"
+msgid "RecurringItems"
+msgstr "Terugkomende punten"
+
+#. Default: "Topics used in the PloneMeeting portlets"
+msgid "Topics"
+msgstr "Onderwerpen die in portlets PloneMeeting worden gebruikt"
+
+#. Default: "A meeting manager"
+msgid "a_meeting_manager"
+msgstr ""
+
+#. Default: "Access information was removed for deleted users ${usersRemoved}."
+msgid "access_info_purged"
+msgstr "Toegangsinformatie werd verwijderd voor geschrapte gebruikers"
+
+#. Default: "Add an advice"
+msgid "add_advice"
+msgstr "Een advies toevoegen"
+
+#. Default: "Add an annex"
+msgid "add_annex"
+msgstr "Voeg een bijlage toe"
+
+#. Default: "Add a new topic"
+msgid "add_topic"
+msgstr ""
+
+#. Default: "The item '${itemTitle}' has been advised. More information at ${objectUrl}."
+msgid "adviceAdded_mail_body"
+msgstr ""
+
+#. Default: "An advice was just added to the item '${itemTitle}'."
+msgid "adviceAdded_mail_subject"
+msgstr ""
+
+#. Default: "Similarly to the preceding field, all the actions that are triggered when an advice goes from one state to another are configurable through the development of another Plone product into which you must:<ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingAdviceWorkflowActions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeetingAdvice to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.MeetingAdvice.MeetingAdviceWorkflowActions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingAdviceWorkflowActions are documented."
+msgid "advice_actions_interface_descr"
+msgstr ""
+
+#. Default: "On the advice workflow, some boolean expressions guard the execution of the transitions from one state to another. Those conditions, together with other conditions useful at various levels within PloneMeeting, are defined as methods of a Python interface. You can modify those conditions at will, through the development of another Plone product into which you must: <ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingAdviceWorkflowConditions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeetingAdvice to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.MeetingItem.MeetingAdviceWorkflowConditions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingAdviceWorkflowConditions are documented."
+msgid "advice_conditions_interface_descr"
+msgstr ""
+
+# MeetingAdvice
+#. Default: "Advice details"
+msgid "advice_description"
+msgstr "Advies details"
+
+#. Default: "Enter advice details if necessary"
+msgid "advice_description_descr"
+msgstr "Advies details ingeven indien nodig"
+
+#. Default: "Advices"
+msgid "advices"
+msgstr "Adviezen"
+
+#. Default: "Advices"
+msgid "advices_config"
+msgstr "Adviezen"
+
+#. Default: "Please select an advisers group."
+msgid "adviserName_required"
+msgstr "Gelieve een adviseursgroep te selekteren"
+
+#. Default: "Select the group for which you will give an advice"
+msgid "adviser_name_desc"
+msgstr "Selecteer de groep waarvoor u een advies zult geven"
+
+#. Default: "advisers"
+msgid "advisers"
+msgstr "Adviseurs"
+
+#. Default: "Agenda"
+msgid "agenda"
+msgstr "Agenda"
+
+#. Default: "Please specify your agreement level."
+msgid "agreementLevel_required"
+msgstr "Gelieve uw overeenkomtenniveau te specificeren"
+
+#. Default: "Enter a level of agreement about the item"
+msgid "agreement_level_descr"
+msgstr "Geef een niveau van overeenkomst over het punt in"
+
+# MeetingAdviceAgreementLevel
+#. Default: "Icon (16x16 pixels for optimal rendering)"
+msgid "agreement_level_label_theicon"
+msgstr ""
+
+#. Default: "(no advices)"
+msgid "agreement_level_no_advices"
+msgstr "(geen adviezen)"
+
+#. Default: "AgreementLevels"
+msgid "agreement_levels_config"
+msgstr "Overeenkomsten niveaus"
+
+#. Default: "The agreement levels are used to indicate a level of agreement for a meeting item advice. The user can choose one of the active agreement level representing at best his advice."
+msgid "agreement_levels_descr"
+msgstr ""
+
+#. Default: "You can define here a list of tags that are specific to this meeting configuration. If you choose to use the 'Tags' attribute (see above), you will be able to associate one or more tags to every item. Please write one tag per line."
+msgid "all_item_tags_descr"
+msgstr "You can define here a list of tags that are specific to this meeting configuration. If you choose to use the 'Tags' attribute (see above), you will be able to associate one or more tags to every item. Please write one tag per line."
+
+#. Default: "In this field, you may modify at once information about all items presented in this meeting. While editing this field, please try to avoid modifying the item numbers or deleting elements (a whole item or a just a title, for example). You can't add new items through this field."
+msgid "all_items_explanation"
+msgstr "In this field, you may modify at once information about all items presented in this meeting. While editing this field, please try to avoid modifying the item numbers or deleting elements (a whole item or a just a title, for example). You can't add new items through this field."
+
+#. Default: ", description and decision"
+msgid "and_decision"
+msgstr ", beschrijving en besluit"
+
+#. Default: ", description"
+msgid "and_description"
+msgstr ", beschrijving"
+
+#. Default: "The item is entitled '${itemTitle}'. More information on ${portalUrl}."
+msgid "annexAdded_mail_body"
+msgstr "The item is entitled '${itemTitle}'. More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - An annex was just added to an item."
+msgid "annexAdded_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - An annex was just added to an item."
+
+#. Default: "Title"
+msgid "annex_title"
+msgstr "Titel"
+
+#. Default: "Annex type"
+msgid "annex_type"
+msgstr "Type van de bijlage"
+
+#. Default: "Annexes"
+msgid "annexes"
+msgstr "Bijlagen"
+
+#. Default: "More information on ${portalUrl}."
+msgid "archive_mail_body"
+msgstr "More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The (definitive) decisions have been archived."
+msgid "archive_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The (definitive) decisions have been archived."
+
+#. Default: "The item is entitled '${itemTitle}'. More information on ${portalUrl}."
+msgid "askDiscussItem_mail_body"
+msgstr "The item is entitled '${itemTitle}'. More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - ${user}, belonging to group(s) ${groups}, would like to discuss an item."
+msgid "askDiscussItem_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - A group would like to discuss an item."
+
+#. Default: "Persons listed hereafter (for example you may type a list of names and first names separated by colons or new lines) will show up in the 'assembly' field of each newly created meeting. The user that creates meetings is still able to update this default content for every meeting."
+msgid "assembly_descr"
+msgstr "Persons listed hereafter (for example you may type a list of names and first names separated by colons or new lines) will show up in the 'assembly' field of each newly created meeting. The user that creates meetings is still able to update this default content for every meeting."
+
+#. Default: "Associated groups' acronyms"
+msgid "associated_groups_acronyms"
+msgstr "Bijbehorende groepenacroniemen"
+
+# values of sortingMethodOnAddItem
+#. Default: "At the end"
+msgid "at_the_end"
+msgstr ""
+
+#. Default: "Available items for this meeting"
+msgid "available_items"
+msgstr "Beschikbare punten voor deze vergadering"
+
+#. Default: "Available meetings"
+msgid "available_meetings"
+msgstr "Beschikbare vergaderingen"
+
+#. Default: "Specify here what language packs you have installed for Tesseract."
+msgid "available_ocr_languages_descr"
+msgstr ""
+
+#. Default: "Back"
+msgid "back"
+msgstr "Terug"
+
+#. Default: "More information on ${portalUrl}. Decisions will be archived later on."
+msgid "backToClosed_mail_body"
+msgstr "More information on ${portalUrl}. Decisions will be archived later on."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The archiving of (definitive) decisions has been canceled."
+msgid "backToClosed_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The archiving of (definitive) decisions has been canceled."
+
+#. Default: "More information on ${portalUrl}. The agenda will be published later on."
+msgid "backToCreated_mail_body"
+msgstr "More information on ${portalUrl}. The agenda will be published later on."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The publication of the agenda has been canceled."
+msgid "backToCreated_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The publication of the agenda has been canceled."
+
+#. Default: "More information on ${portalUrl}. (Definitive) decisions will be published later on."
+msgid "backToDecided_mail_body"
+msgstr "More information on ${portalUrl}. (Definitive) decisions will be published later on."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The publication of (definitive) decisions has been canceled."
+msgid "backToDecided_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The publication of (definitive) decisions has been canceled."
+
+#. Default: "More information on ${portalUrl}. Decisions will be published later on."
+msgid "backToFrozen_mail_body"
+msgstr "More information on ${portalUrl}. Decisions will be published later on."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The publication of (temporary) decisions has been canceled."
+msgid "backToFrozen_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The publication of (temporary) decisions has been canceled."
+
+#. Default: "More information on ${portalUrl}. The published agenda will soon be frozen again."
+msgid "backToPublished_mail_body"
+msgstr "More information on ${portalUrl}. The published agenda will soon be frozen again."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The published agenda is not frozen anymore."
+msgid "backToPublished_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The published agenda is not frozen anymore."
+
+#. Default: "Back to the item advices"
+msgid "backto_item_advices"
+msgstr "Terug naar de puntadviezen"
+
+#. Default: "Every item, within this meeting configuration, can only belong to one category. Those categories are defined here (by a title and a description). The order into which they appear in this folder is important. Indeed, if we make the assumption that you desire it (it depends on a parameter you may modify in the 'data' section), when an item is added to a meeting, it can be inserted at the end of the items belonging to the same category, those items being themselves inserted at a place that corresponds to the position of their category among the list of categories defined here. That being said, if you tell PloneMeeting that you want to use the PloneMeeting groups as categories (another parameter of the 'data' section), the categories defined here will be ignored."
+msgid "categories_descr"
+msgstr "Every item, within this meeting configuration, can only belong to one category. Those categories are defined here (by a title and a description). The order into which they appear in this folder is important. Indeed, if we make the assumption that you desire it (it depends on a parameter you may modify in the 'data' section), when an item is added to a meeting, it can be inserted at the end of the items belonging to the same category, those items being themselves inserted at a place that corresponds to the position of their category among the list of categories defined here. That being said, if you tell PloneMeeting that you want to use the PloneMeeting groups as categories (another parameter of the 'data' section), the categories defined here will be ignored."
+
+#. Default: "Choose here some identifier for your category."
+msgid "category_category_id_descr"
+msgstr ""
+
+#. Default: "Number of items for which this category has been chosen. Be careful: this field is filled automatically every time an item is created or updated."
+msgid "category_items_count_descr"
+msgstr ""
+
+#. Default: "Category (or proposing group)"
+msgid "category_or_proposing_group"
+msgstr "Category (or proposing group)"
+
+#. Default: "Please specify a category."
+msgid "category_required"
+msgstr "Gelieve een categorie te specificeren."
+
+#. Default: "A classifier is a bit like a category. You can assign an item a given classifier almost the same way you can assign it a given category. The difference resides in the widget used: the 'category chooser' is a listbox, while the 'classifier chooser' is a ReferenceBrowserWidget (=a popup with filtering capabilities). So if you have many 'categories', you may prefer to use 'classifiers' instead."
+msgid "classifiers_descr"
+msgstr ""
+
+#. Default: "More information on ${portalUrl}."
+msgid "close_mail_body"
+msgstr "More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The (definitive) decisions have been published."
+msgid "close_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The (definitive) decisions have been published."
+
+#. Default: "If the color system is enabled (previous parameter), it will be disabled for the users whose ids are specified here (one user id per line)."
+msgid "color_system_disabled_for_descr"
+msgstr ""
+
+#. Default: "Active?"
+msgid "config_is_active"
+msgstr "Actief?"
+
+#. Default: "The default meeting configuration is the one the user is redirected to when logging in."
+msgid "config_is_default_descr"
+msgstr "The default meeting configuration is the one the user is redirected to when logging in."
+
+#. Default: "Sorry, but this configuration is still the default one. If you want to choose another configuration as default configuration, check the corresponding box for this other configuration."
+msgid "config_is_still_default"
+msgstr "Sorry, but this configuration is still the default one. If you want to choose another configuration as default configuration, check the corresponding box for this other configuration."
+
+#. Default: "If this meeting configuration corresponds to an organization, institution or group that gives an identifier to its successive forms (ie: City council 2000-2006, 5th Parliament, VIIIth Government...), you can write here the identifier of the current form (ie: 'CC00_06', 'P5', 'Gov VIII'...)."
+msgid "config_version_descr"
+msgstr "If this meeting configuration corresponds to an organization, institution or group that gives an identifier to its successive forms (ie: City council 2000-2006, 5th Parliament, VIIIth Government...), you can write here the identifier of the current form (ie: 'CC00_06', 'P5', 'Gov VIII'...)."
+
+#. Default: "Select here groups that will be able to see this item"
+msgid "copy_groups_item_descr"
+msgstr "Selekteer hier de groepen die in staat zullen zijn dit punt te zien"
+
+#. Default: "You have corrupted the content of this field. We can't record what you have modified in this field. Please click on the 'Cancel' button."
+msgid "corruptedBody"
+msgstr "You have corrupted the content of this field. We can't record what you have modified in this field. Please click on the 'Cancel' button."
+
+#. Default: "An item's content is empty. Please correct this (use the 'Body' style available in the dropdown list below)."
+msgid "corruptedContent"
+msgstr "An item's content is empty. Please correct this (use the 'Body' style available in the dropdown list below)."
+
+#. Default: "There is a problem related to items numbering. Either you've added or deleted items (which is forbidden), either you have modified numbers. Please correct this or click on the 'Cancel' button."
+msgid "corruptedNumbers"
+msgstr "There is a problem related to items numbering. Either you've added or deleted items (which is forbidden), either you have modified numbers. Please correct this or click on the 'Cancel' button."
+
+#. Default: "The title of an item is wrong. Please check that each title begins with a number followed by a dot and the item title. Check also that you did not add style information to the number or the title (bold, underline, italic, etc)."
+msgid "corruptedTitle"
+msgstr "The title of an item is wrong. Please check that each title begins with a number followed by a dot and the item title. Check also that you did not add style information to the number or the title (bold, underline, italic, etc)."
+
+#. Default: "create a meeting"
+msgid "create_meeting"
+msgstr "Creatie van een vergadering"
+
+#. Default: "create an item"
+msgid "create_meeting_item"
+msgstr "Creatie van een punt"
+
+#. Default: "create an item in the current folder"
+msgid "create_meeting_item_in_current_folder"
+msgstr "Creatie van een punt in de huidige folder"
+
+#. Default: "creators"
+msgid "creators"
+msgstr "aanmakers"
+
+#. Default: "In this field, you can enter any text, and also special symbols that correspond to date parts. For example: '%s/%m/%Y' could yield '12/06/1968'. The following symbols are available:<br/>%d (day)<br/>%dt (translated day name)<br/>%DT (translated day name, first letter is uppercase)<br/>%m (month)<br/>%mt (translated month name)<br/>%MT (translated month name, first letter uppercase)<br/>%Y (year, with century)<br/>%y (year, without century)."
+msgid "date_format_descr"
+msgstr ""
+
+#. Default: "List PloneMeeting groups on the master site"
+msgid "davget_groups"
+msgstr ""
+
+#. Default: "List archived meetings on master site"
+msgid "davget_meetings"
+msgstr ""
+
+#. Default: "Import"
+msgid "davimport_meeting"
+msgstr ""
+
+#. Default: "Import selected elements"
+msgid "davimport_selected"
+msgstr ""
+
+#. Default: "More information on ${portalUrl}."
+msgid "decide_mail_body"
+msgstr "More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The (temporary) decisions have been published."
+msgid "decide_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The (temporary) decisions have been published."
+
+#. Default: "Decision"
+msgid "decision"
+msgstr "Besluit"
+
+#. Default: "Meetings being in the states you select here will appear in the 'decisions' portlet. Typically this portlet will display meetings whose decisions were taken or archived."
+msgid "decision_topic_states_descr"
+msgstr "Meetings being in the states you select here will appear in the 'decisions' portlet. Typically this portlet will display meetings whose decisions were taken or archived."
+
+#. Default: "Decisions"
+msgid "decisions"
+msgstr "Besluiten"
+
+#. Default: "The language you choose here will be selected by default when proposing to the user to OCR-ize a document."
+msgid "default_ocr_language_descr"
+msgstr ""
+
+#. Default: "When the MeetingManager encodes the votes himself, a default value may already be pre-encoded: the one you choose here."
+msgid "default_vote_value_descr"
+msgstr ""
+
+#. Default: "You are just able to see visible elements here."
+msgid "description_only_see_visible_items"
+msgstr ""
+
+#. Default: "This is probably a problem related to document generation through OpenOffice. The exact error cause may be found in the logs of the Zope instance. Once the problem is solved, you may try again."
+msgid "documentGenerationFailed_mail_body"
+msgstr ""
+
+#. Default: "${portalTitle} - ${objectTitle} - A problem occurred while generating a document for this object."
+msgid "documentGenerationFailed_mail_subject"
+msgstr ""
+
+#. Default: "If you check this box, this external application will be a <b>'target' application</b>: this site will contact her every time a new meeting has been archived here. If you do not, the external application will be a <b>'source' application</b>, which must be another PloneMeeting ('master') instance. In this setting, the current site acts as a site that will 'archive' meetings coming from the master site."
+msgid "ea_notify_descr"
+msgstr ""
+
+#. Default: "This functionnality give the user the possibility to quickly duplicate an item from another item"
+msgid "enable_duplication_descr"
+msgstr ""
+
+#. Default: "If you check this box, when paginated lists of items appear (when viewing a meeting) you will also view a specific 'Go to item' field. Entering an item number in it will bring you to the page that displays details about the corresponding item."
+msgid "enable_goto_item_descr"
+msgstr ""
+
+#. Default: "If you check this box, when paginated lists of items appear (when viewing a meeting) you will also view a specific 'Go to page' field. Entering an item number in it will bring you to the page where this item is."
+msgid "enable_goto_page_descr"
+msgstr ""
+
+#. Default: "An advice added on an item was published"
+msgid "event_add_advice"
+msgstr ""
+
+#. Default: "An annex was added to an item already presented in a validated agenda"
+msgid "event_add_annex"
+msgstr "Een bijlage werd aan een punt toegevoegd dat reeds in een bevestigde agenda wordt voorgesteld"
+
+#. Default: "A reviewer wants to discuss an item"
+msgid "event_ask_discuss_item"
+msgstr "Een recensent wil een punt bespreken"
+
+#. Default: "A late item was just validated"
+msgid "event_late_item"
+msgstr "Een recent punt werd bevestigd"
+
+#. Default: "Advices"
+msgid "existing_advices"
+msgstr "Adviezen"
+
+#. Default: "Annexes"
+msgid "existing_annexes"
+msgstr "Bijlagen"
+
+#. Default: "Votes"
+msgid "existing_votes"
+msgstr ""
+
+#. Default: "External applications"
+msgid "external_applications"
+msgstr "Externe applicaties"
+
+#. Default: "External applications may access, through WebDAV, to data managed by PloneMeeting (meetings, items and annexes), as soon as meetings and their content are archived. They can be notified, via HTTP requests and/or email, every time a meeting is archived."
+msgid "external_applications_descr"
+msgstr ""
+
+#. Default: "If you check this box, every time an annex will be uploaded, its content will be indexed. In the form for uploading an annex, a checkbox will ask the user if the file corresponds to a scanned document. If it is the case, an OCR engine (<a href=\"http://code.google.com/p/tesseract-ocr/\" target=\"_blank\">Tesseract</a>) will be launched for converting the scanned file into text. For installing Tesseract under Ubuntu, type \"sudo apt-get install tesseract-ocr\" in a shell. Tesseract needs to know the language of the scanned document, so it will also be asked to the user in the form. Besides installing Tesseract in itself, you will also need to install additional packages for particular languages (tesseract-fra, tesseract-ita, tesseract-eng...). Note that the scanned document will also be uploaded unchanged (users will still see it when downloading the file) <i>together</i> with the extracted text (that will be used for search purposes)."
+msgid "extract_text_from_files_descr"
+msgstr ""
+
+#. Default: "Please choose a file by clicking on the 'Browse' button."
+msgid "file_required"
+msgstr "Gelieve een bestand te kiezen door te klikken op de 'Bladeren' knop."
+
+#. Default: "In the PloneMeeting folder of every member, a sub-folder is created for each meeting configuration. The name of this sub-folder is defined here."
+msgid "folder_title_descr"
+msgstr "In the PloneMeeting folder of every member, a sub-folder is created for each meeting configuration. The name of this sub-folder is defined here."
+
+#. Default: "This software was created by the <a href=\"http://plonegov.org\" target=\"_blank\">PloneGov</a> community with the <a href=\"http://plone.org\" target=\"_blank\">Plone</a> content management system."
+msgid "footer_credits"
+msgstr "This software was created by the <a href=\"http://plonegov.org\" target=\"_blank\">PloneGov</a> community with the <a href=\"http://plone.org\" target=\"_blank\">Plone</a> content management system."
+
+#. Default: "When the event selected in this list occurs on a given object in Plone, a document for this object will be generated from this POD template into the Plone database. Subsequent requests for generating a document from this POD template for the same object will return the 'frozen' document instead of recomputing it using POD."
+msgid "freeze_event_descr"
+msgstr ""
+
+#. Default: "More information on ${portalUrl}."
+msgid "freeze_mail_body"
+msgstr "More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The published agenda has been frozen."
+msgid "freeze_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The published agenda has been frozen."
+
+#. Default: "In Plone, by default, you can only define one 'admin' (email and name). This admin is used a.o. as 'from' address of all emails sent by the Plone site and is used by PloneMeeting for, ie, sending emails when some errors occur. This default situation can cause problems if the Plone site running PloneMeeting is operated by a person which is not a webmaster but a guy having functional knowlegde and no technical knowledge. If you encounter such problems, you can define here the email address of a 'functional administrator'. If defined, this email address will be used as 'from' address for all PloneMeeting email notifications (instead of the standard admin email adress). So if people reply to those notifications, the functional administrator will get it, not the standard admin (='technical administrator' in this case). Indeed, this could be needed for confidentiality reasons. Technical messages and posts from the 'contact form' will be sent to the technical administrator."
+msgid "functional_admin_email_descr"
+msgstr ""
+
+#. Default: "Type here the full name of the functional administrator. If defined, it will be included in the 'from' part of email notifications sent by PloneMeeting (provided the previous fields as been filled correctly)."
+msgid "functional_admin_name_descr"
+msgstr ""
+
+#. Default: "Specify here a TAL expression that will return True if the group must give a mandatory advice on an item.  We receive 'item' as the meeting item to give an advice on.  WARNING if the group of advisers linked to this PloneMeeting group os empty, it will no be considered, despite the result of the TAL expression"
+msgid "gives_mandatory_advice_on_descr"
+msgstr ""
+
+#. Default: "Back to the first items"
+msgid "goto_first_items"
+msgstr "Ga naar eerste agendapunten"
+
+#. Default: "Go to item numbered"
+msgid "goto_item"
+msgstr "Ga naar agendapunt"
+
+#. Default: "Go to the last items"
+msgid "goto_last_items"
+msgstr "Ga naar laatste agendapunten"
+
+#. Default: "Next ${number} items"
+msgid "goto_next_items"
+msgstr "Ga naar volgende ${number} agendapunten"
+
+#. Default: "Go to page containing item"
+msgid "goto_page"
+msgstr "Ga naar pagina met agendapunt"
+
+#. Default: "Previous ${number} items"
+msgid "goto_previous_items"
+msgstr "Ga naar vorige ${number} agendapunten"
+
+#. Default: "Active?"
+msgid "group_is_active"
+msgstr "Actief?"
+
+# Other
+#. Default: "Check/uncheck items (for document generation)"
+msgid "helpSelectForPrintingIcon"
+msgstr "Selekteer/deselekteer punten (voor dokumentgeneratie)"
+
+#. Default: "This page is currently not accessible. Meeting managers will soon allow you to access it again. Sorry for the inconvenience."
+msgid "hide_meeting_view_page"
+msgstr ""
+
+#. Default: "Similarly to the preceding field, all the actions that are triggered when an item goes from one state to another are configurable through the development of another Plone product into which you must:<ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingItemWorkflowActions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeetingItem to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.MeetingAdvice.MeetingItemWorkflowActions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingItemWorkflowActions are documented."
+msgid "item_actions_interface_descr"
+msgstr ""
+
+#. Default: "Category"
+msgid "item_category_descr"
+msgstr ""
+
+#. Default: "Classifier"
+msgid "item_classifier_descr"
+msgstr ""
+
+#. Default: "On the item workflow, some boolean expressions guard the execution of the transitions from one state to another. Those conditions, together with other conditions useful at various levels within PloneMeeting, are defined as methods of a Python interface. You can modify those conditions at will, through the development of another Plone product into which you must: <ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingItemWorkflowConditions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeetingItem to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.MeetingItem.MeetingItemWorkflowConditions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingItemWorkflowConditions are documented."
+msgid "item_conditions_interface_descr"
+msgstr "On the item workflow, some boolean expressions guard the execution of the transitions from one state to another. Those conditions, together with other conditions useful at various levels within PloneMeeting, are defined as methods of a Python interface. You can modify those conditions at will, through the development of another Plone product into which you must: <ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingItemWorkflowConditions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeetingItem to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.MeetingItem.MeetingItemWorkflowConditions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingItemWorkflowConditions are documented."
+
+#. Default: "No move occurred because you specified the item number or this number plus one. If you specify a number X, the item will go just before the previous item having number X, and the other items will be shifted. If you want to move an item at the end of the list, you must specify the number of the last item plus one. Note that when two items lists are shown, you can't move items from one list to the other."
+msgid "item_did_not_move"
+msgstr "No move occurred because you specified the item number or this number plus one. If you specify a number X, the item will go just before the previous item having number X, and the other items will be shifted. If you want to move an item at the end of the list, you must specify the number of the last item plus one. Note that when two items lists are shown, you can't move items from one list to the other."
+
+#. Default: "You can't make this move. If you specify a number X, the item will go just before the previous item having number X, and the other items will be shifted. If you want to move an item at the end of the list, you must specify the number of the last item plus one. Note that when two items lists are shown, you can't move items from one list to the other."
+msgid "item_illegal_move"
+msgstr "You can't make this move. If you specify a number X, the item will go just before the previous item having number X, and the other items will be shifted. If you want to move an item at the end of the list, you must specify the number of the last item plus one. Note that when two items lists are shown, you can't move items from one list to the other."
+
+#. Default: "No move occurred: please specify a valid number."
+msgid "item_number_invalid"
+msgstr "No move occurred: please specify a valid number."
+
+#. Default: "A reference is associated to every item. The reference format can be defined here, as a TAL (Tag Attribute Language) expression whose context includes the name 'here' that represents the impacted item. If you don't know TAL, you may learn it <a href=\"http://zope.org/Documentation/Books/ZopeBook/2_6Edition/ZPT.stx\">here</a>."
+msgid "item_reference_format_descr"
+msgstr "A reference is associated to every item. The reference format can be defined here, as a TAL (Tag Attribute Language) expression whose context includes the name 'here' that represents the impacted item. If you don't know TAL, you may learn it <a href=\"http://zope.org/Documentation/Books/ZopeBook/2_6Edition/ZPT.stx\">here</a>."
+
+#. Default: "Item state"
+msgid "item_state"
+msgstr "Punt staat"
+
+#. Default: "Within the 'items' portlet, some links allow to trigger items searches. Only items being in the states you select here will appear in the search results. It can be practical for example to stop getting, into such search results, items that have already been published into meetings, because they are already visible through their meetings."
+msgid "item_topic_states_descr"
+msgstr "Within the 'items' portlet, some links allow to trigger items searches. Only items being in the states you select here will appear in the search results. It can be practical for example to stop getting, into such search results, items that have already been published into meetings, because they are already visible through their meetings."
+
+#. Default: "In this list, you see all workflows defined in your Plone site. Choose one that was specifically designed for managing the life cycle of a PloneMeeting item: either 'meetingitem_workflow', the default item workflow that ships with PloneMeeting, or another workflow that was specifically created by developers within another Plone product for the items of this meeting configuration."
+msgid "item_workflow_descr"
+msgstr "In this list, you see all workflows defined in your Plone site. Choose one that was specifically designed for managing the life cycle of a PloneMeeting item: either 'meetingitem_workflow', the default item workflow that ships with PloneMeeting, or another workflow that was specifically created by developers within another Plone product for the items of this meeting configuration."
+
+#. Default: "item(s)"
+msgid "items_count"
+msgstr "punt(en)"
+
+#. Default: "The page that displays a meeting contains potentially several tables filled with items. You can choose here which columns will be displayed or not in those tables. Note that a fixed number of columns will always be displayed (like the column containing the item title)."
+msgid "items_list_visible_columns_descr"
+msgstr "The page that displays a meeting contains potentially several tables filled with items. You can choose here which columns will be displayed or not in those tables. Note that a fixed number of columns will always be displayed (like the column containing the item title)."
+
+#. Default: "Annexes"
+msgid "label_related_items"
+msgstr "Bijlagen"
+
+#. Default: "Delete the meeting configuration : the folder linked to this meeting configuration for each member will be removed too (if empty)!"
+msgid "label_remove_meetingconfig"
+msgstr ""
+
+#. Default: "Delete the group : the linked Plone groups will be removed too (if empty)!"
+msgid "label_remove_meetinggroup"
+msgstr ""
+
+#. Default: "German"
+msgid "language_deu"
+msgstr ""
+
+#. Default: "English"
+msgid "language_eng"
+msgstr ""
+
+#. Default: "French"
+msgid "language_fra"
+msgstr ""
+
+#. Default: "Italian"
+msgid "language_ita"
+msgstr ""
+
+#. Default: "Dutch; Flemish"
+msgid "language_nld"
+msgstr ""
+
+#. Default: "Portuguese"
+msgid "language_por"
+msgstr ""
+
+#. Default: "Spanish; Castilian"
+msgid "language_spa"
+msgstr ""
+
+#. Default: "Vietnamese"
+msgid "language_vie"
+msgstr ""
+
+#. Default: "Within every meeting configuration, items are numbered thanks to a sequence number. Every time decisions are taken for a given meeting, items of this meeting receive their definitive sequence number and the field hereafter takes the value of the last sequence number taken by the last item of the meeting whose decisions were taken."
+msgid "last_item_number_descr"
+msgstr "Within every meeting configuration, items are numbered thanks to a sequence number. Every time decisions are taken for a given meeting, items of this meeting receive their definitive sequence number and the field hereafter takes the value of the last sequence number taken by the last item of the meeting whose decisions were taken."
+
+#. Default: "Within every meeting configuration, meetings are numbered sequentially."
+msgid "last_meeting_number_descr"
+msgstr "In iedere vergadering configuratie worden de vergaderingen sequentieel genummerd."
+
+#. Default: "The item is entitled '${itemTitle}'. More information on ${portalUrl}."
+msgid "lateItem_mail_body"
+msgstr "The item is entitled '${itemTitle}'. More information on ${portalUrl}."
+
+# Mails (item-related)
+#. Default: "${portalTitle} A 'late' item has been validated."
+msgid "lateItem_mail_subject"
+msgstr "${portalTitle} A 'late' item has been validated."
+
+#. Default: "Items presented after the meeting has been published"
+msgid "late_presented_items"
+msgstr "Items voorgesteld na de vergadering werden gepubliceerd."
+
+#. Default: "The login and password will be transmitted as (key, value) pairs in the HTTP header. Specify here the name of the key that will store the login."
+msgid "login_header_key_descr"
+msgstr ""
+
+#. Default: "In the list below, select the events that will cause an e-mail being sent to (the) meeting manager(s)."
+msgid "mail_item_events_descr"
+msgstr "In the list below, select the events that will cause an e-mail being sent to (the) meeting manager(s)."
+
+#. Default: "In the list below, select the meeting-related transitions (actions causing the meeting from one state to another) that will cause an e-mail being sent to any user having the permission to view the meeting in its new state. This e-mail warns the user about the new meeting state (for example, 'agenda has been published', 'decisions have been published')."
+msgid "mail_meeting_events"
+msgstr "In the list below, select the meeting-related transitions (actions causing the meeting from one state to another) that will cause an e-mail being sent to any user having the permission to view the meeting in its new state. This e-mail warns the user about the new meeting state (for example, 'agenda has been published', 'decisions have been published')."
+
+#. Default: "--Make a choice--"
+msgid "make_a_choice"
+msgstr "--Maak een keuze--"
+
+#. Default: "Define the advisers that will mandatory issue an advice on the item of this configuration"
+msgid "mandatory_advisers_descr"
+msgstr ""
+
+#. Default: "Advisers that will mandatory issue an advice for this item"
+msgid "mandatory_advisers_item_descr"
+msgstr "Adviseurs die verplicht zijn om een raad voor dit punt in te dienen."
+
+#. Default: "In the 'decisions' portlet, only decisions that have less than x days (x being the number defined here) appear directly. Users consult older decisions by clicking on the link 'all decisions'."
+msgid "max_days_decisions_descr"
+msgstr "In the 'decisions' portlet, only decisions that have less than x days (x being the number defined here) appear directly. Users consult older decisions by clicking on the link 'all decisions'."
+
+#. Default: "When performing an advanced search, this number limits the size of every result set."
+msgid "max_search_results_descr"
+msgstr ""
+
+#. Default: "When displaying a meeting, the list of items that one may present to the meeting may be paginated if you specify here a maximum number of available items to show at once."
+msgid "max_shown_available_items_descr"
+msgstr ""
+
+#. Default: "Specify here the maximum number of found annexes that may appear on every result page."
+msgid "max_shown_found_annexes_descr"
+msgstr ""
+
+#. Default: "Specify here the maximum number of found items that may appear on every result page."
+msgid "max_shown_found_items_descr"
+msgstr ""
+
+#. Default: "Specify here the maximum number of found meetings that may appear on every result page."
+msgid "max_shown_found_meetings_descr"
+msgstr ""
+
+#. Default: "When displaying a meeting, the list of late items in the meeting may be paginated if you specify here a maximum number of late items to show at once."
+msgid "max_shown_late_items_descr"
+msgstr ""
+
+#. Default: "When displaying a meeting, the list of items in the meeting may be paginated if you specify here a maximum number of items to show at once."
+msgid "max_shown_meeting_items_descr"
+msgstr ""
+
+#. Default: "If the number of meetings to display in any of those 2 portlets is higher than this number, a dropdown list will be shown."
+msgid "max_shown_meetings_descr"
+msgstr "If the number of meetings to display in any of those 2 portlets is higher than this number, a dropdown list will be shown."
+
+#. Default: "This meeting is accessible, through WebDAV, at ${meetingDavUrl}. If you had to be notified through a HTTP request, you receive this mail because the HTTP request failed."
+msgid "meetingIsArchived_mail_body"
+msgstr ""
+
+# Mails (meeting archiving notifications)
+#. Default: "${portalTitle} - ${meetingTitle} - This meeting was archived."
+msgid "meetingIsArchived_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - This meeting was archived."
+
+#. Default: "Similarly to the preceding field, all the actions that are triggered when a meeting goes from one state to another are configurable through the development of another Plone product into which you must:<ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingWorkflowActions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeeting to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.Meeting.MeetingWorkflowActions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingWorkflowActions are documented."
+msgid "meeting_actions_interface_descr"
+msgstr "Similarly to the preceding field, all the actions that are triggered when a meeting goes from one state to another are configurable through the development of another Plone product into which you must:<ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingWorkflowActions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeeting to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.Meeting.MeetingWorkflowActions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingWorkflowActions are documented."
+
+#. Default: "Already imported."
+msgid "meeting_already_imported"
+msgstr ""
+
+#. Default: "We advice to use here a PloneMeeting-specific view: ie the list of available meetings, or the list of 'my items'. You can also (but we advice not doing so) specify one of the standard views that Plone proposes on folders (or the 'PloneMeeting folder view'), but do that only if your users have a deep knowledge of Plone."
+msgid "meeting_app_default_view_descr"
+msgstr "We advice to use here a PloneMeeting-specific view: ie the list of available meetings, or the list of 'my items'. You can also (but we advice not doing so) specify one of the standard views that Plone proposes on folders (or the 'PloneMeeting folder view'), but do that only if your users have a deep knowledge of Plone."
+
+#. Default: "Assembly"
+msgid "meeting_assembly"
+msgstr "Vergadering"
+
+#. Default: "Similarly to interfaces defined for items, the conditions expressed on the transitions of the meeting workflow may be configured through the development of another Plone product into which you must:<ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingWorkflowConditions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeeting to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.Meeting.MeetingWorkflowConditions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingWorkflowConditions are documented."
+msgid "meeting_conditions_interface_descr"
+msgstr "Similarly to interfaces defined for items, the conditions expressed on the transitions of the meeting workflow may be configured through the development of another Plone product into which you must:<ul><li>create a Python interface that inherits from interface Products.PloneMeeting.interfaces.IMeetingWorkflowConditions (you must enter the full package name of this interface in the field below);</li><li>create and declare in ZCML an adapter that adapts the interface  Products.PloneMeeting.interfaces.IMeeting to the interface you have defined in the previous step.</li></ul>Your adapter may inherit from the default adapter Products.PloneMeeting.Meeting.MeetingWorkflowConditions: it will allow you to override only methods for which you want an altered behaviour. All the methods proposed by the interface Products.PloneMeeting.interfaces.IMeetingWorkflowConditions are documented."
+
+#. Default: "Management of meeting configurations"
+msgid "meeting_configurations"
+msgstr "Management of meeting configurations"
+
+#. Default: "Several meeting configurations canbe managed by PloneMeeting. A meeting configuration defines a 'type of meeting' that has its associated set of parameters. Each meeting configuration is completely independant and produces a tab among the main Plone tabs. If your organization manages several distinct meeting types, she can define corresponding meeting configurations here."
+msgid "meeting_configurations_descr"
+msgstr "Several meeting configurations canbe managed by PloneMeeting. A meeting configuration defines a 'type of meeting' that has its associated set of parameters. Each meeting configuration is completely independant and produces a tab among the main Plone tabs. If your organization manages several distinct meeting types, she can define corresponding meeting configurations here."
+
+#. Default: "Every item may be associated with a series of annexes. Some annexes may be specifically tied to the decision taken on the item. You can consult and modify here the annex types that are defined within this meeting configuration. An annex type is defined by a title, an icon (preferably of 16x16 pixels) and a predefined title. When users want to associate an annex to an item, they may choose, in a dropdown list, an annex type among those defined here and upload a file."
+msgid "meeting_file_types_descr"
+msgstr "Every item may be associated with a series of annexes. Some annexes may be specifically tied to the decision taken on the item. You can consult and modify here the annex types that are defined within this meeting configuration. An annex type is defined by a title, an icon (preferably of 16x16 pixels) and a predefined title. When users want to associate an annex to an item, they may choose, in a dropdown list, an annex type among those defined here and upload a file."
+
+#. Default: "PloneMeeting, in each member folder (for member having access to PloneMeeting), creates a folder containing one sub-folder for each meeting configuration. Into each subfolder, PloneMeeting stores meetings and items created by this user, and annexes linked to those items."
+msgid "meeting_folder_title"
+msgstr "PloneMeeting, in each member folder (for member having access to PloneMeeting), creates a folder containing one sub-folder for each meeting configuration. Into each subfolder, PloneMeeting stores meetings and items created by this user, and annexes linked to those items."
+
+# ToolPloneMeeting
+#. Default: "Management of PloneMeeting-specific groups"
+msgid "meeting_groups"
+msgstr "Management of PloneMeeting-specific groups"
+
+#. Default: "PloneMeeting users are divided into groups. Each group represents an organizational entity (department, section, division...). A button below allows you to add a PloneMeeting group. For each created PloneMeeting group, 4 Plone groups are created:<ul class=\"discreet\"><li>a group of observers, including members that may only see content created by the group;</li><li>a group of creators, including members that may create content;</li><li>a group of advisers, including members that may give an advice on behalf of the group;</li><li>a group of validators, including members that may validate items and make them visible to the meeting manager.</li></ul><p class=\"discreet\">Then, through the classical 'Users and Groups Administration' section in Plone, you may add users and associate them to groups that were generated from PloneMeeting groups defined here.</p><p class=\"discreet\">A user may belong to several Plone groups generated from PloneMeeting groups, even if those groups are tied to different PloneMeeting groups. For example, a user may be observer into a group A and creator + observer within a group B. Every time a meeting item is created, you must specify a proposing group among the several MeetingGroups the user potentially belongs to. PloneMeeting will define local roles on the created item that will allow members of the corresponding Plone groups to get the right permissions to the item. If you change the proposing group for this item, local roles will be updated accordingly. <ul class=\"discreet\"><li>The local role 'MeetingObserverLocal' is given to groups of observers (whose id has the form &lt;PloneMeeting_group_name&gt;_observers');</li><li>the local role 'MeetingMember' is given to groups of creators (whose id has the form &lt;PloneMeeting_group_name&gt;_creators');</li><li>the local role 'MeetingAdviser' is given to groups of advisers (whose id has the form &lt;PloneMeeting_group_name&gt;_advisers');</li><li>the local role 'MeetingReviewer' is given to groups of validators (whose id has the form &lt;PloneMeeting_group_name&gt;_reviewers').</li></ul><p class=\"discreet\">Please do not give those 4 local roles globally to any Plone user or group. Besides those 4 roles, PloneMeeting defines 2 global roles:<ul class=\"discreet\"><li>the role 'MeetingManager' must be given (through the Plone interface for administration of users and groups) to any person who must create meetings, present items into it, etc;</li><li>the role 'MeetingObserverGlobal' allows to consult meetings once they have been published. This role is automatically attributed to any Plone group generated from a PloneMeetingGroup: you normally don't need to give this role yourself to a user or group.</li></ul></p>"
+msgid "meeting_groups_descr"
+msgstr ""
+
+# MeetingItem
+#. Default: "Description in the agenda"
+msgid "meeting_item_description"
+msgstr "Beschrijving in the agenda"
+
+#. Default: "Meeting of"
+msgid "meeting_of"
+msgstr "Vergadering van"
+
+#. Default: "This parameter is only used if the external application is a 'target' application. When notifying her, this site will transmit the WebDAV URL of the archived meeting in a parameter. Specify here the name of this parameter. By default it will be 'meeting'."
+msgid "meeting_param_name_descr"
+msgstr ""
+
+#. Default: "Meetings being in the states you select here will appear in the 'meetings' portlet. Typically you will display there meetings under creation or published meetings that did not took place yet. The idea is to select here a given set of states and to select, in the next field, all the other states. This way, users can distinguish between future and past meetings (past meetings are the object of the next field)."
+msgid "meeting_topic_states_descr"
+msgstr "Meetings being in the states you select here will appear in the 'meetings' portlet. Typically you will display there meetings under creation or published meetings that did not took place yet. The idea is to select here a given set of states and to select, in the next field, all the other states. This way, users can distinguish between future and past meetings (past meetings are the object of the next field)."
+
+#. Default: "Enter here the function of the user."
+msgid "meeting_user_duty_descr"
+msgstr ""
+
+#. Default: "No Plone user was found with this ID or you did not enter the ID of an existing Plone user."
+msgid "meeting_user_no_plone_user"
+msgstr ""
+
+#. Default: "A Special user is already linked to this Plone user."
+msgid "meeting_user_plone_user_already_used"
+msgstr ""
+
+#. Default: "This user must correspond to an existing Plone user. Please enter here the ID of an existing Plone user."
+msgid "meeting_user_plone_user_descr"
+msgstr ""
+
+#. Default: "If this user is a signer, you can upload here the scanned image of his handwritten signature."
+msgid "meeting_user_signature_image_descr"
+msgstr ""
+
+#. Default: "If you check this box, when creating a meeting of this meeting configuration, the default signer will be this one."
+msgid "meeting_user_signature_is_default"
+msgstr ""
+
+# MeetingUser
+#. Default: "The title of this meeting user is the 'fullname' of the corresponding Plone user."
+msgid "meeting_user_title_descr"
+msgstr ""
+
+#. Default: "Assembly member"
+msgid "meeting_user_usage_assemblyMember"
+msgstr ""
+
+#. Default: "Signer"
+msgid "meeting_user_usage_signer"
+msgstr ""
+
+#. Default: "Voter"
+msgid "meeting_user_usage_voter"
+msgstr ""
+
+#. Default: "For what will this user be useful for?"
+msgid "meeting_user_usages_descr"
+msgstr ""
+
+#. Default: "Special users are users that have a specific status. For example, users that may participate in a meeting, or users that may sign decisions of a meeting are defined here."
+msgid "meeting_users_descr"
+msgstr ""
+
+#. Default: "In this list, you see all workflows defined in your Plone site. Choose one that was specifically designed for managing the life cycle of a PloneMeeting meeting: either 'meeting_workflow', the default meeting workflow that ships with PloneMeeting, or another workflow that was specifically created by developers within another Plone product for the meetings of this meeting configuration."
+msgid "meeting_workflow_descr"
+msgstr "In this list, you see all workflows defined in your Plone site. Choose one that was specifically designed for managing the life cycle of a PloneMeeting meeting: either 'meeting_workflow', the default meeting workflow that ships with PloneMeeting, or another workflow that was specifically created by developers within another Plone product for the meetings of this meeting configuration."
+
+#. Default: "Description"
+msgid "meetingcategory_label_description"
+msgstr "Beschrijving"
+
+#. Default: "In this section you can configure the advice functionnality: enable it, choose mandatory and optional advisors, configure agreement levels, ..."
+msgid "meetingconfig_advice_descr"
+msgstr ""
+
+#. Default: "Parameters in this section allow to customize some elements linked to attributes of and associations between the 2 main content types managed by PloneMeeting: items and meetings."
+msgid "meetingconfig_data_descr"
+msgstr "Parameters in this section allow to customize some elements linked to attributes of and associations between the 2 main content types managed by PloneMeeting: items and meetings."
+
+#. Default: "Parameters listed here allow to customize the way PloneMeeting generates documents based on created items and meetings."
+msgid "meetingconfig_doc_descr"
+msgstr "Parameters listed here allow to customize the way PloneMeeting generates documents based on created items and meetings."
+
+#. Default: "Parameters listed here allow to customize some elements of the PloneMeeting user interface."
+msgid "meetingconfig_gui_descr"
+msgstr "Parameters listed here allow to customize some elements of the PloneMeeting user interface."
+
+#. Default: "Parameters here allow to customize the way PloneMeeting sends e-mail notifications when some item- or meeting-related events occur."
+msgid "meetingconfig_mail_descr"
+msgstr "Parameters here allow to customize the way PloneMeeting sends e-mail notifications when some item- or meeting-related events occur."
+
+#. Default: "Parameters in this section allow to choose and adapt the workflows that define the life cycle of items and meetings."
+msgid "meetingconfig_workflow_descr"
+msgstr "Parameters in this section allow to choose and adapt the workflows that define the life cycle of items and meetings."
+
+#. Default: "Description"
+msgid "meetinggroup_label_description"
+msgstr "Beschrijving"
+
+#. Default: "modification_color"
+msgid "modification_color"
+msgstr "Wijzigings kleur"
+
+#. Default: "Move the item down"
+msgid "move_item_down"
+msgstr "Verplaats het punt naar beneden"
+
+#. Default: "Move the item up"
+msgid "move_item_up"
+msgstr "Verplaats het punt naar boven"
+
+#. Default: "Moves this item to the position that precedes the number you have introduced besides. If you want to move the item at the end of the list, specify the number of the last item plus one."
+msgid "move_several"
+msgstr "Moves this item to the position that precedes the number you have introduced besides. If you want to move the item at the end of the list, specify the number of the last item plus one."
+
+#. Default: "Navigation-related parameters"
+msgid "navig_params"
+msgstr "Navigatie gerelateerde parameters"
+
+#. Default: "PloneMeeting was designed for simplicity of use. We wanted to hide to its users the potentially complex reality of files and folders constituting the 'virtual network disk' offered by Plone. Nevertheless, you can decide here to let users view the files and folders that PloneMeeting creates and manages in their member folder, and let them perform some actions like create sub-folders and copy/paste files. We do not recommand it in most cases."
+msgid "navig_params_descr"
+msgstr "PloneMeeting was designed for simplicity of use. We wanted to hide to its users the potentially complex reality of files and folders constituting the 'virtual network disk' offered by Plone. Nevertheless, you can decide here to let users view the files and folders that PloneMeeting creates and manages in their member folder, and let them perform some actions like create sub-folders and copy/paste files. We do not recommand it in most cases."
+
+#. Default: "If this box is unchecked, the portlet allows to navigate from the root of the Plone site hosting PloneMeeting."
+msgid "navigate_locally"
+msgstr "If this box is unchecked, the portlet allows to navigate from the root of the Plone site hosting PloneMeeting."
+
+#. Default: "This file is a scanned document"
+msgid "needs_ocr"
+msgstr ""
+
+#. Default: "Check this box if this file corresponds to a scanned document. If it is the case, we will perform a specific treatment on it (called 'OCR-ization') to retrieve the text from the scanned document. This way, it will be possible to perform searches in the content of the file, based on keywords."
+msgid "needs_ocr_descr"
+msgstr ""
+
+#. Default: "No access information was removed."
+msgid "no_access_info_purged"
+msgstr "Geen toegangsinformatie werd verwijderd."
+
+#. Default: "No advices for this item"
+msgid "no_advices"
+msgstr "Geen adviezen voor dit punt"
+
+#. Default: "No agreement level is currently defined."
+msgid "no_agreement_level"
+msgstr "Geen overeenkomstenniveau wordt momenteel bepaald."
+
+#. Default: "No annex is currently defined for this item."
+msgid "no_annexes"
+msgstr "Geen bijlage wordt momenteel bepaald voor dit punt."
+
+#. Default: "No category is currently defined."
+msgid "no_category"
+msgstr "Geen categorie wordt momenteel bepaald."
+
+#. Default: "No classifier is currently defined."
+msgid "no_classifier"
+msgstr ""
+
+# Values of colorSystems
+#. Default: "no_color"
+msgid "no_color"
+msgstr "geen_kleur"
+
+#. Default: "No external application is currenty defined."
+msgid "no_external_application"
+msgstr "Geen externe toepassing wordt momenteel bepaald."
+
+#. Default: "None"
+msgid "no_freeze_event"
+msgstr "geen"
+
+#. Default: "No (visible) meeting at present."
+msgid "no_meeting"
+msgstr "Geen (zichtbare) vergadering momenteel."
+
+#. Default: "No meeting configuration is currently defined."
+msgid "no_meeting_config"
+msgstr "Geen vergaderingsconfiguratie wordt momenteel bepaald."
+
+#. Default: "No annex type is currently defined."
+msgid "no_meeting_file_type"
+msgstr "Geen bijlagetype wordt momenteel bepaald."
+
+#. Default: "No group is currently defined."
+msgid "no_meeting_group"
+msgstr "Geen groep wordt momenteel bepaald."
+
+#. Default: "No special user is currently defined."
+msgid "no_meeting_user"
+msgstr ""
+
+#. Default: "No items."
+msgid "no_meetingitems"
+msgstr "Geen punten."
+
+#. Default: "No POD template is currently defined."
+msgid "no_pod_folder"
+msgstr ""
+
+#. Default: "No recurring item is currently defined."
+msgid "no_recurring_item"
+msgstr "Geen terugkomend punt wordt momenteel bepaald."
+
+#. Default: "Please select at least one element."
+msgid "no_selected_items"
+msgstr "Gelieve minstens 1 punt te selecteren."
+
+#. Default: "No visible advices for now."
+msgid "no_shown_advices"
+msgstr ""
+
+#. Default: "No visible item for now."
+msgid "no_shown_items"
+msgstr "Momenteel geen zichtbaar punt."
+
+#. Default: "No topic is currently defined."
+msgid "no_topic_folder"
+msgstr ""
+
+#. Default: "not designated adviser"
+msgid "notDesignatedAdviser"
+msgstr "niet aangewezen adviseur"
+
+#. Default: "Nothing to do."
+msgid "nothing_to_do"
+msgstr ""
+
+#. Default: "If the external application is a 'target' application, and if you specify an email address here, a mail will be sent to it every time a meeting is archived (if you did not specify a URL in the field above) or every time this site fails in notifying this application through the URL above. If the external application is a 'source' application, the email address you specify here is the one from the master Plone site manager and will be used in case of problems when contacting the master PloneMeeting site."
+msgid "notify_email_descr"
+msgstr "If you specify an email address here, a mail will be sent to it every time a meeting is archived (if you did not specify a URL in the field above) or every time PloneMeeting fails in notifying this application through the URL above."
+
+#. Default: "If the contacted application requires this site to present credentials (username and password) specify here the username."
+msgid "notify_login_descr"
+msgstr ""
+
+#. Default: "If the contacted application requires this site to present credentials (username and password) specify here the password."
+msgid "notify_password_descr"
+msgstr ""
+
+#. Default: "Specify here the HTTP-based method or protocol to use for contacting the external application."
+msgid "notify_protocol_descr"
+msgstr ""
+
+#. Default: "If the HTTP requests to the external application must go through a proxy, you must specify here the proxy URL and port to be used, ie 'http://proxy.mycompany.org:3128'."
+msgid "notify_proxy_descr"
+msgstr ""
+
+#. Default: "If the external application is a 'target' application, this site will send a HTTP request to this URL every time a meeting is archived here, for telling the external application that she may now consult, through WebDAV, data about this meeting. If the external application is a 'source' application, this URL is the WebDAV URL of the master PloneMeeting site."
+msgid "notify_url_descr"
+msgstr ""
+
+#. Default: "observers"
+msgid "observers"
+msgstr "Waarnemers"
+
+#. Default: "Language of the document"
+msgid "ocr_language"
+msgstr ""
+
+#. Default: "Specify here in what language this document is written."
+msgid "ocr_language_descr"
+msgstr ""
+
+#. Default: "Follow all groups order"
+msgid "on_all_groups"
+msgstr ""
+
+#. Default: "Follow categories order"
+msgid "on_categories"
+msgstr ""
+
+#. Default: "Follow proposing groups order"
+msgid "on_proposing_groups"
+msgstr ""
+
+#. Default: "OpenOffice configuration"
+msgid "oo_config"
+msgstr "OpenOffice configuratie"
+
+#. Default: "PloneMeeting allows to generate various documents related to items, agendas, decisions, etc. For each meeting configuration you can define precise parameters for generating documents. But at this higher level, it is important to know that if you want to generate documents in another format than Open Document Format Text (ODT), ie Microsoft Word, RTF or PDF, you need to install OpenOffice in server mode on the same machine than PloneMeeting, and specify values for the fields of this section, using the 'edit' tab above."
+msgid "oo_config_descr"
+msgstr "PloneMeeting allows to generate various documents related to items, agendas, decisions, etc. For each meeting configuration you can define precise parameters for generating documents. But at this higher level, it is important to know that if you want to generate documents in another format than Open Document Format Text (ODT), ie Microsoft Word, RTF or PDF, you need to install OpenOffice in server mode on the same machine than PloneMeeting, and specify values for the fields of this section, using the 'edit' tab above."
+
+#. Default: "Some users want to open annexes in separate windows. Indeed, when the user is consulting a meeting with paginated lists of items, clicking on an annex for downloading it may replace the current page with the annex content if the browser is configured for doing so (in conjunction with a plug-in for viewing PDFs inside the browser for example). In this case, the user is forced to click on 'back' to view the list again. It has 2 disadvantages: the list is refreshed (which slows down the system), and the user is redirected to the first items instead of the page he consulted just before the download."
+msgid "open_annexes_in_separate_windows_descr"
+msgstr ""
+
+#. Default: "If you want to generate item- or meeting-related documents in DOC, PDF or RTF, OpenOffice must be available in server mode on the same machine that runs PloneMeeting."
+msgid "open_office_port"
+msgstr "If you want to generate item- or meeting-related documents in DOC, PDF or RTF, OpenOffice must be available in server mode on the same machine that runs PloneMeeting."
+
+#. Default: "Define the optional advisers that an item creator that have the permission will be able to select"
+msgid "optional_advisers_descr"
+msgstr ""
+
+#. Default: "Choose advisers that will have to issue an advice for this item"
+msgid "optional_advisers_item_descr"
+msgstr ""
+
+#. Default: "Specify here the name of the key (in the HTTP header) that will store the password."
+msgid "password_header_key_descr"
+msgstr ""
+
+#. Default: "If you check this box: (1) the navigation porlet will be shown; (2) 'copy', 'paste' and 'rename' actions will be visible; (3) users will be able to add objects from the Plone menus entitled 'add to folder'."
+msgid "plone_disk_aware_descr"
+msgstr "If you check this box: (1) the navigation porlet will be shown; (2) 'copy', 'paste' and 'rename' actions will be visible; (3) users will be able to add objects from the Plone menus entitled 'add to folder'."
+
+#. Default: "Are you sure you want to delete this element ?"
+msgid "plonemeeting_delete_confirm_message"
+msgstr "Are you sure you want to delete this element ?"
+
+#. Default: "You are about to delete this meeting and all included items. Are you sure?"
+msgid "plonemeeting_delete_meeting_confirm_message"
+msgstr ""
+
+#. Default: "Welcome to the administrative pages of PloneMeeting. PloneMeeting allows to manage agendas and decisions of any entity taking decisions. PloneMeeting is developed by the <a href=\"http://plonegov.org\">PloneGov community</a> with <a href=\"http://plone.org\">Plone</a>."
+msgid "plonemeeting_descr"
+msgstr "Welcome to the administrative pages of PloneMeeting. PloneMeeting allows to manage agendas and decisions of any entity taking decisions. PloneMeeting is developed by the <a href=\"http://plonegov.org\">PloneGov community</a> with <a href=\"http://plone.org\">Plone</a>."
+
+#. Default: "Identifier"
+msgid "plonemeeting_identifier"
+msgstr ""
+
+#. Default: "uploaded on"
+msgid "pm_creation_date"
+msgstr "geupload op"
+
+# MeetingFile
+#. Default: "creator"
+msgid "pm_creator"
+msgstr "aanmaker"
+
+#. Default: "Go to the first item in this meeting."
+msgid "pm_goto_first"
+msgstr ""
+
+#. Default: "Go to the last item in this meeting."
+msgid "pm_goto_last"
+msgstr ""
+
+#. Default: "Go to the meeting containing this item."
+msgid "pm_goto_meeting"
+msgstr ""
+
+#. Default: "Go to the next item."
+msgid "pm_goto_next"
+msgstr "Ga naar het volgende element."
+
+#. Default: "Go to the previous item."
+msgid "pm_goto_previous"
+msgstr "Ga naar het vorige element."
+
+#. Default: "(Un-)select all"
+msgid "pm_select_deselect"
+msgstr ""
+
+#. Default: "Update annex indexes"
+msgid "pm_update_annex_indexes"
+msgstr ""
+
+#. Default: "If this condition is True (and if the user has the appropriate permission(s) as defined in the next field), the user will be able to generate documents from this template (an icon will show up). This condition must be expressed as a TAL (Tag Attribute Language) expression whose context includes the name 'here' that represents the impacted object. If you don't know TAL, you may learn it <a href=\"http://zope.org/Documentation/Books/ZopeBook/2_6Edition/ZPT.stx\">here</a>."
+msgid "pod_condition_descr"
+msgstr ""
+
+#. Default: "You may choose in this list the format into which the generated documents will be generated."
+msgid "pod_format_doc"
+msgstr ""
+
+#. Default: "The appy.pod component must be installed if you want to generate documents. If you are not site administrator, please send him this message."
+msgid "pod_not_installed"
+msgstr "The appy.pod component must be installed if you want to generate documents. If you are not site administrator, please send him this message."
+
+#. Default: "Only users having (the) permission(s) specified here will be able to generate documents from this template."
+msgid "pod_permission_descr"
+msgstr ""
+
+#. Default: "This template must be an ODT (Open Document Format Text) document as produced by OpenOffice for example. This template should also contain special instructions that allow to insert Plone content into it. The format of those instructions is defined by the POD (Python Open Document) library. You can learn how to write an ODT document containing POD instructions <a href=\"http://appyframework.org/pod.html\">here</a>."
+msgid "pod_template_descr"
+msgstr ""
+
+# PodTemplate
+#. Default: ""
+msgid "pod_template_description"
+msgstr ""
+
+#. Default: "Active ?"
+msgid "pod_template_is_active"
+msgstr "Actief ?"
+
+#. Default: "This section allows you manage the document templates that you may specify for producing documents from content managed by PloneMeeting (items, meetings, annexes, etc)."
+msgid "pod_templates_descr"
+msgstr ""
+
+#. Default: "Description"
+msgid "podtemplate_label_description"
+msgstr "Beschrijving"
+
+# Portlet "decisions"
+#. Default: "decisions"
+msgid "portletdecisions_title"
+msgstr "besluiten"
+
+# Portlet "meetings"
+#. Default: "meetings"
+msgid "portletmeetings_title"
+msgstr "vergaderingen"
+
+#. Default: "Presents all selected items at once."
+msgid "present_several_items"
+msgstr "Stelt meteen alle geselecteerde punten voor."
+
+#. Default: "Meeting into which this item is presented"
+msgid "presented_in_meeting"
+msgstr "Vergadering waarin dit punt wordt voorgesteld"
+
+#. Default: "Items presented to this meeting"
+msgid "presented_items"
+msgstr "Punten die aan deze vergadering worden voorgesteld"
+
+#. Default: "Proposing group's acronym"
+msgid "proposing_group_acronym"
+msgstr "Proposing group's acronym"
+
+#. Default: "More information on ${portalUrl}."
+msgid "publish_mail_body"
+msgstr "More information on ${portalUrl}."
+
+# Mails (meeting-related)
+#. Default: "${portalTitle} - ${meetingTitle} - The agenda has been published."
+msgid "publish_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The agenda has been published."
+
+#. Default: "Remove access info for deleted users"
+msgid "purge_user_access_info"
+msgstr "Verwijder toegangsinfo voor geschrapte gebruikers"
+
+#. Default: "Select here the item states into which some events related to the item (like annex creations or deletions) will be stored in the item's history."
+msgid "record_item_history_states_descr"
+msgstr ""
+
+#. Default: "A meeting configuration specifies that the recurring item identified in the subject of this email must be inserted in a meeting when a non-appropriated transition is triggered on meetings (ie when a meeting is archived or when a 'backward step' is performed on it, because something has to be corrected). Please correct this in the appropriate meeting configuration. More information can be found in the log file of your Zope instance."
+msgid "recurringItemBadTransition_mail_body"
+msgstr "A meeting configuration specifies that the recurring item identified in the subject of this email must be inserted in a meeting when a non-appropriated transition is triggered on meetings (ie when a meeting is archived or when a 'backward step' is performed on it, because something has to be corrected). Please correct this in the appropriate meeting configuration. More information can be found in the log file of your Zope instance."
+
+# Mails (problems when inserting recurring items)
+#. Default: "${portalTitle} - A problem occurred while inserting the recurring item entitled '${itemTitle}' into a meeting."
+msgid "recurringItemBadTransition_mail_subject"
+msgstr "${portalTitle} - A problem occurred while inserting the recurring item entitled '${itemTitle}' into a meeting."
+
+#. Default: "The recurring item specified in the subject of this email could not be inserted in a meeting. Maybe does it lack some important information (a text for the decision, for example) while the meeting is in an 'advanced' state (it is already 'decided', for instance). More information can be found in the log file of your Zope instance."
+msgid "recurringItemWorkflowError_mail_body"
+msgstr "The recurring item specified in the subject of this email could not be inserted in a meeting. Maybe does it lack some important information (a text for the decision, for example) while the meeting is in an 'advanced' state (it is already 'decided', for instance). More information can be found in the log file of your Zope instance."
+
+#. Default: "${portalTitle} - A problem occurred while inserting the recurring item entitled '${itemTitle}' into a meeting."
+msgid "recurringItemWorkflowError_mail_subject"
+msgstr "${portalTitle} - A problem occurred while inserting the recurring item entitled '${itemTitle}' into a meeting."
+
+#. Default: "You define here items that will be automatically created and inserted into every meeting of this meeting configuration when a given action is performed on it (creation, publication, etc)."
+msgid "recurring_items_descr"
+msgstr "You define here items that will be automatically created and inserted into every meeting of this meeting configuration when a given action is performed on it (creation, publication, etc)."
+
+#. Default: "More information on ${portalUrl}."
+msgid "republish_mail_body"
+msgstr "More information on ${portalUrl}."
+
+#. Default: "${portalTitle} - ${meetingTitle} - The agenda has been published (again)."
+msgid "republish_mail_subject"
+msgstr "${portalTitle} - ${meetingTitle} - The agenda has been published (again)."
+
+#. Default: "If you check this box, PloneMeeting will enter into a kind of 'emergency' mode that allows, under heavy load, to limit the number of users allowed to access the page 'Meeting view'. If this mode is enabled, only MeetingManagers and the users listed in the next field will be able to see the page 'Meeting view'."
+msgid "restrict_users_descr"
+msgstr ""
+
+#. Default: "validators"
+msgid "reviewers"
+msgstr "validators"
+
+#. Default: "New search"
+msgid "search_again"
+msgstr ""
+
+#. Default: "and"
+msgid "search_and"
+msgstr ""
+
+#. Default: "${number} annex(es) match(es) your criteria."
+msgid "search_annexes_found"
+msgstr ""
+
+#. Default: "Meeting type:"
+msgid "search_config_label"
+msgstr ""
+
+#. Default: "Item-specific search criteria"
+msgid "search_criteria_item"
+msgstr ""
+
+#. Default: "item's decisions"
+msgid "search_item_decisions"
+msgstr ""
+
+#. Default: "item's titles and descriptions"
+msgid "search_item_titles"
+msgstr ""
+
+#. Default: "${number} item(s) match(es) your criteria."
+msgid "search_items_found"
+msgstr ""
+
+# Search form
+#. Default: "The keyword search encompasses:"
+msgid "search_keywords"
+msgstr ""
+
+#. Default: "The search produced more results. You see the ${number} most recent elements."
+msgid "search_max_limit"
+msgstr ""
+
+#. Default: "${number} meeting(s) match(es) your criteria."
+msgid "search_meetings_found"
+msgstr ""
+
+#. Default: "No result corresponds to your search criteria."
+msgid "search_no_result"
+msgstr ""
+
+#. Default: "or"
+msgid "search_or"
+msgstr ""
+
+#. Default: "Keep the 'control' key pressed for selecting several elements."
+msgid "search_select_many"
+msgstr ""
+
+#. Default: "From"
+msgid "search_time_period_from"
+msgstr ""
+
+#. Default: "Time period:"
+msgid "search_time_period_label"
+msgstr ""
+
+#. Default: "To"
+msgid "search_time_period_to"
+msgstr ""
+
+#. Default: "annexes"
+msgid "search_type_annexes"
+msgstr ""
+
+#. Default: "items"
+msgid "search_type_items"
+msgstr ""
+
+#. Default: "Search:"
+msgid "search_type_label"
+msgstr ""
+
+#. Default: "meetings"
+msgid "search_type_meetings"
+msgstr ""
+
+#. Default: "advised items"
+msgid "searchalladviseditems"
+msgstr ""
+
+#. Default: "all decisions"
+msgid "searchalldecisions"
+msgstr "all decisions"
+
+#. Default: "all items"
+msgid "searchallitems"
+msgstr "all items"
+
+#. Default: "items in copy"
+msgid "searchallitemsincopy"
+msgstr ""
+
+#. Default: "items to advice"
+msgid "searchallitemstoadvice"
+msgstr ""
+
+#. Default: "available meetings"
+msgid "searchallmeetings"
+msgstr "beschikbare vergaderingen"
+
+#. Default: "my items"
+msgid "searchmyitems"
+msgstr "mijn punten"
+
+# Portlet "meeting items"
+#. Default: "items"
+msgid "searchportlet_title"
+msgstr "punten"
+
+#. Default: "See everything..."
+msgid "see_everything"
+msgstr ""
+
+#. Default: "Select groups that the creator of an item will be able to choose"
+msgid "selectable_copy_groups_descr"
+msgstr "Selecteer groepen die de aanmaker van een punt zal kunnen kiezen"
+
+#. Default: "Send a test request"
+msgid "send_test_request_external_app"
+msgstr "Verzend een testverzoek"
+
+#. Default: "This short name (3 or 4 letters maximum, without special characters or accents) is used internally by PloneMeeting, ie for deriving meeting-configuration-specific item and meeting content types. Note that all content types representing 'items' share the same meta-type (=the same Python class). The same is true for all content types representing 'meetings'."
+msgid "short_name_descr"
+msgstr "This short name (3 or 4 letters maximum, without special characters or accents) is used internally by PloneMeeting, ie for deriving meeting-configuration-specific item and meeting content types. Note that all content types representing 'items' share the same meta-type (=the same Python class). The same is true for all content types representing 'meetings'."
+
+#. Default: "Show/hide already imported meetings"
+msgid "show_hide_imported_meetings"
+msgstr ""
+
+#. Default: "Signatures"
+msgid "signatures"
+msgstr "Handtekeningen"
+
+#. Default: "Persons listed hereafter may for instance appear as signatories, in the document containing decisions related to a meeting."
+msgid "signatures_descr"
+msgstr "Persons listed hereafter may for instance appear as signatories, in the document containing decisions related to a meeting."
+
+#. Default: "Check this box if you want to sort the tags in alphabetic order."
+msgid "sort_all_item_tags_descr"
+msgstr "Check this box if you want to sort the tags in alphabetic order."
+
+#. Default: "Choose the method that will define where the item will be added when inserted into a meeting.  It can be 'At the end' of the meeting, it can 'Follow proposing groups order' or it can 'Follow categories order'."
+msgid "sorting_method_on_add_item_descr"
+msgstr ""
+
+#. Default: "state_color"
+msgid "state_color"
+msgstr ""
+
+#. Default: "Choose, among this list of all roles defined in your Plone site, the one that is defined by the external task module and that allows one to create tasks."
+msgid "task_creator_role_descr"
+msgstr "Kies uit de gehele lijst van rollen gedfinieerd in je Plone site, de rol gedefinieerd door de externe taak module en deze laat toe taken aan te maken"
+
+#. Default: "Parameters related to the connection between PloneMeeting and an external module that manages tasks. This connection allows to create and associate a series of tasks to meeting items managed by PloneMeeting."
+msgid "tasks_descr"
+msgstr "Parameters gerelateerd aan de verbinding tussen PloneMeeting en de externe module die taken beheert. De verbinding laat het toe om taken te maken en een reeks taken te associeren met meeting items beheerd door PloneMeeting."
+
+#. Default: "You can connect PloneMeeting to an external module that manages tasks (ie PloneTask). This will allow you to create tasks and associate them to meeting items managed by PloneMeeting. The macro you specify here will display tasks related to a given meeting item into the page displaying details about a given meeting item."
+msgid "tasks_macro_descr"
+msgstr "Je kan PloneMeeting verbinden met een externe module die taken beheert (bvb PloneTask). Dit laat je toe taken aan te maken en ze te assiocieren met agenda items beheerd door PloneMeeting. Het sjabloon dat je hier specifieerd zal taken weergeven gerelateerd tot een bepaald meeting item in de pagina alle details weergeven van een bepaald meeting item."
+
+#. Default: "The voter himself"
+msgid "the_voter_himself"
+msgstr ""
+
+#. Default: "A title is required."
+msgid "title_required"
+msgstr "Een titel is vereist."
+
+#. Default: "Sending emails to meeting managers has been disabled. Please contact them through other means for asking them to discuss this item."
+msgid "to_discuss_ask_mail_not_sent"
+msgstr "Sending emails to meeting managers has been disabled. Please contact them through other means for asking them to discuss this item."
+
+#. Default: "A mail was sent to the meeting managers for asking them to discuss this item."
+msgid "to_discuss_ask_mail_sent"
+msgstr "A mail was sent to the meeting managers for asking them to discuss this item."
+
+#. Default: "The optional item attribute 'to discuss' allows the meeting manager to specify if an item presented to a meeting should be discussed during this meeting or if, simply, it must appear in the agenda and the meeting decisions for traceability purposes but has already led to a decision before the meeting occurrence. Check the box if you want the items to be set to 'discussed' by default."
+msgid "to_discuss_default_descr"
+msgstr "The optional item attribute 'to discuss' allows the meeting manager to specify if an item presented to a meeting should be discussed during this meeting or if, simply, it must appear in the agenda and the meeting decisions for traceability purposes but has already led to a decision before the meeting occurrence. Check the box if you want the items to be set to 'discussed' by default."
+
+#. Default: "Check the box if you want the 'late' items to be set to 'discussed' by default."
+msgid "to_discuss_late_default_descr"
+msgstr "Check the box if you want the 'late' items to be set to 'discussed' by default."
+
+#. Default: "Not to be discussed during the meeting."
+msgid "to_discuss_no"
+msgstr "Wordt niet besproken tijdens de vergadering."
+
+#. Default: "Click on the image for asking to discuss this item."
+msgid "to_discuss_no_ask_edit"
+msgstr "Klik op de afbeelding om te vragen dit punt te bespreken."
+
+#. Default: "Not to be discussed during the meeting. Click on the image for discussing the item."
+msgid "to_discuss_no_edit"
+msgstr "Wordt niet besproken tijdens de vergadering. Klik op de afbeelding om dit item wel te bespreken."
+
+#. Default: "To be discussed during the meeting."
+msgid "to_discuss_yes"
+msgstr "Te bespreken tijdens de vergadering."
+
+#. Default: "To be discussed during the meeting. Click on the image for not discussing the item."
+msgid "to_discuss_yes_edit"
+msgstr "Te bespreken tijdens de vergadering. Klik op de afbeelding om dit item niet te bespreken."
+
+#. Default: "Select here topics you want to display in the 'todo' portlet appearing on the PloneMeeting home page of the users.  If you do not select any topic, the portlet will not shows up for users"
+msgid "to_do_list_topics"
+msgstr ""
+
+#. Default: "To do"
+msgid "todo_portlet_title"
+msgstr ""
+
+#. Default: "Other parameters"
+msgid "tool_plonemeeting_misc"
+msgstr "Andere parameters"
+
+#. Default: "The result shows only elements you are allowed to view."
+msgid "topic_description"
+msgstr "Het resultaat toont slechts elementen die u mag bekijken."
+
+#. Default: "Is linked to?"
+msgid "topic_linked_to_type"
+msgstr ""
+
+#. Default: "Linked search script"
+msgid "topic_search_script"
+msgstr ""
+
+#. Default: "Display condition"
+msgid "topic_tal_expression"
+msgstr ""
+
+#. Default: "Topics defined here are used in the 3 main PloneMeeting portlets (items, meetings and decisions). We recommand not modifying them."
+msgid "topics_descr"
+msgstr "Topics defined here are used in the 3 main PloneMeeting portlets (items, meetings and decisions). We recommand not modifying them."
+
+#. Default: "An annex type is required."
+msgid "type_required"
+msgstr "Een bijlagetype wordt vereist."
+
+#. Default: "If the Python interpreter running Plone and Zope does not have the pyUNO library installed (try it by typing 'import uno'), you can specify here another Python interpreter that has it (for example, the Python interpreter coming with OpenOffice or Ubuntu)."
+msgid "uno_enabled_python"
+msgstr "If the Python interpreter running Plone and Zope does not have the pyUNO library installed (try it by typing 'import uno'), you can specify here another Python interpreter that has it (for example, the Python interpreter coming with OpenOffice or Ubuntu)."
+
+#. Default: "When PloneMeeting is in 'Restrict users' mode, the following users will still be able to consult page 'Meeting view.' Please type one user ID per line."
+msgid "unrestricted_users_descr"
+msgstr ""
+
+#. Default: "Update votes"
+msgid "update_votes"
+msgstr ""
+
+#. Default: "Check the box if you want advisers to be able to issue advices on items"
+msgid "use_advices_descr"
+msgstr ""
+
+#. Default: "Check the box if you want item creators to be able to select copy groups for this item"
+msgid "use_copies_descr"
+msgstr ""
+
+#. Default: "In PloneMeeting, for every meeting configuration, every item is defined by a category and can't belong to several categories at once. Those categories may be important, for instance when items are presented in an agenda: they may be ordered according to their category (it depends on the value of another parameter of this page). If you estimate that the PloneMeeting groups do correspond to your categories, and that you don't need one more categorization scheme, check the box."
+msgid "use_groups_as_categories_descr"
+msgstr "In PloneMeeting, for every meeting configuration, every item is defined by a category and can't belong to several categories at once. Those categories may be important, for instance when items are presented in an agenda: they may be ordered according to their category (it depends on the value of another parameter of this page). If you estimate that the PloneMeeting groups do correspond to your categories, and that you don't need one more categorization scheme, check the box."
+
+#. Default: "If you check this box, you will enable the voting system that allows meeting participants to express their vote, during the meeting, for every presented item."
+msgid "use_votes_descr"
+msgstr ""
+
+#. Default: "Select between available systems of color : no colorization mean that the items will appear as simple links, colorization based on workflow state is the default behaviour and means that the link on the item will be colored depending on his workflow state.  The new PloneMeeting color system based on last modification allows users to see in a specific color what has changed since the last time they consulted PloneMeeting pages: new items, items whose title or description has changed, newly uploaded annexes. Enabling this last feature will take more space in the Plone database, because PloneMeeting will need to remember the last access time of every item and annex for every user. Enabling this feature on a non empty database may lead to visual inconsistencies due to annexes stored in browsers' caches."
+msgid "used_color_system_descr"
+msgstr ""
+
+#. Default: "While some item attributes are fixed (the item title, the field where the decision must be written, etc), other attributes (those shown below) are optional. If you select them, they will show up at various places in the user interface (maybe in the form allowing to create items or in the table displaying items presented in a meeting...). If you want to select more than one attribute, click on them while keeping the 'control' key pressed."
+msgid "used_item_attributes_descr"
+msgstr "While some item attributes are fixed (the item title, the field where the decision must be written, etc), other attributes (those shown below) are optional. If you select them, they will show up at various places in the user interface (maybe in the form allowing to create items or in the table displaying items presented in a meeting...). If you want to select more than one attribute, click on them while keeping the 'control' key pressed."
+
+#. Default: "While some meeting attributes are fixed (the title, the date, etc), other attributes (those shown below) are optional. If you select them, they will show up at various places in the user interface (in the form allowing to create meetings, in the screen that displays information about a meeting...). If you want to select more than one attribute, click on them while keeping the 'control' key pressed."
+msgid "used_meeting_attributes_descr"
+msgstr ""
+
+#. Default: "Specify here what vote values are in use in this meeting configuration."
+msgid "used_vote_values_descr"
+msgstr ""
+
+#. Default: "Number of votes"
+msgid "vote_count"
+msgstr ""
+
+#. Default: "At least one of the counts is invalid. Please correct."
+msgid "vote_count_not_int"
+msgstr ""
+
+#. Default: "The number of votes does not correspond to the number of voters. Please correct."
+msgid "vote_count_wrong"
+msgstr ""
+
+#. Default: "Vote"
+msgid "vote_value"
+msgstr ""
+
+#. Default: "Abstain"
+msgid "vote_value_abstain"
+msgstr ""
+
+#. Default: "Does not vote"
+msgid "vote_value_does_not_vote"
+msgstr ""
+
+#. Default: "No"
+msgid "vote_value_no"
+msgstr ""
+
+#. Default: "Not consultable"
+msgid "vote_value_not_consultable"
+msgstr ""
+
+#. Default: "Not yet encoded"
+msgid "vote_value_not_yet"
+msgstr ""
+
+#. Default: "Yes"
+msgid "vote_value_yes"
+msgstr ""
+
+#. Default: "There are ${numberOfVoters} voters for this item."
+msgid "voter_count"
+msgstr ""
+
+#. Default: "You can choose here who will effectively encode the votes. Several choices are possible."
+msgid "votes_encoder_descr"
+msgstr ""
+
+#. Default: "Warning, do not forget to publish this advice if you want other users to see it!"
+msgid "warning_unpublished_advice"
+msgstr ""
+

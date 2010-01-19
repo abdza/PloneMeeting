@@ -1,0 +1,27 @@
+<tal:comment replace="nothing">
+  This macro saves the content of an Archetypes field and returns its consult view.
+  It requires a REQUEST with keys "uid", "fieldName" and "fieldContent".
+</tal:comment>
+
+<tal:saveField i18n:domain="PloneMeeting"
+     define="obj python: context.uid_catalog(UID=request.get('uid'))[0].getObject();
+             dummy python: obj.setDecision(request.get('fieldContent'));
+             mode string:view;
+             fieldName request/fieldName;
+             portal context/portal_url/getPortalObject;
+             portal_url portal/absolute_url;
+             member context/portal_membership/getAuthenticatedMember;
+             dummy python:request.RESPONSE.setHeader('Content-Type','text/html;;charset=utf-8');
+             dummy python:request.RESPONSE.setHeader('Expires', 'Mon, 11 Dec 1975 12:05:05 GMT');
+             dummy python:request.RESPONSE.setHeader('CacheControl', 'no-cache')">
+    <fieldset>
+      <legend><span>
+                <img style="cursor:pointer"
+                     tal:attributes="src string:$portal_url/edit.gif;
+                                     onClick python:'javascript:askEditZone(\'%s\', \'decision\')' % obj.UID()"/>
+              </span>
+              <span i18n:translate="decision"></span>
+      </legend>
+      <span tal:replace="structure obj/getDecision"></span>
+    </fieldset>
+</tal:saveField>

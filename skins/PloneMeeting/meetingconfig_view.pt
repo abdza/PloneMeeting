@@ -1,0 +1,934 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US" lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="PloneMeeting">
+
+<body>
+
+  <div metal:define-macro="body"
+       tal:define="mode python:'view';
+                   pageName request/pageName|string:default;
+                   schematas here/Schemata;
+                   fieldsets python:[key for key in schematas.keys() if (key != 'metadata') and (schematas[key].editableFields(here, visible_only=True))];">
+
+    <span tal:repeat="fieldset python: fieldsets + ['doc',]">
+      <tal:otherFieldset condition="python: pageName!=fieldset"><a
+        tal:attributes="href python:here.absolute_url()+'?pageName=%s'%fieldset" tal:condition="python: pageName!=fieldset">
+        [<span tal:content="fieldset" i18n:domain="plone" i18n:translate=""></span>]</a>&nbsp;
+      </tal:otherFieldset>
+      <tal:currentFieldset condition="python: pageName==fieldset"><b>[<span
+        tal:content="fieldset" i18n:domain="plone" i18n:translate=""></span>]</b>
+      </tal:currentFieldset>
+    </span><br/><br/>
+
+    <tal:mainConfig condition="python: pageName=='default'">
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('assembly')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('signatures')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%" tal:define="field python:here.getField('folderTitle')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <!-- I cannot use the standard macro for displaying this field because the
+               widget condition prevents the widget from being displayed. -->
+          <td tal:define="field python:here.getField('shortName')">
+            <b i18n:domain="PloneMeeting" i18n:translate="PloneMeeting_label_shortName"></b>:
+            <span tal:content="context/getShortName"/>
+          </td>
+          <td tal:define="field python:here.getField('isDefault')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('lastItemNumber')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('lastMeetingNumber')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('configVersion')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+
+    <tal:comment replace="nothing">Display custom fields</tal:comment>
+    <tal:customFields define="customFields python: context.getCustomFields(2)"
+                      condition="customFields">
+    <br/>
+    <fieldset>
+      <legend i18n:translate="">tool_plonemeeting_misc</legend>
+      <table width="100%" class="discreet">
+        <tr valign="top" tal:repeat="fieldLine customFields">
+          <td tal:repeat="field fieldLine">
+            <tal:thereIsAField condition="field">
+              <metal:field use-macro="here/widgets/field/macros/view" />
+            </tal:thereIsAField>
+          </td>
+        </tr>
+      </table>
+    </fieldset>
+    </tal:customFields>
+
+    </tal:mainConfig>
+
+    <tal:data condition="python: pageName=='data'">
+      <p i18n:translate="meetingconfig_data_descr"></p>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('usedItemAttributes')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%" tal:define="field python:here.getField('usedMeetingAttributes')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('useGroupsAsCategories')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('toDiscussDefault')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('toDiscussLateDefault')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('itemReferenceFormat')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('sortingMethodOnAddItem')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td colspan="2" tal:define="field python:here.getField('allItemTags')">
+            <b i18n:domain="PloneMeeting" i18n:translate="PloneMeeting_label_allItemTags"></b>:
+            <span tal:content="python: ', '.join(context.getAllItemTags().split('\n'))" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('sortAllItemTags')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('recordItemHistoryStates')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=data\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Annex types -->
+      <a name="annexTypes"></a>
+      <fieldset>
+        <legend i18n:translate="">MeetingFileTypes</legend>
+      <table tal:define="fFolder python:context.meetingfiletypes;
+                         fFolderUrl fFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="meeting_file_types_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+            <tr tal:condition="python: not fFolder.objectValues('MeetingFileType')">
+              <td colspan="3" align="center" i18n:translate="">no_meeting_file_type</td>
+            </tr>
+            <tr tal:repeat="mft python:fFolder.objectValues('MeetingFileType')">
+              <td><p tal:replace="structure python: mft.getTheIcon()"></p>&nbsp;&nbsp;<a tal:attributes="href mft/absolute_url" tal:content="mft/Title"></a>
+              </td>
+              <td tal:define="moveUrl python: fFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#annexTypes'"
+                  tal:condition="python: member.has_permission('Modify portal content', mft)" align="right">
+                <!-- Edit the file type -->
+                <form name="deleteFTForm" action="delete_givenuid">
+                  <a tal:attributes="href python: mft.absolute_url() + '/edit'">
+                    <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                  </a>
+                  <!-- Delete the file type -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value mft/UID" />
+                  <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                       onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the file type down -->
+                <a tal:condition="python: fFolder.getObjectPosition(mft.id) < len(fFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', mft.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the file type item up -->
+                <a tal:condition="python: fFolder.getObjectPosition(mft.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', mft.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/meetingfiletypes/createObject?type_name=MeetingFileType\'' % context.absolute_url()"
+                   value="PloneMeeting_add_meeting_file_type" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+      <!-- Categories -->
+      <a name="categs"></a>
+      <fieldset>
+        <legend i18n:translate="">Categories</legend>
+      <table tal:define="cFolder python:context.categories;
+                         cFolderUrl cFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="categories_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+            <tr tal:condition="python: not cFolder.objectValues('MeetingCategory')">
+              <td colspan="2" align="center" i18n:translate="">no_category</td>
+            </tr>
+            <tr tal:repeat="categ python:cFolder.objectValues('MeetingCategory')">
+              <td><a tal:attributes="href categ/absolute_url" tal:content="categ/Title"></a>
+              </td>
+              <td tal:define="moveUrl python: cFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#categs'"
+                  tal:condition="python: member.has_permission('Modify portal content', categ)" align="right">
+                <!-- Edit the category -->
+                <form name="deleteCatForm" action="delete_givenuid">
+                <a tal:attributes="href python: categ.absolute_url() + '/edit'">
+                  <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Delete the category -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value categ/UID"/>
+                    <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                         onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the category down -->
+                <a tal:condition="python: cFolder.getObjectPosition(categ.id) < len(cFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', categ.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the item up -->
+                <a tal:condition="python: cFolder.getObjectPosition(categ.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', categ.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/categories/createObject?type_name=MeetingCategory\'' % context.absolute_url()"
+                   value="PloneMeeting_add_category" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+      <!-- Classifiers -->
+      <a name="classifiers"></a>
+      <fieldset>
+        <legend i18n:translate="">Classifiers</legend>
+      <table tal:define="cFolder python:context.classifiers;
+                         cFolderUrl cFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="classifiers_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+            <tr tal:condition="python: not cFolder.objectValues('MeetingCategory')">
+              <td colspan="2" align="center" i18n:translate="">no_classifier</td>
+            </tr>
+            <tr tal:repeat="categ python:cFolder.objectValues('MeetingCategory')">
+              <td><a tal:attributes="href categ/absolute_url" tal:content="categ/Title"></a>
+              </td>
+              <td tal:define="moveUrl python: cFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#categs'"
+                  tal:condition="python: member.has_permission('Modify portal content', categ)" align="right">
+                <form name="deleteCatForm" action="delete_givenuid">
+                <!-- Edit the category -->
+                <a tal:attributes="href python: categ.absolute_url() + '/edit'">
+                  <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Delete the category -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value categ/UID"/>
+                    <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                         onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the category down -->
+                <a tal:condition="python: cFolder.getObjectPosition(categ.id) < len(cFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', categ.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the item up -->
+                <a tal:condition="python: cFolder.getObjectPosition(categ.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', categ.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/classifiers/createObject?type_name=MeetingCategory\'' % context.absolute_url()"
+                   value="PloneMeeting_add_classifier" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+      <!-- Recurring items -->
+      <a name="recItems"></a>
+      <fieldset>
+        <legend i18n:translate="">RecurringItems</legend>
+      <table tal:define="rFolder python:context.recurringitems;
+                         rFolderUrl rFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="recurring_items_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th width="30%" i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th width="30%" i18n:translate="meeting_item_description"></th>
+              <th width="30%" i18n:translate="PloneMeeting_label_meetingTransitionInsertingMe"></th>
+              <th width="10%" i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+            <tr tal:condition="python: not rFolder.objectValues('MeetingItem')">
+              <td colspan="4" align="center" i18n:translate="">no_recurring_item</td>
+            </tr>
+            <tr tal:repeat="item python:rFolder.objectValues('MeetingItem')">
+              <td><a tal:attributes="href item/absolute_url" tal:content="item/Title"></a></td>
+              <td tal:content="structure item/Description"></td>
+              <td tal:content="item/getMeetingTransitionInsertingMe" i18n:translate="" i18n:domain="plone"></td>
+              <td align="right"
+                  tal:define="moveUrl python: rFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#recItems'"
+                  tal:condition="python: member.has_permission('Modify portal content', item)">
+                <form name="deleteItemForm" action="delete_givenuid">
+                <!-- Edit the item -->
+                <a tal:attributes="href python: item.absolute_url() + '/edit'">
+                  <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Delete the item -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value item/UID"/>
+                    <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                         onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the item down -->
+                <a tal:condition="python: rFolder.getObjectPosition(item.id) < len(rFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', item.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the item up -->
+                <a tal:condition="python: rFolder.getObjectPosition(item.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', item.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right" tal:define="itemType python: 'MeetingItem' + context.getShortName()">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/recurringitems/createObject?type_name=%s\'' % (context.absolute_url(), itemType)"
+                   value="PloneMeeting_add_recurring_item" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+      <tal:comment replace="nothing">Meeting users</tal:comment>
+      <a name="meetingUsers"></a>
+      <fieldset>
+        <legend i18n:translate="">MeetingUsers</legend>
+      <table tal:define="mFolder python:context.meetingusers;
+                         mFolderUrl mFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="meeting_users_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th width="20%" i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th width="20%" i18n:translate="PloneMeeting_label_ploneUserId"></th>
+              <th width="20%" i18n:translate="PloneMeeting_label_duty"></th>
+              <th width="20%" i18n:translate="PloneMeeting_label_usages"></th>
+              <th width="8%" i18n:translate="pod_template_is_active"></th>
+              <th width="12%" i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+            <tr tal:condition="python: not mFolder.objectValues('MeetingUser')">
+              <td colspan="6" align="center" i18n:translate="">no_meeting_user</td>
+            </tr>
+            <tr tal:repeat="mUser python:mFolder.objectValues('MeetingUser')">
+              <td><a tal:attributes="href mUser/absolute_url" tal:content="mUser/Title"></a></td>
+              <td tal:content="mUser/ploneUserId"></td>
+              <td tal:content="mUser/duty"></td>
+              <td tal:define="usageIds mUser/usages"
+                  tal:content="python: ', '.join([context.utranslate('meeting_user_usage_%s' % u, domain='PloneMeeting') for u in usageIds])">
+              </td>
+              <tal:comment replace="nothing">Active ?</tal:comment>
+              <td tal:define="isActive python: here.portal_workflow.getInfoFor(mUser, 'review_state') == 'active'"
+                  i18n:domain="plone">
+                <span tal:condition="isActive" i18n:translate="">Yes</span>
+                <span tal:condition="not: isActive" i18n:translate="">No</span>
+              </td>
+              <td align="right"
+                  tal:define="moveUrl python: mFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#meetingUsers'"
+                  tal:condition="python: member.has_permission('Modify portal content', mUser)">
+                <form name="deleteItemForm" action="delete_givenuid">
+                <!-- Edit the user -->
+                <a tal:attributes="href python: mUser.absolute_url() + '/edit'">
+                  <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Delete the user -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value mUser/UID"/>
+                    <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                         onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the user down -->
+                <a tal:condition="python: mFolder.getObjectPosition(mUser.id) < len(mFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', mUser.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the user up -->
+                <a tal:condition="python: mFolder.getObjectPosition(mUser.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', mUser.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/meetingusers/createObject?type_name=MeetingUser\'' % context.absolute_url()"
+                   value="PloneMeeting_add_meeting_user" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+    </tal:data>
+
+
+    <tal:workflow condition="python: pageName=='workflow'">
+      <p i18n:translate="meetingconfig_workflow_descr"></p>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('itemWorkflow')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('itemConditionsInterface')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%" tal:define="field python:here.getField('itemActionsInterface')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('meetingWorkflow')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('meetingConditionsInterface')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('meetingActionsInterface')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td></td>
+          <td tal:define="field python:here.getField('adviceConditionsInterface')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('adviceActionsInterface')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=workflow\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+    </tal:workflow>
+
+    <tal:gui condition="python: pageName=='gui'">
+      <p i18n:translate="meetingconfig_gui_descr"></p>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('itemTopicStates')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('meetingTopicStates')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%" tal:define="field python:here.getField('decisionTopicStates')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('maxShownMeetings')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('maxDaysDecisions')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('meetingAppDefaultView')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('itemsListVisibleColumns')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('enableDuplication')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('maxShownAvailableItems')">
+              <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('maxShownMeetingItems')">
+              <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('maxShownLateItems')">
+              <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('enableGotoPage')">
+              <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('enableGotoItem')">
+              <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('openAnnexesInSeparateWindows')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('toDoListTopics')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=gui\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+
+      <!-- Topics -->
+      <a name="topics"></a>
+      <fieldset>
+        <legend i18n:translate="">Topics</legend>
+        <!-- Show the existing topics and a 'add new topic' button -->
+        <table tal:define="tFolder python:context.topics;
+                           tFolderUrl tFolder/absolute_url" width="100%">
+        <tr valign="top">
+         <td width="50%"><p class="discreet" i18n:translate="topics_descr"></p></td>
+        </tr>
+        <tr valign="top">
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th i18n:translate="topic_linked_to_type">Linked to Meeting or MeetingItem?</th>
+              <th i18n:translate="topic_search_script">Topic search script</th>
+              <th i18n:translate="topic_tal_expression">Topic tal expression</th>
+              <th i18n:translate="pod_template_is_active"></th>
+              <th i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+
+            <!-- No topic is defined -->
+            <tr tal:condition="python: not tFolder.objectValues('ATTopic')">
+              <td colspan="3" align="center" i18n:translate="">no_topic_folder</td>
+            </tr>
+
+            <!-- List of defined topics -->
+            <tal:loop repeat="topic python:tFolder.objectValues('ATTopic')">
+            <tr tal:define="icon topic/getIcon">
+
+              <!-- Title -->
+              <td><a i18n:translate="" tal:attributes="href topic/absolute_url" tal:content="topic/Title"></a></td>
+
+              <!-- Linked to type -->
+              <td><p i18n:translate="" tal:content="python: topic.getProperty('meeting_topic_type')">Meeting or Item</p></td>
+
+              <!-- Linked search script -->
+              <td><p i18n:translate="" tal:content="python: topic.getProperty('topic_search_script')">Topic search script Id</p></td>
+
+              <!-- Display condition -->
+              <td><p i18n:translate="" tal:content="python: topic.getProperty('topic_tal_expression')">Meeting or Item</p></td>
+
+              <!-- Active ? -->
+              <td tal:define="isActive python: here.portal_workflow.getInfoFor(topic, 'review_state') == 'active'"
+                  i18n:domain="plone">
+                <span tal:condition="isActive" i18n:translate="">Yes</span>
+                <span tal:condition="not: isActive" i18n:translate="">No</span>
+              </td>
+
+              <!-- Actions -->
+              <td tal:define="moveUrl python: tFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#topics'"
+                  tal:condition="python: member.has_permission('Modify portal content', topic)" align="right">
+                <!-- Edit the topic-->
+                <form name="deleteTopicForm" action="delete_givenuid">
+                  <a tal:attributes="href python: topic.absolute_url() + '/edit'">
+                    <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                  </a>
+                  <!-- Delete the topic -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value topic/UID" />
+                  <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                       onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the topic down -->
+                <a tal:condition="python: tFolder.getObjectPosition(topic.id) < len(tFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', topic.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the topic up -->
+                <a tal:condition="python: tFolder.getObjectPosition(topic.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', topic.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </tal:loop>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <br />
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/topics/createObject?type_name=Topic\'' % context.absolute_url()"
+                   value="add_topic" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+    </tal:gui>
+
+    <tal:mail condition="python: pageName=='mail'">
+      <p i18n:translate="meetingconfig_mail_descr"></p>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('mailItemEvents')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('mailMeetingEvents')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%"></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=mail\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+    </tal:mail>
+
+    <tal:tasks condition="python: pageName=='tasks'">
+      <p i18n:translate="tasks_descr"></p>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('tasksMacro')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('taskCreatorRole')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%"></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=tasks\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+    </tal:tasks>
+
+    <tal:advices condition="python: pageName=='advices'">
+      <p i18n:translate="meetingconfig_advice_descr"></p>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="50%" tal:define="field python:here.getField('useAdvices')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="50%" tal:define="field python:here.getField('optionalAdvisers')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td tal:define="field python:here.getField('useCopies')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td tal:define="field python:here.getField('selectableCopyGroups')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr>
+          <td colspan="2" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=advices\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+
+     <!-- Agreementlevels -->
+      <a name="agreementLevels"></a>
+      <fieldset>
+        <legend i18n:translate="agreement_levels_config">AgreementLevels</legend>
+      <table tal:define="alFolder python:context.agreementlevels;
+                         alFolderUrl alFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="agreement_levels_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" width="100%">
+            <tr>
+              <th i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th i18n:translate="pod_template_is_active"></th>
+              <th i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+
+            <!-- No agreementlevel defined -->
+            <tr tal:condition="python: not alFolder.objectValues('MeetingAdviceAgreementLevel')">
+              <td colspan="3" align="center" i18n:translate="no_agreement_level"></td>
+            </tr>
+
+            <!-- List of defined agreementlevels -->
+            <tr tal:repeat="maal python:alFolder.objectValues('MeetingAdviceAgreementLevel')">
+              <td><p tal:replace="structure python: maal.getTheIcon()"></p>&nbsp;&nbsp;<a tal:attributes="href maal/absolute_url" tal:content="maal/Title"></a>
+              </td>
+
+              <!-- Active ? -->
+              <td tal:define="isActive python: here.portal_workflow.getInfoFor(maal, 'review_state') == 'active'"
+                  i18n:domain="plone">
+                <span tal:condition="isActive" i18n:translate="">Yes</span>
+                <span tal:condition="not: isActive" i18n:translate="">No</span>
+              </td>
+
+              <!-- Actions -->
+              <td tal:define="moveUrl python: alFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#agreementLevels'"
+                  tal:condition="python: member.has_permission('Modify portal content', maal)" align="right">
+                <!-- Edit the agreementlevel -->
+                <form name="deleteFTForm" action="delete_givenuid">
+                  <a tal:attributes="href python: maal.absolute_url() + '/edit'">
+                    <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                  </a>
+                  <!-- Delete the agreementlevel -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value maal/UID" />
+                  <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                       onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the agreementlevel down -->
+                <a tal:condition="python: alFolder.getObjectPosition(maal.id) < len(alFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', maal.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the agreementlevel up -->
+                <a tal:condition="python: alFolder.getObjectPosition(maal.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', maal.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/agreementlevels/createObject?type_name=MeetingAdviceAgreementLevel\'' % context.absolute_url()"
+                   value="PloneMeeting_add_agreement_level" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+    </tal:advices>
+
+    <tal:votes condition="python: pageName=='votes'">
+      <legend i18n:translate="votes" i18n:domain="plone"></legend>
+      <table width="100%" class="discreet">
+        <tr valign="top">
+          <td width="33%" tal:define="field python:here.getField('useVotes')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="34%" tal:define="field python:here.getField('votesEncoder')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td width="33%" tal:define="field python:here.getField('usedVoteValues')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+        </tr>
+        <tr valign="top">
+          <td width="34%" tal:define="field python:here.getField('defaultVoteValue')">
+            <span metal:use-macro="here/widgets/field/macros/view" />
+          </td>
+          <td></td>
+          <td></td>
+        </tr>
+        <tr>
+          <td colspan="3" align="right">
+            <input type="button" i18n:domain="plone" value="Edit" i18n:attributes="value"
+                   tal:attributes="onClick python: 'href: window.location=\'%s/base_edit?fieldset=votes\'' % context.absolute_url()"/>
+          </td>
+        </tr>
+      </table>
+    </tal:votes>
+
+    <tal:doc condition="python: pageName=='doc'">
+    <p i18n:translate="meetingconfig_doc_descr"></p>
+
+     <!-- POD templates -->
+      <a name="podTemplates"></a>
+      <fieldset>
+        <legend i18n:translate="">PodTemplates</legend>
+      <table tal:define="pFolder python:context.podtemplates;
+                         pFolderUrl pFolder/absolute_url" width="100%">
+        <tr valign="top">
+          <td><p class="discreet" i18n:translate="pod_templates_descr"></p></td>
+        </tr>
+        <tr>
+          <td>
+          <table class="vertical listing" align="right" width="100%">
+            <tr>
+              <th width="20px"></th>
+              <th i18n:translate="listingheader_title" i18n:domain="plone"></th>
+              <th i18n:translate="pod_template_is_active"></th>
+              <th i18n:translate="heading_actions" i18n:domain="plone"></th>
+            </tr>
+
+            <!-- No template is defined -->
+            <tr tal:condition="python: not pFolder.objectValues('PodTemplate')">
+              <td colspan="4" align="center" i18n:translate="">no_pod_folder</td>
+            </tr>
+
+            <!-- List of defined templates -->
+            <tr tal:repeat="podt python:pFolder.objectValues('PodTemplate')">
+
+              <!-- Icon -->
+              <td align="center"><img tal:define="fmt podt/getPodFormat"
+                                      tal:attributes="src string: $portal_url/$fmt.png"/></td>
+
+              <!-- Title -->
+              <td><a tal:attributes="href podt/absolute_url" tal:content="podt/Title"></a></td>
+
+              <!-- Active ? -->
+              <td tal:define="isActive python: here.portal_workflow.getInfoFor(podt, 'review_state') == 'active'"
+                  i18n:domain="plone">
+                <span tal:condition="isActive" i18n:translate="">Yes</span>
+                <span tal:condition="not: isActive" i18n:translate="">No</span>
+              </td>
+
+              <!-- Actions -->
+              <td tal:define="moveUrl python: pFolderUrl + '/folder_position?position=%s&id=%s&template_id=../#podTemplates'"
+                  tal:condition="python: member.has_permission('Modify portal content', podt)" align="right">
+                <!-- Edit the pod template-->
+                <form name="deletePodTemplateForm" action="delete_givenuid">
+                  <a tal:attributes="href python: podt.absolute_url() + '/edit'">
+                    <img src="edit.gif" title="label_edit" i18n:domain="plone" i18n:attributes="title" />
+                  </a>
+                  <!-- Delete the pod template -->
+                  <input type="hidden" name="selected_uid" tal:attributes="value podt/UID" />
+                  <img src="delete_icon.gif" title="label_remove" i18n:domain="plone" i18n:attributes="title"
+                       onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+                <!-- Move the pod template down -->
+                <a tal:condition="python: pFolder.getObjectPosition(podt.id) < len(pFolder.objectValues())-1"
+                   tal:attributes="href python: moveUrl % ('down', podt.id)">
+                   <img src="arrowDown.gif" title="title_move_item_down"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                <!-- Move the pod template up -->
+                <a tal:condition="python: pFolder.getObjectPosition(podt.id) > 0"
+                   tal:attributes="href python: moveUrl % ('up', podt.id)">
+                   <img src="arrowUp.gif" title="title_move_item_up"
+                        i18n:domain="plone" i18n:attributes="title" />
+                </a>
+                </form>
+              </td>
+            </tr>
+            </table>
+          </td>
+        </tr>
+        <tr>
+          <td align="right">
+            <input type="button" tal:attributes="onClick python: 'href: window.location=\'%s/podtemplates/createObject?type_name=PodTemplate\'' % context.absolute_url()"
+                   value="PloneMeeting_add_pod_template" i18n:attributes="value"/>
+          </td>
+        </tr>
+      </table>
+      </fieldset>
+
+    </tal:doc>
+
+  <br/>
+  </div>
+
+  <div metal:define-macro="folderlisting">
+  </div>
+
+  <div metal:define-macro="footer">
+    <a tal:attributes="href python: context.getParentNode().absolute_url()" i18n:translate="back"></a>
+  </div>
+</body>
+</html>

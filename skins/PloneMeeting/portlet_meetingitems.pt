@@ -1,0 +1,40 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="PloneMeeting">
+      
+<body>
+
+<div metal:define-macro="portlet" tal:define="tool python:context.portal_plonemeeting"
+     tal:condition="python: tool.isPloneMeetingUser() and tool.isInPloneMeeting(context)">
+
+<metal:block metal:use-macro="here/global_defines/macros/defines" />
+
+<dl class="portlet"
+    tal:define="mtool python: context.portal_membership;
+                meetingConfig python:tool.getMeetingConfig(context);
+                meetingFolder python:tool.getPloneMeetingFolder(meetingConfig.getId());
+                itemStates meetingConfig/getItemTopicStates;
+                userIsAmongCreators python: tool.userIsAmong('creators')"
+    tal:condition="python: itemStates or userIsAmongCreators">
+
+    <dt class="portletHeader" i18n:translate="">searchportlet_title</dt>
+
+    <tal:comment replace="nothing">Create a new item</tal:comment>
+    <dt class="portletMeetingItem" tal:condition="userIsAmongCreators">
+      <a tal:condition="python: not tool.getPloneDiskAware()"
+         tal:attributes="href python:meetingFolder.absolute_url() + '/createObject?type_name=MeetingItem' + meetingConfig.getShortName()" i18n:translate="create_meeting_item"></a>
+    </dt>
+
+    <tal:comment replace="nothing">Item-related topics</tal:comment>
+    <tal:entry condition="python: hasattr(meetingConfig, 'topics')"
+               repeat="topic python: meetingConfig.getTopics('MeetingItem')">
+      <dt class="#" tal:condition="python: member.has_permission('View', topic[0])" tal:attributes="class python: test(topic[0].id == context.REQUEST.form.get('search', ''), 'portletMeetingItem portletMeetingElementSelected', 'portletMeetingItem')">
+        <a tal:attributes="href python: meetingFolder.absolute_url() + '/plonemeeting_topic_view?search=%s&scriptId=%s' % (topic[0].getId(), topic[1])"
+           i18n:translate="" tal:content="python: topic[0].Title() or topic[0].getId()">Topic id</a>
+      </dt>
+    </tal:entry>
+</dl>
+</div>
+</body>
+</html>

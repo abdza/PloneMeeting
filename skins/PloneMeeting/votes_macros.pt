@@ -1,0 +1,163 @@
+<div metal:define-macro="votesForm" i18n:domain="PloneMeeting"
+     tal:define="tool python:context.portal_plonemeeting;
+                 meetingConfig python: tool.getMeetingConfig(here);
+                 usedVoteValues meetingConfig/getUsedVoteValues;
+                 global showUpdateButton python:False;
+                 secret context/getVotesAreSecret;
+                 voters context/getMeetingUsers">
+
+  <tal:comment replace="nothing">Item header (title, reference, etc)</tal:comment>
+  <metal:header use-macro="here/meetingitems_navigation/macros/itemHeader"/>
+
+  <br/>
+  <form name="updateVotesForm" action="votes_update" method="post">
+
+  <tal:comment replace="nothing">Table that shows the (non-secret) votes for this item.</tal:comment>
+  <table class="vertical listing" width="100%" tal:condition="not:secret">
+    <input type="hidden" name="form.submitted" value="1" />
+    <tr>
+      <th i18n:translate="">meeting_user_usage_voter</th>
+      <th i18n:translate="">PloneMeeting_label_ploneUserId</th>
+      <th i18n:translate="">vote_value</th>
+    </tr>
+    <tr tal:repeat="voter voters">
+      <td tal:content="voter/Title"></td>
+      <td tal:content="voter/ploneUserId"></td>
+      <tal:vote define="mayConsultVote python: voter.adapted().mayConsultVote(member, context);
+                        mayEditVote python: voter.adapted().mayEditVote(member, context);
+                        voterId voter/getPloneUserId;
+                        voteValue python: context.getVoteValue(voterId);
+                        global showUpdateButton python: test(mayEditVote, True, showUpdateButton)">
+        <td align="center">
+          <tal:comment replace="nothing">For users that can't consult neither edit the vote value</tal:comment>
+          <span id="vote-not_consultable" tal:condition="python: not mayConsultVote and not mayEditVote"
+                i18n:translate="vote_value_not_consultable"></span>
+          <tal:comment replace="nothing">For users that can consult the vote value but not edit it.</tal:comment>
+          <span tal:condition="python: mayConsultVote and not mayEditVote" i18n:translate=""
+                tal:content="python: 'vote_value_%s' % voteValue">
+          </span>
+          <tal:comment replace="nothing">For users that can consult and edit the vote.</tal:comment>
+          <tal:editField condition="python: mayConsultVote and mayEditVote"
+                         define="widgetName python: 'vote_value_%s' % voterId">
+            <tal:voteNotYet define="widgetId python:'vote_value_not_yet_%s' % voterId"
+                 condition="python: 'not_yet' in usedVoteValues">
+              <input type="radio" class="noborder" value="not_yet"
+                     tal:attributes="name widgetName;
+                                     id widgetId;
+                                     checked python: voteValue == 'not_yet'"/>
+              <label id="vote-not_yet" tal:attributes="for widgetId" i18n:translate="vote_value_not_yet"></label>&nbsp;&nbsp;
+            </tal:voteNotYet>
+            <tal:voteYes define="widgetId python:'vote_value_yes_%s' % voterId"
+                         condition="python: 'yes' in usedVoteValues">
+              <input type="radio" class="noborder" value="yes"
+                     tal:attributes="name widgetName;
+                                     id widgetId;
+                                     checked python: voteValue == 'yes'"/>
+              <label id="vote-yes" tal:attributes="for widgetId" i18n:translate="vote_value_yes"></label>&nbsp;&nbsp;
+            </tal:voteYes>
+            <tal:voteNo define="widgetId python:'vote_value_no_%s' % voterId"
+                        condition="python: 'no' in usedVoteValues">
+              <input type="radio" class="noborder" value="no"
+                     tal:attributes="name widgetName;
+                                     id widgetId;
+                                     checked python: voteValue == 'no'"/>
+              <label id="vote-no" tal:attributes="for widgetId" i18n:translate="vote_value_no"></label>&nbsp;&nbsp;
+            </tal:voteNo>
+            <tal:voteAbstain define="widgetId python:'vote_value_abstain_%s' % voterId"
+                             condition="python: 'abstain' in usedVoteValues">
+              <input type="radio" class="noborder" value="abstain"
+                     tal:attributes="name widgetName;
+                                     id widgetId;
+                                     checked python: voteValue == 'abstain'"/>
+              <label id="vote-abstain" tal:attributes="for widgetId" i18n:translate="vote_value_abstain"></label>
+            </tal:voteAbstain>
+            <tal:voteDoesNot define="widgetId python:'vote_value_does_not_vote_%s' % voterId"
+                             condition="python: 'does_not_vote' in usedVoteValues">
+              <input type="radio" class="noborder" value="does_not_vote"
+                     tal:attributes="name widgetName;
+                                     id widgetId;
+                                     checked python: voteValue == 'does_not_vote'"/>
+              <label  id="vote-does_not_vote" tal:attributes="for widgetId" i18n:translate="vote_value_does_not_vote"></label>
+            </tal:voteDoesNot>
+          </tal:editField>
+        </td>
+      </tal:vote>
+    </tr>
+  </table>
+
+
+  <tal:comment replace="nothing">Table showing secret votes (number of votes only)</tal:comment>
+  <tal:secretVotes condition="secret">
+  <p i18n:translate="voter_count"><span i18n:name="numberOfVoters" tal:content="python:len(voters)"></span></p>
+  <table class="vertical listing" width="100%"
+         tal:define="global showUpdateButton context/mayEditVotes;
+                            mayEditVotes showUpdateButton;
+                            mayConsultVotes context/mayConsultVotes">
+
+    <input type="hidden" name="form.submitted" value="1" />
+    <tr>
+      <th i18n:translate="">vote_value</th>
+      <th i18n:translate="">vote_count</th>
+    </tr>
+    <tr tal:repeat="voteValue usedVoteValues">
+      <td i18n:translate="" tal:content="python: 'vote_value_%s' % voteValue"></td>
+      <td tal:define="voteCount python: context.getVoteCount(voteValue);
+                      widgetName python: 'vote_count_%s' % voteValue">
+        <tal:comment replace="nothing">Display an editable number of votes</tal:comment>
+        <input tal:condition="mayEditVotes" type="text" size="3"
+               tal:attributes="value voteCount; name widgetName"/>
+
+        <tal:comment replace="nothing">Display the number of votes</tal:comment>
+        <span tal:condition="python: mayConsultVotes and not mayEditVotes" tal:content="voteCount"></span>
+
+        <tal:comment replace="nothing">Display nothing</tal:comment>
+        <span tal:condition="python: not mayConsultVotes and not mayEditVotes"
+              i18n:translate="vote_value_not_consultable"></span>
+      </td>
+    </tr>
+  </table>
+  </tal:secretVotes>
+
+  <p tal:condition="showUpdateButton"><br/>
+    <input class="context" type="submit" name="form.button.UpdateVotes"
+           value="update_votes" i18n:attributes="value" /></p>
+  </form>
+ </div>
+
+<tal:comment replace="nothing">List of votes as shown on meetingitem_view</tal:comment>
+<div metal:define-macro="votesItem" i18n:domain="PloneMeeting"
+     tal:define="secret context/getVotesAreSecret">
+
+  <tal:notSecret tal:condition="not: secret">
+  <table tal:define="votesByValue meetingItem/getVotesByValue"
+         tal:condition="votesByValue" class="no-style-table agLevelItemTable" >
+    <tr>
+     <td tal:repeat="vote votesByValue" width=150>
+      <div tal:define="voteValue python: vote[0]; voters python: vote[1]">
+       <div id="#" tal:attributes="id string:vote-${voteValue}" i18n:translate="" tal:content="python: 'vote_value_%s' % voteValue">
+       </div>
+       <ul>
+        <li tal:repeat="voter voters">
+         <span tal:content="python: '%s (%s)' % (voter.title, voter.ploneUserId)" />
+        </li>
+       </ul>
+       <span tal:condition="not: python: voters">-</span>
+      </div>
+     </td>
+    </tr>
+  </table>
+  </tal:notSecret>
+  <tal:secret condition="secret">
+  <tal:votes define="mayConsultVotes context/mayConsultVotes">
+  <table tal:condition="mayConsultVotes">
+    <tr>
+      <td tal:repeat="voteValue meetingConfig/getUsedVoteValues">
+        <span i18n:translate="" tal:content="python: 'vote_value_%s' % voteValue"></span>:
+        <span tal:replace="python: context.getVoteCount(voteValue)"></span>&nbsp;&nbsp;
+      </td>
+    </tr>
+  </table>
+  <p tal:condition="not: mayConsultVotes" i18n:translate="vote_value_not_consultable"></p>
+  </tal:votes>
+  </tal:secret>
+</div>

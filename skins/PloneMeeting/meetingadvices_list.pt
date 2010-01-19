@@ -1,0 +1,165 @@
+<!-- Requires defined element "meetingAdvices" -->
+
+<div metal:define-macro="meetingAdvicesList" i18n:domain="PloneMeeting"
+     tal:define="tool python:context.portal_plonemeeting">
+
+  <script language="javascript">
+  <!--
+  function onImageButtonFocus(adviceNumber) {
+    var imageButtons = cssQuery('#moveImageButton');
+    for (var i=0; i<imageButtons.length; i++) {
+        if (imageButtons[i].value != adviceNumber) {
+            imageButtons[i].style.visibility = 'hidden';
+        }
+        else {
+            imageButtons[i].style.visibility = 'visible';
+            cssQuery('#moveValue_' + adviceNumber)[0].select();
+        }
+    }
+  }
+
+    // Function that, depending on parameter mustShow, shows or hides the descriptions.
+    function setDescriptionsVisiblity(mustShow) {
+      var pmDescriptions = cssQuery('#pmDescription');
+      var tdIcon = document.getElementById('icon-toggleDescriptions');
+      for (var i=0; i<pmDescriptions.length; i++) {
+        var elem = pmDescriptions[i];
+        if (mustShow) {
+          // Show the descriptions
+          addClassName(elem, 'pmExpanded');
+          elem.style.display = 'inline';
+          tdIcon.src = 'collapseDescrs.png';
+          createCookie('pmShowDescriptions', 'true');
+        }
+        else {
+          // Hide the descriptions
+          removeClassName(elem, 'pmExpanded');
+          elem.style.display = 'none';
+          tdIcon.src = 'expandDescrs.png';
+          createCookie('pmShowDescriptions', 'false');
+        }
+      }
+    };
+
+    // Function that toggles the descriptions visibility
+    function toggleAdvicesDescriptions() {
+      if (readCookie('pmShowDescriptions') == 'true') {
+         // Descriptions are not shown. So show them.
+         setDescriptionsVisiblity(false);
+      }
+      else {
+         // Descriptions are not shown. So show them.
+         setDescriptionsVisiblity(true);
+      }
+    };
+    // On page display, must I show the item descriptions or not?
+    function toggleDescriptionsLoad() {
+      if (readCookie('pmShowDescriptions') == null){
+          // No cookie? By default create one that shows the descriptions.
+          createCookie('pmShowDescriptions', 'true')
+      }
+      if (readCookie('pmShowDescriptions') == 'true') {
+         // Descriptions are not shown. So show them.
+         setDescriptionsVisiblity(true);
+      }
+      else {
+         // Descriptions are shown. So hide them.
+         setDescriptionsVisiblity(false);
+      }
+    };
+    // toggleDescriptionsLoad will be called when a page is loaded.
+    registerPloneFunction(toggleDescriptionsLoad)
+
+  -->
+  </script>
+
+  <!-- No meeting advices around -->
+  <div tal:condition="not: meetingAdvices" i18n:translate="no_shown_advices" class="discreet">No meeting advices</div>
+  <!-- There are meeting advices -->
+  <table class="vertical listing" width="100%" i18n:domain="plone" tal:condition="meetingAdvices"
+         tal:define="global shownAdvices python:0;
+                     showActionColumn here/mayReviewAdvice">
+
+    <!-- Column headers -->
+    <tr>
+
+      <!-- Agreement level -->
+      <th i18n:translate="PloneMeeting_label_agreementLevel" i18n:domain="PloneMeeting"></th>
+
+      <!-- Title with description -->
+      <th width="55%">
+        <span i18n:translate="listingheader_title"></span><span i18n:domain="PloneMeeting"
+          id="pmDescription" class="pmExpanded" i18n:translate="and_description">Title and description</span>
+      </th>
+
+      <!-- Advice creator -->
+      <th i18n:translate="pm_creator" i18n:domain="PloneMeeting">Advice creator</th>
+
+      <!-- State -->
+      <th i18n:translate="State" i18n:domain="plone">State</th>
+
+      <!-- Actions -->
+      <th i18n:translate="heading_actions"
+          tal:condition="showActionColumn">Actions</th>
+
+    </tr>
+    <span tal:omit-tag="" tal:repeat="adviceInfo meetingAdvices">
+      <tr valign="top" tal:define="agLevelMsgId python:adviceInfo['agLevel_Title'];
+                                   existingAdvice python:adviceInfo.has_key('uid');
+                                   global shownAdvices python:shownAdvices+1">
+
+        <!-- Agreement level -->
+        <td>
+          <img tal:attributes="src python:adviceInfo['agLevel_iconUrl']; alt agLevelMsgId; title agLevelMsgId"
+              i18n:attributes="alt; title" i18n:domain="PloneMeeting"/>
+          <span i18n:translate="" tal:content="agLevelMsgId" i18n:domain="PloneMeeting"/>
+        </td>
+
+        <tal:existing_advice tal:condition="existingAdvice">
+          <tal:info tal:define="advice python: context.uid_catalog(UID=adviceInfo['uid'])[0].getObject()">
+            <!-- Title with description -->
+            <td valign="top" class="pmLinks">
+                <span tal:replace="structure python: tool.getColoredLink(adviceInfo, showColors)"/>
+                <span i18n:domain="PloneMeeting" id="pmDescription" class="pmExpanded">
+                  <span tal:condition="not: advice/descriptionFieldIsEmpty"
+                      tal:content="structure advice/Description"></span>
+                </span>
+            </td>
+
+            <tal:comment replace="nothing">Advice creator</tal:comment>
+            <td><span tal:content="python: tool.getUserName(adviceInfo['creator'])"></span></td>
+
+            <!-- State -->
+            <td tal:define="obj python: context.uid_catalog(UID=adviceInfo['uid'])[0].getObject()">
+              <span i18n:translate="" tal:content="obj/queryState"></span>
+            </td>
+
+            <!-- Actions -->
+            <td align="center" tal:define="itemOrMeeting python: advice;
+                                           showIcons python:True;"
+                tal:condition="showActionColumn">
+              <div metal:use-macro="here/plonemeeting_actions/macros/ploneMeetingActions" />
+            </td>
+
+            <!-- remember access -->
+            <span tal:define="dummy python: context.portal_plonemeeting.rememberAccess(adviceInfo['uid'])"></span>
+
+          </tal:info>
+        </tal:existing_advice>
+
+        <tal:missing_advice tal:condition="python:not existingAdvice">
+          <td>
+            <span tal:content="python: adviceInfo['adviser_Title']"></span>
+          </td>
+          <td>&nbsp;</td>
+          <td>&nbsp;</td>
+          <td tal:condition="showActionColumn">&nbsp;</td>
+        </tal:missing_advice>
+
+      </tr>
+    </span>
+    <tr><td colspan="30" tal:condition="not: shownAdvices" i18n:translate="no_shown_advices"
+            i18n:domain="PloneMeeting">No advices issued for the moment.</td></tr>
+  </table>
+
+</div>

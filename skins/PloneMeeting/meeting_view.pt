@@ -1,0 +1,408 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en-US" lang="en-US"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="PloneMeeting">
+
+<body metal:fill-slot="main"
+      tal:define="meetingConfig python:context.portal_plonemeeting.getMeetingConfig(context);
+                  meetingUid context/UID;
+                  iStartNumber python: context.getBatchStartNumber(late=False);
+                  lStartNumber python: context.getBatchStartNumber(late=True);
+                  showColors context/portal_plonemeeting/showColorsForUser;
+                  showPage context/portal_plonemeeting/showMeetingView;
+                  showLateItems python: context.mustShowLateItems(iStartNumber, meetingConfig.getMaxShownMeetingItems());
+                  showAvailableItems python:member.has_permission('Modify portal content', context) and context.wfConditions().mayAcceptItems()"
+      tal:attributes="onLoad python: 'javascript: getInitialItemsLists(\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\',\'%s\')' % (meetingUid, showColors, showLateItems, showAvailableItems, iStartNumber, lStartNumber, context.numberOfItems(), context.numberOfItems(True), meetingConfig.getMaxShownMeetingItems())">
+
+  <tal:mustShowPage condition="showPage">
+  <script language="javascript">
+  <!--
+  var itemUids = new Array(); // We maintain an array of all item UIDs
+  var iStartNumber = 1; // Number of the first visible meeting item
+  var lStartNumber = 1; // Number of the first visible late item (first=1; does not count normal items)
+  var numberOfItems = 0; // Will be computed when this page is loaded. It is the total number of normal items.
+  var numberOfLateItems = 0; // Idem, but late items.
+  var maxShownItems = 0; // Will be computed when this page is loaded. It is the maximum number of normal items shown at once.
+  var checkBoxesChecked = true;
+
+  function presentSelectedItems() {
+    // Called when the user wants to present several items at once in the meeting.
+    var itemsCheckboxes = cssQuery('#itemCbToPresent');
+    var itemsUids = '';
+    var atLeastOneSelected = false;
+    for (var i=0; i < itemsCheckboxes.length; i++) {
+        if (itemsCheckboxes[i].checked) {
+            atLeastOneSelected = true;
+            itemsUids += itemsCheckboxes[i].value + ',';
+        }
+    }
+    if (! atLeastOneSelected) alert(no_item_selected_msg);
+    else {
+        // Update the form and submit it.
+        var selectForm = document.forms['selectItemsForm'];
+        selectForm.uids.value = itemsUids;
+        selectForm.iStartNumber.value = iStartNumber;
+        selectForm.lStartNumber.value = lStartNumber;
+        selectForm.submit();
+    }
+  }
+
+  function onImageButtonFocus(itemNumber) {
+    var imageButtons = cssQuery('#moveImageButton');
+    for (var i=0; i<imageButtons.length; i++) {
+        if (imageButtons[i].name != itemNumber) {
+            imageButtons[i].style.visibility = 'hidden';
+        }
+        else {
+            imageButtons[i].style.visibility = 'visible';
+            imageButtons[i].style.cursor = 'pointer';
+            cssQuery('#moveValue_' + itemNumber)[0].select();
+        }
+    }
+  }
+
+  function toggleCheckboxes() {
+    var checkBoxes = cssQuery('#itemCbToDump');
+    if (checkBoxesChecked) newCheckValue = false;
+    else newCheckValue = true;
+    for (var i=0; i<checkBoxes.length; i++) {
+       checkBoxes[i].checked = newCheckValue;
+       itemUids[checkBoxes[i].value] = newCheckValue;
+    }
+    checkBoxesChecked = newCheckValue;
+  }
+  function toggleSingleCheckbox(cb) {
+    if (!cb.checked) itemUids[cb.value] = false;
+    else itemUids[cb.value] = true;
+  }
+  var xhrObjects = new Array();
+  function fetchItemsList(pos) {
+    // First, find back the correct XMLHttpRequest object
+    if ( (typeof(xhrObjects[pos]) != 'undefined') &&
+         (xhrObjects[pos].freed == 0)) {
+      var whichItems = xhrObjects[pos].whichItems;
+      var startNumber = xhrObjects[pos].startNumber;
+      if (xhrObjects[pos].xhr.readyState == 1) {
+        // The request has been initialized: display the waiting radar
+        var itemsHook = document.getElementById(whichItems);
+        if (itemsHook) itemsHook.innerHTML = "<div align=\"center\"><img src=\"waiting.gif\"/><\/div>";
+      }
+      if (xhrObjects[pos].xhr.readyState == 4) {
+        // We have received the items list: fetch it into the page
+        var itemsHook = document.getElementById(whichItems);
+        if (itemsHook && (xhrObjects[pos].xhr.status == 200)) {
+          itemsHook.innerHTML = xhrObjects[pos].xhr.responseText;
+          // Update the status of checkboxes in this new items list, based on
+          // global Javascript variable itemUids.
+          var checkBoxes = cssQuery('#itemCbToDump', itemsHook);
+          for (var i=0; i<checkBoxes.length; i++)
+            checkBoxes[i].checked = itemUids[checkBoxes[i].value];
+          // Keep in global Javascript variables the first number of this list
+          if (whichItems == 'meetingItems') iStartNumber = startNumber;
+          if (whichItems == 'lateItems') lStartNumber = startNumber;
+          // Enable annexes menus in this list.
+          initializeMenusAXStartingAt(itemsHook);
+        }
+        xhrObjects[pos].freed = 1;
+      }
+    }
+  }
+  // Wrapper class for a XMLHttpRequest
+  function XhrObject() {
+    this.freed = 1; // Is this xhr object already dealing with a request or not?
+    this.xhr = false;
+    if (window.XMLHttpRequest) this.xhr = new XMLHttpRequest();
+    else this.xhr = new ActiveXObject("Microsoft.XMLHTTP");
+    this.whichItems = false;
+    this.startNumber = false;
+  }
+  // Function for getting an items list through an Ajax request
+  function getItemsList(meetingUid, whichItems, showColors, startNumber) {
+    // First, get a non-busy XMLHttpRequest object
+    var pos = -1;
+    for (var i=0; i < xhrObjects.length; i++) {
+      if (xhrObjects[i].freed == 1) { pos = i; break; }
+    }
+    if (pos == -1) {
+      pos = xhrObjects.length;
+      xhrObjects[pos] = new XhrObject();
+    }
+    xhrObjects[pos].whichItems = whichItems;
+    xhrObjects[pos].startNumber = startNumber;
+    if (xhrObjects[pos].xhr) {
+      xhrObjects[pos].freed = 0;
+      // Perform the asynchronous HTTP GET
+      xhrObjects[pos].xhr.open('GET', "meetingitems_list?meetingUid=" + meetingUid +
+        "&whichItems="+whichItems+"&showColors="+ showColors+"&startNumber="+
+        startNumber+"&showDescriptions="+readCookie('pmShowDescriptions'), true);
+      xhrObjects[pos].xhr.onreadystatechange = function() {
+        fetchItemsList(pos);
+      }
+      if (window.XMLHttpRequest) { xhrObjects[pos].xhr.send(null); }
+      else if (window.ActiveXObject) { xhrObjects[pos].xhr.send(); }
+      // Hide/show the late items if we are/not on the last page of the normal
+      // items.
+      if (whichItems == 'meetingItems') {
+        // Are we on the last page of the normal items ?
+        var fieldsetLateItems = document.getElementById('fieldsetLateItems');
+        if ((startNumber*1 + maxShownItems) <= numberOfItems) {
+          // Hide late items
+          fieldsetLateItems.style.display = 'none';
+        }
+        else {
+          // Show late items, if any
+          if (numberOfLateItems > 0) {
+            fieldsetLateItems.style.display = 'block';
+            getItemsList(meetingUid, 'lateItems', showColors, 1);
+          }
+        }
+      }
+    }
+  }
+
+  function getInitialItemsLists(meetingUid, showColors, showLateItems,
+                                showAvailableItems, iStartNumber, lStartNumber,
+                                nbOfItems, nbOfLateItems, maxItems) {
+    // Store numberOfItems and maxShownItems in global Javascript variables
+    numberOfItems = nbOfItems*1;
+    numberOfLateItems = nbOfLateItems*1;
+    maxShownItems = maxItems*1;
+    // First, set the cookie for showing/hiding item descriptions and decisions
+    if (readCookie('pmShowDescriptions') == null){
+      // No cookie? By default create one that shows the descriptions.
+      createCookie('pmShowDescriptions', 'true')
+    }
+    // Load the lists of available, meeting and late items
+    if (showAvailableItems == "True")
+      getItemsList(meetingUid, 'availableItems', showColors, 1);
+    getItemsList(meetingUid, 'meetingItems', showColors, iStartNumber*1);
+    if (showLateItems == "True")
+      getItemsList(meetingUid, 'lateItems', showColors, lStartNumber*1);
+  }
+
+  function getItemsListByNumber(meetingUid, whichItems, showColors, inputWidget, totalNbOfItems, batchSize, firstNumber) {
+    // The user has typed in the number of an item in p_inputWidget and
+    // wants to see the page where this item is.
+    try {
+      var itemNumber = parseInt(inputWidget.value);
+      if (!isNaN(itemNumber)) {
+        // Calibrate item number if firstNumber in the items list is not 1 (=late items)
+        itemNumber = itemNumber - firstNumber + 1;
+        if ((itemNumber>=1) && (itemNumber<=totalNbOfItems)) {
+          var startNumber = computeStartNumberFrom(itemNumber, totalNbOfItems, batchSize);
+          getItemsList(meetingUid, whichItems, showColors, startNumber);
+        }
+        else inputWidget.style.background = wrongTextInput;
+      }
+      else inputWidget.style.background = wrongTextInput;
+    }
+    catch (err) { inputWidget.style.background = wrongTextInput; }
+  }
+
+  function moveMeetingItem(moveType, itemUid, inputField) {
+    // Moves an item up, down or to a given number in an items list.
+    var theForm = document.forms["formMoveMeetingItem"];
+    theForm.itemUid.value = itemUid;
+    theForm.moveType.value = moveType;
+    if (moveType == 'number') theForm.moveNumber.value = inputField.value;
+    theForm.iStartNumber.value = iStartNumber;
+    theForm.lStartNumber.value = lStartNumber;
+    theForm.submit();
+  }
+  function setToDiscuss(discussAction, itemUid) {
+    // Changes the "toDiscuss" status of a meeting item.
+    var theForm = document.forms["formSetToDiscuss"];
+    theForm.itemUid.value = itemUid;
+    theForm.discussAction.value = discussAction;
+    theForm.iStartNumber.value = iStartNumber;
+    theForm.lStartNumber.value = lStartNumber;
+    theForm.submit();
+  }
+  function triggerTransition(transition, itemUid) {
+    // Triggers a transition on a item in an items list
+    var theForm = document.forms["formTriggerTransition"];
+    theForm.itemUid.value = itemUid;
+    theForm.transition.value = transition;
+    theForm.iStartNumber.value = iStartNumber;
+    theForm.lStartNumber.value = lStartNumber;
+    theForm.submit();
+  }
+  function toggleItemsList(whichItems, imageWidget) {
+    listToToggle = document.getElementById(whichItems);
+    if (imageWidget.name == 'expandedItems') {
+      imageWidget.src = 'treeCollapsed.gif';
+      imageWidget.name = 'collapsedItems';
+      listToToggle.style.display = 'none';
+    }
+    else {
+      imageWidget.src = 'treeExpanded.gif';
+      imageWidget.name = 'expandedItems';
+      listToToggle.style.display = '';
+    }
+  }
+  -->
+  </script>
+  <script language="javascript" tal:content="context/getJsItemUids"></script>
+
+  <metal:actions use-macro="here/document_actions/macros/document_actions"/>
+
+  <tal:comment replace="nothing">Form used for moving an item up or down in an items list.</tal:comment>
+  <form name="formMoveMeetingItem" method="POST"
+        tal:attributes="action python: context.absolute_url_path() + '/meeting_changeitemsorder'">
+    <input type="hidden" name="itemUid"/>
+    <input type="hidden" name="moveType"/>
+    <input type="hidden" name="moveNumber"/>
+    <input type="hidden" name="iStartNumber"/>
+    <input type="hidden" name="lStartNumber"/>
+  </form>
+
+  <tal:comment replace="nothing">Form used for changing the "toDiscuss" status of a meeting item.</tal:comment>
+  <form name="formSetToDiscuss" method="POST"
+        tal:attributes="action python: context.absolute_url_path() + '/meetingitem_discuss'">
+      <input type="hidden" name="itemUid"/>
+      <input type="hidden" name="discussAction"/>
+      <input type="hidden" name="iStartNumber"/>
+      <input type="hidden" name="lStartNumber"/>
+  </form>
+
+  <tal:comment replace="nothing">Form used for triggering a transition on an item in an items list.</tal:comment>
+  <form name="formTriggerTransition" method="POST"
+        tal:attributes="action python: context.absolute_url_path() + '/meeting_triggertransition'">
+      <input type="hidden" name="itemUid"/>
+      <input type="hidden" name="transition"/>
+      <input type="hidden" name="iStartNumber"/>
+      <input type="hidden" name="lStartNumber"/>
+  </form>
+
+  <tal:comment replace="nothing">Form used for going to meetingitem_view for an item whose number is given by the user.</tal:comment>
+  <form name="formGotoItem" tal:attributes="action python: context.absolute_url_path() + '/object_goto'">
+      <input type="hidden" name="objectId"/>
+      <input type="hidden" name="meetingUid"/>
+      <input type="hidden" name="idType" value="number"/>
+  </form>
+
+  <tal:comment replace="nothing">Title, with number of items</tal:comment>
+  <h1>
+    <tal:block replace="structure python:getattr(here, here.getIcon(1))"/>
+    <span tal:content="python: context.adapted().getDisplayableName(likeTitle=True)"
+          tal:omit-tag="">Meeting Title</span>&nbsp;-
+    <span tal:condition="python:not here.adapted().isDecided()"
+          tal:content="python: here.utranslate('agenda', domain='PloneMeeting')"></span>
+    <span tal:condition="python:here.adapted().isDecided()"
+          tal:content="python: here.utranslate('decisions', domain='PloneMeeting')"></span>
+    <tal:comment replace="nothing">Display number of items in the meeting</tal:comment>
+    <span class="discreet">(<span tal:replace="python: here.getItemsCount()"></span>
+      <span i18n:translate="">items_count</span>)
+    </span>
+  </h1>
+  <tal:has_document_byline tal:condition="exists:here/document_byline">
+    <metal:byLine use-macro="here/document_byline/macros/byline"/>
+  </tal:has_document_byline>
+  <span metal:use-macro="here/plonemeeting_list_pod_templates/macros/listPodTemplates"/>
+
+  <tal:comment replace="nothing">Place, effective start date, effective end date</tal:comment>
+  <div class="discreet" tal:condition="python: context.attributeIsUsed('place') and context.getPlace()">
+    <br />
+    <b i18n:translate="PloneMeeting_label_place"></b>&nbsp;&nbsp;<span tal:replace="context/getPlace">Place</span>
+  </div>
+  <div class="discreet" tal:condition="python: context.attributeIsUsed('startDate') and context.getStartDate()">
+    <br />
+    <b i18n:translate="PloneMeeting_label_startDate"></b>&nbsp;&nbsp;<span
+       tal:replace="python:toLocalizedTime(context.getStartDate(),long_format=1)">Start date</span>
+  </div>
+  <div class="discreet" tal:condition="python: context.attributeIsUsed('endDate') and context.getEndDate()">
+    <br />
+    <b i18n:translate="PloneMeeting_label_endDate"></b>&nbsp;&nbsp;<span
+       tal:replace="python:toLocalizedTime(context.getEndDate(),long_format=1)">End date</span>
+  </div>
+
+  <tal:comment replace="nothing">Assembly</tal:comment>
+  <div class="discreet" tal:condition="python: context.attributeIsUsed('assembly') and context.getAssembly()">
+    <br />
+    <b i18n:translate="meeting_assembly"></b>&nbsp;&nbsp;<span
+       tal:replace="structure context/getAssembly">Assembly</span>
+  </div>
+
+  <tal:comment replace="nothing">Attendees, absents and excused</tal:comment>
+  <br />
+  <table width="100%" class="discreet" cellspacing=0 cellpadding=0>
+    <tr valign="top">
+      <td width="33%" tal:condition="python: context.attributeIsUsed('attendees')">
+        <b i18n:translate="PloneMeeting_label_attendees"></b><br/><span
+           tal:define="attendees python: ';; '.join([(u.Title() + ', ' + u.getDuty()) for u in context.getAttendees(True)])"
+           tal:replace="python: test(attendees, attendees, '-')">Attendees</span>
+      </td>
+      <td align="center" width="33%" tal:condition="python: context.attributeIsUsed('absents')">
+        <b i18n:translate="PloneMeeting_label_absents"></b><br/><span
+           tal:define="absents python: ';; '.join([(u.Title() + ', ' + u.getDuty()) for u in context.getAbsents(True)])"
+           tal:replace="python: test(absents, absents, '-')">Absents</span>
+      </td>
+      <td align="right" width="33%" tal:condition="python: context.attributeIsUsed('excused')">
+        <b i18n:translate="PloneMeeting_label_excused"></b><br/><span
+           tal:define="excused python: ';; '.join([(u.Title() + ', ' + u.getDuty()) for u in context.getExcused(True)])"
+           tal:replace="python: test(excused, excused, '-')">Excused</span>
+      </td>
+    </tr>
+  </table>
+
+  <tal:comment replace="nothing">Show items that may be presented into the current meeting</tal:comment>
+  <fieldset tal:define="whichItems string:availableItems" tal:condition="showAvailableItems">
+    <legend i18n:translate='available_items'>Available items</legend>
+    <span id="availableItems"><div align="center"><img tal:attributes="src string: $portal_url/waiting.gif"/></div></span>
+  </fieldset>
+
+  <tal:comment replace="nothing">Show items that are presented into the current meeting</tal:comment>
+  <fieldset tal:define="whichItems string:meetingItems">
+    <legend><span i18n:translate="">presented_items</span> (<span tal:replace="context/numberOfItems"/>)
+      <img tal:attributes="src string: $portal_url/treeExpanded.gif;
+                           name string:expandedItems;
+                           onClick python:'toggleItemsList(\'meetingItems\', this)'"
+           style="cursor:pointer"/>
+    </legend>
+    <span id="meetingItems"><div align="center"><img tal:attributes="src string: $portal_url/waiting.gif"/></div></span>
+  </fieldset>
+
+  <tal:comment replace="nothing">Show items that are "late"-presented into the current meeting</tal:comment>
+  <fieldset id="fieldsetLateItems" tal:define="whichItems string:lateItems"
+            tal:attributes="style python: test(showLateItems, 'display:block', 'display:none')">
+    <tal:comment replace="nothing">If late items must not be displayed for the moment, I still render the
+      fieldset but make it invisible; this way, once I will need to display late items (if the user goes
+      through AJAX to the last page of the normal items) I will make this fieldset visible and retrieve
+      the late items with an AJAX request.</tal:comment>
+    <legend><span i18n:translate="">late_presented_items</span> (<span tal:replace="python: context.numberOfItems(late=True)"/>)
+      <img tal:attributes="src string: $portal_url/treeExpanded.gif;
+                           name string:expandedItems;
+                           onClick python:'toggleItemsList(\'lateItems\', this)'"
+           style="cursor:pointer"/>
+    </legend>
+    <span id="lateItems"><div align="center"><img tal:attributes="src string: $portal_url/waiting.gif"/></div></span>
+  </fieldset>
+
+  <tal:comment replace="nothing">Observations</tal:comment>
+  <div class="discreet" tal:condition="python: context.attributeIsUsed('observations') and not context.observationsFieldIsEmpty()"><br/>
+    <b i18n:translate="PloneMeeting_meetingObservations"></b>&nbsp;&nbsp;<span
+       tal:replace="structure context/getObservations">Observations</span>
+  </div>
+
+  <tal:comment replace="nothing">Actions</tal:comment>
+  <br/>
+  <span tal:define="itemOrMeeting python:here">
+    <div metal:use-macro="here/plonemeeting_actions/macros/ploneMeetingActions" />
+  </span>
+  <br/>
+  </tal:mustShowPage>
+
+  <tal:mustHidePage condition="not: showPage">
+  <script language="javascript">
+  <!--
+  function getInitialItemsLists() {}
+  -->
+  </script>
+  <img tal:attributes="src string: $portal_url/refuse.png"
+       align="left"><p>&nbsp;<span i18n:translate="">hide_meeting_view_page</span></p>
+  </tal:mustHidePage>
+</body>
+</html>

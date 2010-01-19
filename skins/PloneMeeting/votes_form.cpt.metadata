@@ -1,0 +1,4 @@
+[actions]
+action.success=traverse_to:string:votes_form
+action.success..UpdateVotes=traverse_to:string:votes_form
+action.failure=traverse_to:string:votes_form

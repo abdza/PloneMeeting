@@ -1,0 +1,548 @@
+/* <dtml-var "enableHTTPCompression(request=REQUEST, debug=1, css=1)"> (this is for http compression) */
+/* <dtml-with base_properties> (do not remove this :) */
+/* <dtml-call "REQUEST.set('portal_url', portal_url())"> (not this either :) */
+
+/* PloneMeeting implementation of a selection box whose elements are icons + texts */
+
+.even {
+  background-color: #f5f5f5;
+}
+
+.ploneMeetingSelectContainer{
+  float: left;
+}
+
+.ploneMeetingSelectButton {
+cursor: pointer;
+border: 1px solid &dtml-globalBorderColor;;
+background-color: white;
+padding: 0px;
+color: &dtml-fontColor;;
+text-align: left;
+align:left;
+width: auto;
+height: 18px !important;
+padding-right: 24px;
+}
+
+.ploneMeetingSelectBox {
+cursor: pointer;
+border-width: 1px;
+border-color: &dtml-globalBorderColor;;
+background-color: white;
+padding: 0px;
+font-height: 110%;
+color: &dtml-fontColor;;
+display: none;
+position: absolute;
+border-style: inset;
+height: auto;
+overflow: auto;
+text-align: left;
+width: auto;
+}
+
+.ploneMeetingSelectItem {
+margin-left: 1px;
+margin-top: 0px;
+margin-right: 1px;
+margin-bottom: 0px;
+width: 99%;         /* If 100% a horizontal scrollbar is displayed */
+vertical-align: top !important;
+}
+
+.ploneMeetingSelectItemUnselected {
+background-color: &dtml-globalBackgroundColor;;
+}
+
+.ploneMeetingSelectImage{
+max-height: 16px;
+max-width: 16px;
+vertical-align: top;
+}
+
+.ploneMeetingSelectDropdownIcon{
+height: 16px;
+background-image: url(<dtml-var portal_url>/drop_down.png);
+background-repeat: no-repeat;
+background-position: right;
+}
+
+/* table styles */
+/* we want a table with no styles at all */
+.no-style-table {
+border: 0 !important;
+padding: 0 !important;
+margin: 0 !important;
+}
+
+.no-style-table td {
+border: 0 !important;
+padding-left: 0 !important;
+margin: 0 !important;
+}
+
+.itemsNavigation {
+  margin-bottom: 0.3em;
+  margin-top: 0.3em;
+}
+
+/* Colors on states */
+
+.state-advicecreated {
+    color: red !important;
+}
+
+.state-advicepublished {
+    color: black !important;
+}
+
+.state-adviceclosed {
+    color: grey !important;
+}
+
+.state-created {
+    color: red !important;
+}
+
+.state-proposed {
+    color: #FFA500 !important;
+}
+
+.state-validated {
+    color: blue !important;
+}
+
+.state-presented {
+    color: black !important;
+}
+
+.state-accepted {
+    color: greenyellow !important;
+}
+
+.state-confirmed {
+    color: green !important;
+}
+
+.state-delayed {
+    color: grey !important;
+}
+
+.state-refused {
+    color: violet !important;
+}
+
+.state-cloture {
+    color: black !important;
+}
+
+.somethingtodo {
+   color: red !important;
+}
+
+/* Other */
+
+.selectRow {
+    }
+
+.itemTitle {
+    font-size: 100%;
+    font-weight: bold;
+    margin: 0.2em 0.1em 0 0.1em;
+    }
+
+.itemDescription {
+    margin: 0 0.1em;
+    }
+
+/*
+#select-button {
+    margin: 1em 0 0 0;
+    display: block;
+    }
+
+.LSBoxPortlet {
+    clear: left;
+    float: left;
+    text-align: left;
+    padding-right: 1px;
+    display: block;
+}
+*/
+
+.portletMeetingItem {
+  margin: 0;
+  padding: 1px 0.5em;
+  border-left: 1px solid #8cacbb;
+  border-right: 1px solid #8cacbb;
+  font-weight: normal;
+}
+
+.portletMeetingElementSelected {
+  font-weight: bold;
+}
+
+.portletHeader {
+  padding: 1px 0.5em;
+}
+
+/* Styles used for the annexes dropdown menus, derived from Plone styles "contentAction" and "actionMenu" */
+.contentActionsAX {
+    text-align: right;
+    z-index: 2;
+    position:relative;
+    height: 1.6em;
+}
+
+.onTop {
+    z-index: 20 !important;
+}
+
+.onBottom {
+    z-index: 0;
+}
+
+.contentActionsAX ul, .contentActionsAX li {
+    margin: 0;
+    list-style: none;
+    list-style-image: none;
+    display: inline;
+    color: &dtml-fontColor;;
+    text-align: right;
+}
+
+.contentActionsAX ul {
+    line-height: 1.6em;
+    padding: 0;
+    margin: 0;
+}
+
+.contentActionsAX li {
+    float: right;
+    line-height: 1.6em;
+}
+
+.actionItems li {
+    background-image: none;
+}
+
+.contentActionsAX ul li a {
+    text-decoration: none;
+    color: &dtml-contentViewFontColor;;
+    padding: 0 0.3em;
+    border: 0 none white;
+}
+
+.actionMenuAX {
+    /*  The spec says we can't put this on an element with a float (although
+        Opera is the only one that cares) and we need it in order to catch
+        the position:absolute bubbling up */
+
+    position: relative;
+    margin: 0;
+    padding: 0;
+}
+
+.actionMenuAX .actionMenuHeaderAX {
+    margin: 0;
+    padding: 0;
+    font-weight: normal;
+    cursor: pointer;
+}
+
+.actionMenuAX.activated .actionMenuHeaderAX {
+    position: relative;
+}
+
+.actionMenuAX .actionMenuHeaderAX a {
+    display: inline;
+}
+
+.actionMenuAX.activated .actionMenuHeaderAX a,
+.actionMenuAX.deactivated .actionMenuHeaderAX a {
+    padding: 0 0.2em 0 0.2em !important;
+    cursor: pointer;
+    border: 0 none white;
+}
+
+.actionMenuDisabled {
+    padding: 0 0.5em 0 0.5em !important;
+    cursor: pointer;
+}
+
+.actionMenuAX .actionMenuContentAX {
+    display: none;
+    position: absolute;
+    top: 1.7em; /* Position of the popup menu relative to its "anchor"=the main menu) */
+    right: -1px;
+    height: auto;
+    padding: 0;
+    margin: 0;
+    cursor: pointer;
+}
+
+.actionMenuAX .actionMenuContentAX ul {
+    display: block;
+    background-color: white;
+    border: 1px solid #CCCCCC;
+    margin: -1px 0 0 0;
+    padding: 0;
+    cursor: pointer;
+}
+
+.actionMenuAX.activated .actionMenuContentAX {
+    display: block !important;
+}
+
+.actionMenuAX.activated .actionMenuContentAX {
+    /* this one will be ignored by IE, it is here to fix the cut-off error in
+       Firefox */
+    display: table !important;
+    border-collapse: collapse;
+    border-spacing: 0;
+}
+
+.actionMenuAX.deactivated .actionMenuContentAX {
+    display: none !important;
+}
+
+.actionMenuAX .actionMenuContentAX li {
+    float: none;
+    display: inline;
+    padding: 0;
+    margin: 0;
+    border: 0;
+}
+
+.actionMenuAX .actionMenuContentAX li a {
+    display: block;
+    white-space: nowrap;
+    padding: 0 0.5em;
+    margin: 0.0em 0;
+}
+
+.actionMenuAX .actionMenuContentAX .selected {
+    display: block;
+    white-space: nowrap;
+    padding: 0 0.5em;
+    margin: 0.0em 0;
+}
+
+.actionMenuAX .actionMenuContentAX li a:hover {
+    /* background-color: #CCCCCC; */
+    color: #436976;
+}
+
+.actionMenuAX .actionMenuContentAX .actionSeparator {
+    margin-top: 0.1em;
+    padding-top: 0.1em;
+    border-top: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+}
+
+.actionMenuAX .actionMenuContentAX .actionSeparator div.currentDefaultPage {
+    margin-top: 0.2em;
+    padding: 0.2em 0.5em 0em 0.5em;
+    white-space: nowrap;
+    border-top: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+}
+
+.actionMenuAX .actionMenuContentAX .actionSeparator div.actionLabel {
+    margin-top: 0.2em;
+    padding: 0.2em 0.5em 0em 0.5em;
+    white-space: nowrap;
+    border-top: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+    background-color: &dtml-contentViewBorderColor;;
+    color: &dtml-contentViewBackgroundColor;;
+    cursor: default;
+}
+
+.contentBatchAction {
+    float: left !important;
+    padding: 0 0.5em;
+    border-top: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+    border-right: &dtml-borderWidth; &dtml-borderStyle; &dtml-contentViewBorderColor;;
+    border-left: none !important;
+    border-collapse: collapse;
+    position: relative;
+    top: -1px;
+    margin-left: -0.5em !important;
+}
+
+#objectMenu.actionMenuAX .actionMenuContentAX li {
+    display: block;
+}
+
+#objectMenu.actionMenuAX .actionMenuContentAX li,
+#objectMenu.actionMenuAX .actionMenuContentAX li a:hover {
+    background-position: 3px 50%;
+    margin-left: 0;
+}
+
+#objectMenu.actionMenuAX .actionMenuContentAX li a {
+    padding-left: 22px;
+}
+
+.actionMenuSelected {
+    display: block;
+    cursor: default;
+    background-image: url(<dtml-var portal_url>/bullet_icon.gif);
+    background-repeat: no-repeat;
+    background-position: 0% 3px;
+    padding-left: 16px !important;
+}
+
+#templateMenu li a {
+    padding-left: 16px;
+}
+
+/* Minor layout changes in fieldsets and tables */
+fieldset {
+    margin: 0em 0em;
+}
+
+.imageInput {
+    border-width: 0px;
+    background: none;
+}
+
+.noPadding {
+    padding-right: 0em !important;
+    padding-left: 0em !important;
+    padding-top: 0em !important;
+    padding-bottom: 0em !important;
+}
+
+.pmButton {
+    background: &dtml-globalBackgroundColor; url(&dtml-portal_url;/linkOpaque.gif) 5px 1px no-repeat;
+    cursor: pointer;
+    font-size: &dtml-fontSmallSize;;
+    padding: 1px 1px 1px 12px;
+    text-transform: &dtml-textTransform;;
+    /* overflow: visible; IE produces ugly results with this */
+}
+
+.listing {
+    margin: 0em 0em;
+}
+
+.listing td, .stx table td {
+    padding-right: 0.1em;
+    padding-left: 0.3em;
+    padding-top: 0.3em;
+    padding-bottom: 0em;
+}
+
+.vertical td {
+    padding-left: 0.3em;
+}
+/* </dtml-with> */
+
+/* image-right, but without border */
+.image-right {
+  border:0px solid Black;
+  clear:both;
+  float:right;
+  margin:0.5em;
+}
+
+/* Styles for showing content (item, annexes, advices) differently depending on the fact
+   that the user already consulted the last modifications on content or not. */
+#pmNewContent {
+  color: Red;
+}
+
+#pmNoNewContent {
+  color: #436976;
+}
+
+.pmLinks a:link {
+  color: Red;
+}
+
+.pmLinks a:visited {
+  color: #436976;
+}
+
+.documentContent p a {
+  border-bottom: 0px solid #CCCCCC;
+}
+
+.searchItem {
+  font-weight: normal;
+  font-style: italic;
+}
+
+/* DOCUMENTATION ON PRE-DEFINED PROPERTIES FROM PLONE */
+
+ /* You can insert colors and other variables from Plone's 
+    base_properties by doing:
+    
+    & dtml-variableName ; (without the spaces, excluded here to not make it render)
+    
+    Example:
+    
+    myLink {
+        color: & dtml-fontColor ;   (again, without the spaces)
+    }
+ 
+   This means you can generate your own elements that use Plone's defaults,
+   and respect any customizations people have done. See base_properties for
+   the default values.
+ 
+   These are the available properties:
+   
+   logoName - the file name of the portal logo. 
+   
+   fontFamily - the font family used for all text that is not headers
+   
+   fontBaseSize - the base font size that everything is calculated from
+   
+   fontColor - the main font color
+   
+   backgroundColor - the background color 
+   
+   linkColor - the color used on normal links
+
+   linkActiveColor - color used on active links
+
+   linkVisitedColor - color used on visited links
+   
+   borderWidth - the width of most borders in Plone
+   
+   borderStyle - the style of the border lines, normally solid
+   
+   borderStyleAnnotations - style of border lines on comments etc
+   
+   globalBorderColor - the border color used on the main tabs, the portlets etc
+   
+   globalBackgroundColor - background color for the selected tabs, portlet headings etc
+   
+   globalFontColor - the color of the font in the tabs and in portlet headings
+   
+   headingFontFamily - font family for h1/h2/h3/h4/h5/h6 headlines.
+   
+   headingFontBaseSize - the base size used when calculating the different headline sizes
+   
+   contentViewBorderColor - the content view tabs border color
+   
+   contentViewBackgroundColor - the content view tabs background color
+   
+   contentViewFontColor - the font color used in the content view tabs
+   
+   textTransform - whether to lowercase text in portlets, tabs etc.
+   
+   evenRowBackgroundColor - the background color of even rows in listings
+   
+   oddRowBackgroundColor - the background color of even rows in listings
+   
+   notifyBorderColor - border color of notification elements like the status message, the calendar focus
+   
+   notifyBackgroundColor - background color of notification elements like the status message, the calendar focus
+   
+   discreetColor:string=#999999
+   helpBackgroundColor:string=#ffffe1
+ 
+ */
+
+

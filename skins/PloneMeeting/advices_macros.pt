@@ -1,0 +1,145 @@
+<tal:comment replace="nothing">Displays the list of all advices linked to a given meeting item.</tal:comment>
+<div metal:define-macro="advicesMacro" i18n:domain="PloneMeeting"
+     tal:define="errors options/state/getErrors;
+                 tool python:context.portal_plonemeeting;
+                 meetingConfig python: tool.getMeetingConfig(here);
+                 showColors tool/showColorsForUser">
+
+  <tal:comment replace="nothing">Item header (title, reference, etc)</tal:comment>
+  <metal:header use-macro="here/meetingitems_navigation/macros/itemHeader"/>
+
+  <br/>
+  <tal:addAdvice condition="python: member.has_permission('PloneMeeting: Add MeetingAdvice', context)">
+   <form name="quickAdd" tal:attributes="action python: context.absolute_url() + '/createObject'" action="createObject" method="post">
+    <input type="hidden" name="type_name" value="MeetingAdvice" />
+    <input type="submit" class="standalone" id="add_advice_input" value="add_advice" i18n:attributes="value" />
+   </form>
+   <br />
+  </tal:addAdvice>
+
+  <tal:comment replace="nothing">Table that shows the list of advices.</tal:comment>
+  <fieldset tal:define="meetingAdvices python: context.getAdvicesSortedByAgreementLevel();
+                        advicesNumbering python:True;
+                        showArrows python:False">
+    <legend i18n:translate='existing_advices'>Existing advices</legend>
+    <div metal:use-macro="here/meetingadvices_list/macros/meetingAdvicesList" />
+  </fieldset>
+
+  <br/>
+
+ </div>
+
+<tal:comment replace="nothing">Displays advices as icons. Requires "meetingItem", "showColors".</tal:comment>
+<div metal:define-macro="advicesIcons" i18n:domain="PloneMeeting"
+     tal:define="advicesByAgLevel python:meetingItem.getAdvicesByAgreementLevel();
+                 now python:DateTime();
+                 tool python:context.portal_plonemeeting;
+                 global count python:0;
+                 missingAdvicesId python:tool.getMissingAdvicesConstants()[0]">
+
+  <div class="contentActionsAX" tal:condition="advicesByAgLevel">
+    <ul>
+      <li tal:repeat="agLevel advicesByAgLevel">
+        <tal:info tal:define="agLevelId python: agLevel[0][0];
+                              agLevelAdvices python: agLevel[1];
+                              agLevelTitle python:agLevelAdvices[0]['agLevel_Title'];
+                              agLevelIconUrl python: agLevel[0][1];">
+
+          <tal:existingAdvices tal:condition="python: agLevelId != missingAdvicesId">
+            <dl class="actionMenuAX"
+                tal:define="global count python:count+1"
+                tal:attributes="id python:'advicesMenu_' + str(count) + '_' + meetingItem.UID()">
+              <dt class="actionMenuHeaderAX">
+                <a tal:attributes="href python:agLevelAdvices[0]['url'];
+                                   id python: test(showColors, test(tool.lastModifsConsultedOnAdvices(agLevelAdvices), 'pmNoNewContent', 'pmNewContent'), 'pmNoNewContent')">
+                  <img tal:attributes="src agLevelIconUrl; alt agLevelTitle; title agLevelTitle"
+                       i18n:attributes="alt; title" i18n:domain="PloneMeeting"/>
+                  <b tal:content="python: str(len(agLevelAdvices))"></b>
+                </a>
+              </dt>
+              <dd class="actionMenuContentAX">
+                <ul>
+                  <li class="pmLinks" tal:repeat="advice agLevelAdvices">
+                    <span tal:replace="structure python: tool.getColoredLink(advice, showColors)"/>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </tal:existingAdvices>
+          <tal:missingAdvices tal:condition="python: agLevelId == missingAdvicesId">
+            <dl class="actionMenuAX"
+                tal:define="global count python:count+1"
+                tal:attributes="id python:'advicesMenu_' + str(count) + '_' + meetingItem.UID()">
+              <dt class="actionMenuHeaderAX">
+                <a id="pmNoNewContent">
+                  <img tal:attributes="src agLevelIconUrl; alt agLevelTitle; title agLevelTitle"/>
+                </a>
+              </dt>
+              <dd class="actionMenuContentAX">
+                <ul>
+                  <li class="pmLinks" tal:repeat="advice agLevelAdvices">
+                    <span tal:content="structure python:advice['adviser_Title']"></span>
+                  </li>
+                </ul>
+              </dd>
+            </dl>
+          </tal:missingAdvices>
+        </tal:info>
+      </li>
+    </ul>
+  </div>
+  <span tal:condition="not: advicesByAgLevel">-</span>
+
+</div>
+
+<tal:comment replace="nothing">List of advices as shown on meetingitem_view. Requires "meetingItem", "showColors".</tal:comment>
+<div metal:define-macro="advicesItem" i18n:domain="PloneMeeting"
+     tal:define="advicesByAgLevel python:meetingItem.getAdvicesByAgreementLevel();
+                 now python:DateTime();
+                 tool python:context.portal_plonemeeting;
+                 global count python:0;
+                 missingAdvicesId python:tool.getMissingAdvicesConstants()[0]">
+
+  <table tal:condition="advicesByAgLevel" class="no-style-table agLevelItemTable" >
+    <tr>
+      <td tal:repeat="agLevel advicesByAgLevel">
+          <tal:info tal:define="agLevelId python: agLevel[0][0];
+                                agLevelAdvices python: agLevel[1];
+                                agLevelTitle python:agLevelAdvices[0]['agLevel_Title'];
+                                agLevelIconUrl python: agLevel[0][1];">
+
+            <tal:comment replace="nothing">Existing advices</tal:comment>
+            <tal:existingAdvices tal:condition="python: agLevelId != missingAdvicesId">
+              <div tal:define="global count python:count+1"
+                   tal:attributes="id python:'advicesMenu_' + str(count) + '_' + meetingItem.UID()">
+                   <a tal:attributes="id python: test(showColors, test(tool.lastModifsConsultedOnAdvices(agLevelAdvices), 'pmNoNewContent', 'pmNewContent'), 'pmNoNewContent')">
+                    <img tal:attributes="src agLevelIconUrl; alt agLevelTitle; title agLevelTitle"
+                         i18n:attributes="alt; title" i18n:domain="PloneMeeting"/>
+                   </a>
+                   <ul>
+                    <li class="pmLinks" tal:repeat="advice agLevelAdvices">
+                      <span tal:replace="structure python: tool.getColoredLink(advice, showColors, contentValue=advice['adviser_Title'])"/>
+                    </li>
+                   </ul>
+              </div>
+            </tal:existingAdvices>
+            <tal:missingAdvices tal:condition="python: agLevelId == missingAdvicesId">
+              <div tal:define="global count python:count+1"
+                   tal:attributes="id python:'advicesMenu_' + str(count) + '_' + meetingItem.UID()">
+                  <a id="pmNoNewContent">
+                    <img tal:attributes="src agLevelIconUrl; alt agLevelTitle; title agLevelTitle"/>
+                  </a>
+                  <ul>
+                    <li class="pmLinks" tal:repeat="advice agLevelAdvices">
+                      <span tal:content="structure python:advice['adviser_Title']"></span>
+                    </li>
+                  </ul>
+              </div>
+            </tal:missingAdvices>
+          </tal:info>
+        </td>
+      </tr>
+  </table>
+  <span tal:condition="not: advicesByAgLevel">-</span>
+</div>
+

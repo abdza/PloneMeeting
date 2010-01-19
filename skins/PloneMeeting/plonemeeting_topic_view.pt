@@ -1,0 +1,43 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xml:lang="en" lang="en"
+      xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      metal:use-macro="here/main_template/macros/master"
+      i18n:domain="PloneMeeting">
+
+<tal:comment replace="nothing">This page presents results of the main
+  PloneMeeting topics: lists of meetings, meeting items.</tal:comment>
+<body>
+  <div metal:fill-slot="top_slot">
+    <metal:block metal:use-macro="here/global_defines/macros/defines" />
+    <div tal:define="dummy python:request.set('disable_border', 1)" />
+  </div>
+
+  <div metal:fill-slot="main" 
+       tal:define="topicName python: context.REQUEST.get('search', None)"
+       tal:condition="topicName">
+
+    <div tal:define="tool python: context.portal_plonemeeting;
+                     meetingConfig python: tool.getMeetingConfig(context);
+                     topic python: getattr(meetingConfig.topics, topicName);
+                     showColors context/portal_plonemeeting/showColorsForUser;
+                     dummy python: tool.addTopicResultAction(actions, topic)">
+
+      <div metal:use-macro="here/document_actions/macros/document_actions">
+        Document actions (print, sendto etc)
+      </div>
+
+      <h1 i18n:translate="" tal:content="topic/Title|topic/getId" class="documentFirstHeading"></h1>
+      <div class="formHelp" i18n:translate="topic_description" >Topic description.</div>
+      <br/>
+
+      <div tal:define="here python: topic;
+                       batch_base_url python: context.absolute_url() + '/plonemeeting_topic_view'"
+           tal:condition="python:not isAnon and topic">
+        <div metal:use-macro="here/plonemeeting_topic_result/macros/topicResult"/>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

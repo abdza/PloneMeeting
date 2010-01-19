@@ -1,0 +1,304 @@
+<tal:comment replace="nothing">Requires a REQUEST with keys "meetingUid",
+                               "whichItems", "startNumber", "showDescriptions"</tal:comment>
+<tal:itemsList i18n:domain="PloneMeeting"
+     define="tool python:context.portal_plonemeeting;
+             inItemsList python:True;
+             meeting python: context.uid_catalog(UID=request['meetingUid'])[0].getObject();
+             whichItems request/whichItems;
+             showColors python: request['showColors'] == 'True';
+             member context/portal_membership/getAuthenticatedMember;
+             portal context/portal_url/getPortalObject;
+             portal_url context/portal_url/getPortalPath;
+             listInfo python: tool.getItemsList(meeting, whichItems, int(request['startNumber']));
+             meetingItems python: listInfo[0];
+             totalNbOfItems python: listInfo[1];
+             batchSize python: listInfo[2];
+             firstNumber python: listInfo[3];
+             mayChangeOrder python: meeting.wfConditions().mayChangeItemsOrder();
+             startNumber python: listInfo[4];
+             meetingConfig python: tool.getMeetingConfig(meeting);
+             userIsReviewer python: tool.userIsAmong('reviewers');
+             dummy python:request.RESPONSE.setHeader('Content-Type','text/html;;charset=utf-8');
+             dummy2 python:request.set('PUBLISHED', meeting);
+             dummy3 python:request.RESPONSE.setHeader('Expires', 'Mon, 11 Dec 1975 12:05:05 GMT');
+             dummy4 python:request.RESPONSE.setHeader('CacheControl', 'no-cache')">
+  <tal:comment replace="nothing">Keys "Expires" and "CacheControl" are used for preventing IE to cache
+    this page. Indeed, this page is retrieved through an asynchronous XMLHttpRequest by the browser, and
+    IE caches this by default.</tal:comment>
+
+  <tal:comment replace="nothing">No meeting items around</tal:comment>
+  <span tal:condition="not: meetingItems" i18n:translate="no_meetingitems" class="discreet"></span>
+
+  <tal:comment replace="nothing">There are meeting items. Note that request['startNumber'] is the number
+      of the first item to show in the list, relative to the start of the list. Computed "startNumber"
+      below is the same number but that has been "calibrated". It means that for late items, if
+      request['startNumber'] == 6, we talk about the 6th late item, but it may have number 18
+      (=calibrated "startNumber") if 12 normal items exist.</tal:comment>
+  <tal:meetingItems condition="meetingItems">
+   <tal:items
+     define="itemsNumbering python: test(whichItems=='availableItems', False, True);
+             showArrows python: test(whichItems=='availableItems', False, True);
+             descrsStyle python: test((request['showDescriptions'] == 'false'), 'none', 'inline');
+             visibleColumns meetingConfig/getItemsListVisibleColumns;
+             global itemNumber python:startNumber-1;
+             global shownItems python:0;
+             isDecided python: meeting.adapted().isDecided();
+             showCheckboxes python: itemsNumbering or ((not itemsNumbering) and (len(meetingItems)>1))">
+
+   <metal:itemsNavigation use-macro="here/meetingitems_navigation/macros/itemsNavigation"/>
+   <table class="vertical listing" width="100%" i18n:domain="plone">
+
+    <tal:comment replace="nothing">Column headers</tal:comment>
+    <tr>
+      <tal:comment replace="nothing">"toDiscuss" field</tal:comment>
+      <th tal:condition="python: itemsNumbering and ('toDiscuss' in meetingConfig.getUsedItemAttributes())"></th>
+
+      <tal:comment replace="nothing">Number</tal:comment>
+      <th tal:condition="itemsNumbering"></th>
+
+      <tal:comment replace="nothing">Title</tal:comment>
+      <th width="40%">
+        <span i18n:translate="listingheader_title"></span><span i18n:domain="PloneMeeting"
+          id="pmDescription" class="pmExpanded"
+          tal:condition="python: not isDecided" i18n:translate="and_description"
+          tal:attributes="style python:'display: %s' % descrsStyle"></span><span
+          tal:condition="python: isDecided" i18n:domain="PloneMeeting"
+          i18n:translate="and_decision"  id="pmDescription" class="pmExpanded"
+          tal:attributes="style python:'display: %s' % descrsStyle"></span>
+      </th>
+
+      <tal:comment replace="nothing">State</tal:comment>
+      <th tal:condition="python: 'state' in visibleColumns" i18n:translate="State"></th>
+
+      <tal:comment replace="nothing">Category (or proposing group)</tal:comment>
+      <th tal:condition="python: 'categoryOrProposingGroup' in visibleColumns">
+        <span tal:condition="python: not meetingConfig.getUseGroupsAsCategories()"
+              i18n:translate="MeetingCategory" i18n:domain="PloneMeeting"></span>
+        <span tal:condition="python: meetingConfig.getUseGroupsAsCategories()"
+              i18n:translate="PloneMeeting_label_proposingGroup" i18n:domain="PloneMeeting"></span>
+      </th>
+
+      <tal:comment replace="nothing">Proposing group acronym</tal:comment>
+      <th tal:condition="python: 'proposingGroupAcronym' in visibleColumns"
+          i18n:translate="PloneMeeting_label_proposingGroup" i18n:domain="PloneMeeting"></th>
+
+      <tal:comment replace="nothing">Associated groups</tal:comment>
+      <th tal:condition="python: 'associatedGroups' in visibleColumns"
+          i18n:translate="PloneMeeting_label_associatedGroups" i18n:domain="PloneMeeting"></th>
+
+      <tal:comment replace="nothing">Associated groups acronyms</tal:comment>
+      <th tal:condition="python: 'associatedGroupsAcronyms' in visibleColumns"
+          i18n:translate="PloneMeeting_label_associatedGroups" i18n:domain="PloneMeeting"></th>
+
+      <tal:comment replace="nothing">Creator</tal:comment>
+      <th tal:condition="python: 'creator' in visibleColumns"
+          i18n:translate="pm_creator" i18n:domain="PloneMeeting"></th>
+
+      <tal:comment replace="nothing">Annexes</tal:comment>
+      <th i18n:translate="annexes" i18n:domain="PloneMeeting"
+          tal:attributes="width meetingConfig/getAnnexesIconsWidth"></th>
+
+      <tal:comment replace="nothing">Annexes (decision-related)</tal:comment>
+      <th tal:condition="isDecided" i18n:translate="AnnexesDecisionShort"
+          tal:attributes="width python:meetingConfig.getAnnexesIconsWidth(True)"></th>
+
+      <tal:comment replace="nothing">Advices</tal:comment>
+      <th i18n:domain="PloneMeeting" i18n:translate="advices"
+          tal:condition="meetingConfig/useAdvices"
+          tal:attributes="width python:meetingConfig.getAgreementLevelsIconsWidth()"></th>
+
+      <tal:comment replace="nothing">Actions</tal:comment>
+      <th i18n:domain="plone" i18n:translate="heading_actions"
+          tal:condition="python:member.has_permission('Modify portal content', meeting)"></th>
+
+      <tal:comment replace="nothing">Checkbox column for selecting items.</tal:comment>
+      <th tal:condition="showCheckboxes">
+        <img tal:condition="itemsNumbering" tal:attributes="src string: $portal_url/select_items.png"
+             i18n:domain="PloneMeeting" i18n:attributes="title" title="helpSelectForPrintingIcon"
+             onClick="javascript:toggleCheckboxes()" style="cursor:pointer"/>
+        <tal:comment replace="nothing">We show inside the column header the button
+             for presenting several items at once</tal:comment>
+        <form name="selectItemsForm" tal:condition="not: itemsNumbering"
+              tal:attributes="action python: meeting.absolute_url_path() + '/meeting_presentseveralitems'">
+          <input type="hidden" name="uids" value=""/>
+          <input type="hidden" name="iStartNumber"/>
+          <input type="hidden" name="lStartNumber"/>
+          <button type="button" class="noborder" title="present_several_items"
+                  i18n:domain="PloneMeeting" i18n:attributes="title"
+                  tal:attributes="onClick python: 'presentSelectedItems()'">
+            <img tal:attributes="src string: $portal_url/presentSeveral.png"/>
+          </button>
+        </form>
+      </th>
+
+    </tr>
+    <tal:showItem repeat="meetingItem meetingItems">
+      <tr tal:define="global itemNumber python:itemNumber+1"
+          tal:condition="python: member.has_permission('View', meetingItem)" valign="top">
+        <tal:comment replace="nothing">"toDiscuss" field</tal:comment>
+        <td tal:condition="python: itemsNumbering and ('toDiscuss' in meetingConfig.getUsedItemAttributes())"
+            i18n:domain="PloneMeeting">
+            <tal:forMeetingManagers condition="python: member.has_role('MeetingManager')">
+              <img tal:condition="meetingItem/getToDiscuss" name="discussNo" style="cursor:pointer"
+                   title="to_discuss_yes_edit" i18n:attributes="title"
+                   tal:attributes="src string: $portal_url/toDiscussYes.png;
+                                   onClick python:'setToDiscuss(\'no\', \'%s\')' % meetingItem.UID()"/>
+              <img tal:condition="not: meetingItem/getToDiscuss" name="discussYes" style="cursor:pointer"
+                   title="to_discuss_no_edit" i18n:attributes="title"
+                   tal:attributes="src string: $portal_url/toDiscussNo.png;
+                                   onClick python:'setToDiscuss(\'yes\', \'%s\')' % meetingItem.UID()"/>
+            </tal:forMeetingManagers>
+
+            <tal:comment replace="nothing">For reviewers: they may ask to discuss the item if "toDiscuss" is
+                False. A mail will be sent to MeetingManagers that will themselves update the "toDiscuss"
+                field (or not).</tal:comment>
+            <tal:forReviewers condition="python: userIsReviewer and not member.has_role('MeetingManager')">
+              <img tal:condition="meetingItem/getToDiscuss" title="to_discuss_yes" i18n:attributes="title"
+                   tal:attributes="src string: $portal_url/toDiscussYes.png"/>
+              <img tal:condition="not: meetingItem/getToDiscuss" name="discussAsk" style="cursor:pointer"
+                   title="to_discuss_no_ask_edit" i18n:attributes="title"
+                   tal:attributes="src string: $portal_url/toDiscussNo.png;
+                                   onClick python:'setToDiscuss(\'ask\', \'%s\')' % meetingItem.UID()"/>
+            </tal:forReviewers>
+            <tal:forTheOthers condition="python: not member.has_role('MeetingManager') and not userIsReviewer">
+              <img tal:condition="meetingItem/getToDiscuss" title="to_discuss_yes" i18n:attributes="title"
+                   tal:attributes="src string: $portal_url/toDiscussYes.png"/>
+              <img tal:condition="not: meetingItem/getToDiscuss" title="to_discuss_no" i18n:attributes="title"
+                   tal:attributes="src string: $portal_url/toDiscussNo.png"/>
+            </tal:forTheOthers>
+        </td>
+
+        <tal:comment replace="nothing">Item number</tal:comment>
+        <td tal:condition="itemsNumbering">
+          <tal:comment replace="nothing">For meeting managers: they can edit the number in order to move
+             the item at another place. I surround it in a table, so the input field and the button
+             always stay on the same row.</tal:comment>
+            <table class="no-style-table" cellspacing="0" cellpadding="0" i18n:domain="PloneMeeting"
+                   tal:condition="python: (totalNbOfItems&gt;2) and mayChangeOrder">
+              <tr>
+                <tal:comment replace="nothing">In the following "td"s, keep all tags as is: if you add spaces
+                   or carriage returns, the DOM tree created by Firefox will add additional nodes and some
+                   Javascript expressions will fail.</tal:comment>
+                <td><input type="text" size="1" name="moveValue"
+                           tal:attributes="id python: 'moveValue_%d' % itemNumber;
+                                           value itemNumber;
+                                           onFocus python: 'onImageButtonFocus(%d)' % itemNumber;"/></td><td><img
+                     style="visibility: hidden;"
+                     title="move_several" i18n:attributes="title" id="moveImageButton"
+                     tal:attributes="name itemNumber;
+                                     src string: $portal_url/arrowSeveral.png;
+                                     onClick python:'moveMeetingItem(\'number\', \'%s\', this.parentNode.previousSibling.firstChild)' % meetingItem.UID()"/></td>
+              </tr>
+            </table>
+            <tal:comment replace="nothing">For the others</tal:comment>
+            <span tal:condition="python: (totalNbOfItems&lt;=2) or (not mayChangeOrder)"
+                  tal:replace="itemNumber"></span>
+        </td>
+
+        <tal:comment replace="nothing">Title, with 'late', 'delayed' and/or 'refused' statuses,
+             with description and/or decision text and item reference.</tal:comment>
+        <td tal:define="global shownItems python:shownItems+1" valign="top" class="pmLinks">
+            <img tal:condition="python: not itemsNumbering and meetingItem.wfConditions().isLateFor(meeting)"
+                 tal:attributes="src string: $portal_url/late.png"
+                 title="late" i18n:attributes="title" align="left"/>
+            <img tal:condition="python: meetingItem.adapted().isDelayed()"
+                 tal:attributes="src string: $portal_url/delayed.png"
+                 title="delayed" i18n:attributes="title" align="left"/>
+            <img tal:condition="python: meetingItem.adapted().isRefused()"
+                 tal:attributes="src string: $portal_url/refused.png"
+                 title="refused" i18n:attributes="title" align="left"/>
+            <tal:comment replace="nothing">The title itself</tal:comment>
+            <span tal:replace="structure python: tool.getColoredLink(meetingItem, showColors)"/>
+            <span i18n:domain="PloneMeeting" id="pmDescription" class="pmExpanded"
+                  tal:attributes="style python:'display: %s' % descrsStyle">
+              <span tal:condition="not: meetingItem/descriptionFieldIsEmpty"
+                    tal:content="structure meetingItem/Description"></span>
+              <tal:comment replace="nothing">We have to check that the current user can see the decision field too...</tal:comment>
+              <i tal:condition="python: isDecided and not meetingItem.decisionFieldIsEmpty() and member.has_permission('PloneMeeting: Read decision', meetingItem)"
+                  tal:content="structure meetingItem/getDecision"></i>
+            </span>
+            <span tal:condition="python: itemsNumbering and meetingItem.adapted().mustShowItemReference()"><br/>
+              <span class="discreet" tal:content="python: meetingItem.adapted().getItemReference()"></span>
+            </span>
+        </td>
+
+        <tal:comment replace="nothing">State</tal:comment>
+        <td tal:condition="python: 'state' in visibleColumns"
+            tal:content="python: meetingItem.queryState()" i18n:translate=""></td>
+
+        <tal:comment replace="nothing">Category (or proposing group)</tal:comment>
+        <td tal:condition="python: 'categoryOrProposingGroup' in visibleColumns">
+          <span tal:condition="python: meetingItem.getCategory(True)"
+                tal:content="python: meetingItem.getCategory(True).Title()"></span>
+        </td>
+
+        <tal:comment replace="nothing">Proposing group acronym</tal:comment>
+        <td tal:condition="python: 'proposingGroupAcronym' in visibleColumns">
+          <acronym tal:define="group python: getattr(tool, meetingItem.getProposingGroup())"
+                   tal:attributes="title group/Title"
+                   tal:content="group/getAcronym"></acronym>
+        </td>
+
+        <tal:comment replace="nothing">Associated groups</tal:comment>
+        <td tal:condition="python: 'associatedGroups' in visibleColumns">
+          <span tal:repeat="associatedGroup meetingItem/getAssociatedGroups"
+                tal:content="structure python: getattr(tool, associatedGroup).Title() + '&nbsp;&nbsp;'"></span>
+        </td>
+
+        <tal:comment replace="nothing">Associated groups acronyms</tal:comment>
+        <td tal:condition="python: 'associatedGroupsAcronyms' in visibleColumns">
+          <span tal:repeat="associatedGroup meetingItem/getAssociatedGroups">
+            <acronym tal:define="group python: getattr(tool, associatedGroup)"
+                     tal:attributes="title group/Title"
+                     tal:content="group/getAcronym"></acronym>&nbsp;&nbsp;
+          </span>
+        </td>
+
+        <tal:comment replace="nothing">Creator</tal:comment>
+        <td tal:condition="python: 'creator' in visibleColumns"
+            tal:content="python: meetingItem.Creator()"></td>
+
+        <tal:comment replace="nothing">Annexes</tal:comment>
+        <td align="center"><div metal:use-macro="here/annexes_macros/macros/annexesIcons"/></td>
+
+        <tal:comment replace="nothing">Annexes (decision-related)</tal:comment>
+        <td align="center" tal:define="decisionRelated python:True" tal:condition="isDecided">
+          <tal:cond condition="python:member.has_permission('PloneMeeting: Read decision annex', meetingItem)">
+            <div metal:use-macro="here/annexes_macros/macros/annexesIcons"/>
+          </tal:cond>
+        </td>
+
+        <tal:comment replace="nothing">Advices</tal:comment>
+        <td tal:condition="meetingConfig/useAdvices" align="center">
+          <div metal:use-macro="here/advices_macros/macros/advicesIcons"/>
+        </td>
+
+        <tal:comment replace="nothing">Actions</tal:comment>
+        <td align="center" tal:define="itemOrMeeting python: meetingItem;
+                                       showIcons python:True;"
+            tal:condition="python:member.has_permission('Modify portal content', meeting)">
+           <div metal:use-macro="here/plonemeeting_actions/macros/ploneMeetingActions" />
+        </td>
+
+        <tal:comment replace="nothing">Checkbox for selecting the item. It is used in 2 cases:
+             - for selecting not-yet-presented items for presenting them at once in the meeting;
+             - for selecting (late-)presented items for generating meeting documents containing
+               only selected items.</tal:comment>
+        <td align="center" tal:condition="showCheckboxes">
+          <input type="checkbox" checked="checked" class="noborder" tal:condition="itemsNumbering"
+                 tal:attributes="id  string:itemCbToDump;
+                                 value meetingItem/UID;
+                                 onClick python: 'javascript:toggleSingleCheckbox(this)'"/>
+          <input type="checkbox" checked="checked" class="noborder" tal:condition="not: itemsNumbering"
+                 tal:attributes="id  string:itemCbToPresent;
+                                 value meetingItem/UID"/>
+        </td>
+      </tr>
+    </tal:showItem>
+    <tr><td colspan="30" tal:condition="not: shownItems" i18n:translate="no_shown_items"
+            i18n:domain="PloneMeeting"/></tr>
+   </table>
+   <metal:itemsNavigation use-macro="here/meetingitems_navigation/macros/itemsNavigation"/>
+   </tal:items>
+  </tal:meetingItems>
+</tal:itemsList>

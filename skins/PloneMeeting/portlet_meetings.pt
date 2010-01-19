@@ -1,0 +1,65 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="PloneMeeting">
+      
+<body>
+
+<div metal:define-macro="portlet" tal:define="tool python:context.portal_plonemeeting"
+     tal:condition="python: tool.isPloneMeetingUser() and tool.isInPloneMeeting(context)">
+
+<metal:block metal:use-macro="here/global_defines/macros/defines" />
+
+<dl class="portlet"
+    tal:define="meetingConfig python:tool.getMeetingConfig(context);
+                meetingFolder python:tool.getPloneMeetingFolder(meetingConfig.getId());
+                meetingStates meetingConfig/getMeetingTopicStates"
+    tal:condition="meetingStates">
+
+    <dt class="portletHeader" i18n:translate="">portletmeetings_title</dt>
+
+    <tal:comment replace="nothing">Create a meeting</tal:comment>
+    <dt class="portletMeetingItem"
+        tal:condition="python: member.has_permission('PloneMeeting: Add Meeting', context)">
+      <a  tal:attributes="href python:meetingFolder.absolute_url() + '/createObject?type_name=Meeting' + meetingConfig.getShortName()" i18n:translate="create_meeting"></a>
+    </dt>
+
+    <tal:comment replace="nothing">List of available meetings</tal:comment>
+    <span tal:define="pc python:context.portal_catalog;
+                      portalTypeName meetingConfig/getMeetingTypeName;
+                      meetingBrains python:pc(portal_type=portalTypeName, review_state=meetingStates, sort_on='getDate', sort_order='reverse');
+                      nbOfMeetings python:len(meetingBrains);
+                      maxShownMeetings meetingConfig/maxShownMeetings;
+                      currentMeetingObject python:modules['Products.PloneMeeting.utils'].getCurrentMeetingObject(context)">
+
+      <tal:comment replace="nothing">A few number of meetings: show a link by meeting</tal:comment>
+      <dt tal:condition="python: nbOfMeetings <= maxShownMeetings"
+           class="portletMeetingItem" tal:repeat="meetingBrain meetingBrains">
+        <a tal:define="meeting meetingBrain/getObject"
+           tal:attributes="href meeting/absolute_url;
+                           class python: test(context.highlightInPortlet(currentMeetingObject, meeting), 'portletMeetingElementSelected', '')"
+           tal:content="python:meeting.adapted().getDisplayableName(True)"></a>
+      </dt>
+
+      <tal:comment replace="nothing">Many meetings! Show a combo box</tal:comment>
+      <dt class="portletMeetingItem" tal:condition="python: nbOfMeetings > maxShownMeetings">
+        <form name="gotoMeeting">
+          <select name="selectMeeting" onChange="location.href=gotoMeeting.selectMeeting.options[selectedIndex].value">
+            <option i18n:translate="make_a_choice"
+                    tal:attributes="value python:meetingFolder.absolute_url() + '/plonemeeting_topic_view?search=searchallmeetings'"></option>
+            <option tal:repeat="meetingBrain meetingBrains"
+                    tal:content="python:meetingBrain.getObject().adapted().getDisplayableName(True)"
+                    tal:attributes="value python:meetingBrain.getObject().absolute_url();
+                                    selected python:context.absolute_url()==meetingBrain.getObject().absolute_url()"></option>
+          </select>
+        </form>
+      </dt>
+
+      <dt class="portletMeetingItem" tal:condition="python: nbOfMeetings==0">
+        <i i18n:translate="no_meeting"></i>
+      </dt>
+    </span>
+</dl>
+</div>
+</body>
+</html>

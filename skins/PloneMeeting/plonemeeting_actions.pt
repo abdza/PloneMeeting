@@ -1,0 +1,131 @@
+<tal:comment replace="nothing">Requires "itemOrMeeting", optional "showIcons"</tal:comment>
+
+<div metal:define-macro="ploneMeetingActions" i18n:domain="plone"
+     tal:define="showIcons showIcons|nothing;
+                 showArrows showArrows|nothing;
+                 mayChangeOrder mayChangeOrder|nothing;
+                 isItem python:itemOrMeeting.meta_type == 'MeetingItem';
+                 inItemsList inItemsList|nothing">
+
+  <table class="no-style-table" tal:attributes="align python:test(showIcons, 'right', 'left')">
+    <tr>
+      <tal:comment replace="nothing">Available transitions</tal:comment>
+      <td tal:repeat="transition python: context.portal_workflow.getTransitionsFor(itemOrMeeting)"
+          class="noPadding" align="left">
+        <tal:showTransition define="imageName python: transition['title'] + '.png'">
+        <form tal:condition="not: inItemsList"
+              tal:attributes="action python: itemOrMeeting.absolute_url_path() + '/content_status_modify'">
+          <input type="hidden" name="workflow_action" tal:attributes="value python: transition['id']" />
+          <input type="hidden" name="came_from" value="True"/>
+          <tal:comment replace="nothing">Icon</tal:comment>
+          <input tal:condition="python: showIcons and hasattr(portal, imageName)"
+                 type="image" tal:attributes="src string: $portal_url/$imageName;
+                                              title python: transition['title']"
+                 i18n:attributes="title" class="imageInput"/>
+           <tal:comment replace="nothing">Button</tal:comment>
+           <input tal:condition="python: not (showIcons and hasattr(portal, imageName))" class="pmButton"
+                  type="submit" tal:attributes="value python: transition['title']"
+                  i18n:attributes="value"/>
+        </form>
+        <tal:comment replace="nothing">If I am in an items list, I need to take into account pagination
+            of the items lists while coming back to the referer URL. This is why in this case a
+            Javascript is called and a specific form that resides on meeting_view will be used for
+            triggering the transition.</tal:comment>
+        <tal:inItemsList condition="inItemsList">
+          <img tal:condition="python: showIcons and hasattr(portal, imageName)"
+               i18n:attributes="title" style="cursor:pointer"
+               tal:attributes="src string: $portal_url/$imageName;
+                               title python: transition['title'];
+                               onClick python:'triggerTransition(\'%s\', \'%s\')' % (transition['id'], itemOrMeeting.UID())"/>
+          <input tal:condition="python: not (showIcons and hasattr(portal, imageName))"
+               class="pmButton" i18n:attributes="value"
+               tal:attributes="value python: transition['title'];
+                               size python: len(transition['title'])/2;
+                               onClick python:'triggerTransition(\'%s\', \'%s\')' % (transition['id'], itemOrMeeting.UID())" />
+        </tal:inItemsList>
+        </tal:showTransition>
+      </td>
+
+      <tal:comment replace="nothing">Arrows (only icons) for moving items up or down within a meeting</tal:comment>
+      <td tal:condition="python: showArrows and mayChangeOrder">
+        <table class="no-style-table" cellspacing="0" cellpadding="0" i18n:domain="PloneMeeting">
+          <tr>
+            <td tal:condition="python: itemOrMeeting.getItemNumber() &gt; 1" class="noPadding">
+              <img name="moveUp" title="move_item_up" i18n:attributes="title" style="cursor:pointer"
+                   tal:attributes="src string: $portal_url/arrowUp.png;
+                                   onClick python:'moveMeetingItem(\'up\', \'%s\', null)' % itemOrMeeting.UID()"/>
+            </td>
+            <td tal:condition="python: itemOrMeeting.getItemNumber() &lt; totalNbOfItems" class="noPadding">
+              <img name="moveDown" title="move_item_down" i18n:attributes="title" style="cursor:pointer"
+                   tal:attributes="src string: $portal_url/arrowDown.png;
+                                   onClick python:'moveMeetingItem(\'down\', \'%s\', null)' % itemOrMeeting.UID()"/>
+            </td>
+          </tr>
+        </table>
+      </td>
+
+      <tal:comment replace="nothing">Edit action</tal:comment>
+      <td tal:condition="python: member.has_permission('Modify portal content', itemOrMeeting) and showIcons"
+          class="noPadding">
+        <tal:comment replace="nothing">Icon. We show this only in showIcons more, because if we are not in
+            this mode, the "edit" tab is present so is is redundant.</tal:comment>
+        <a tal:condition="showIcons"
+           tal:attributes="href python: itemOrMeeting.absolute_url() + '/edit'">
+          <img src="edit.gif" title="Edit" i18n:attributes="title" />
+        </a>
+      </td>
+
+      <tal:comment replace="nothing">Object actions</tal:comment>
+      <span>
+      <td tal:repeat="action python: context.listObjectButtonsActions(itemOrMeeting)" class="noPadding">
+
+          <tal:comment replace="nothing">Icon</tal:comment>
+          <a tal:attributes="href python: action[0]" tal:condition="showIcons">
+            <tal:display_image condition="python: action[1]">
+            <img tal:attributes="src python: action[1];
+                                 title python: action[2];" i18n:attributes="title" />
+            </tal:display_image>
+            <span tal:condition="python: not action[1]" tal:content="python: action[2]" i18n:translate="" />
+          </a>
+
+        <tal:comment replace="nothing">Button</tal:comment>
+        <input tal:condition="not: showIcons" type="button" i18n:attributes="value"
+               tal:attributes="onClick python: 'href: window.location=\'%s\'' % action[0];
+                               value python: action[2]" class="standalone"/>
+      </td>
+      </span>
+
+      <tal:comment replace="nothing">Own management of the "delete" action</tal:comment>
+      <td tal:condition="python: member.has_permission('Delete objects', itemOrMeeting)" class="noPadding">
+        <form name="deleteUidForm" action="delete_givenuid">
+            <input type="hidden" name="selected_uid" tal:attributes="value itemOrMeeting/UID" />
+            <tal:comment replace="nothing">Icon</tal:comment>
+            <img tal:condition="showIcons" src="delete_icon.gif" i18n:attributes="title" title="Delete"
+                 onClick="javascript:confirmDeleteObject(this)" style="cursor:pointer"/>
+
+            <tal:comment replace="nothing">Button</tal:comment>
+            <input tal:condition="not: showIcons" type="button" i18n:attributes="value" value="Delete"
+                   onClick="javascript:confirmDeleteObject(this);" class="standalone"/>
+        </form>
+      </td>
+      <tal:comment replace="nothing">Delete a meeting with its items</tal:comment>
+      <td tal:condition="python: (itemOrMeeting.meta_type == 'Meeting') and member.has_permission('Delete objects', itemOrMeeting) and member.has_role('Manager')" class="noPadding">
+        <form name="deleteWholeMeetingForm" action="delete_givenuid">
+            <input type="hidden" name="selected_uid" tal:attributes="value itemOrMeeting/UID" />
+            <input type="hidden" name="wholeMeeting" value="True"/>
+            <tal:comment replace="nothing">Icon</tal:comment>
+            <img tal:condition="showIcons" style="cursor:pointer"
+                 title="delete_meeting_with_items" i18n:attributes="title"
+                 tal:attributes="src string: $portal_url/delete_meeting.gif"
+                 onClick="javascript:confirmDeleteObject(this, 'wholeMeeting')"/>
+
+            <tal:comment replace="nothing">Button</tal:comment>
+            <input tal:condition="not: showIcons" type="button" i18n:attributes="value"
+                   value="delete_meeting_with_items"
+                   onClick="javascript:confirmDeleteObject(this, 'wholeMeeting');" class="standalone"/>
+        </form>
+      </td>
+  </tr>
+
+  </table>
+</div>

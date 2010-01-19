@@ -1,0 +1,52 @@
+<div metal:define-macro="listPodTemplates" i18n:domain="PloneMeeting" align="right">
+
+  <script language="javascript">
+  <!--
+    // Function that allows to generate a meeting document containing selected items.
+    function generatePodDocument(contextUid, templateId, isItem) {
+      var theForm = document.forms["podTemplateForm"];
+      theForm.objectUid.value = contextUid;
+      if (isItem) {
+        theForm.templateId.value = templateId;
+        theForm.submit();
+      }
+      else {
+        var uidList = '';
+        var atLeastOneSelected = false;
+        for (var uid in itemUids) {
+        if ((typeof itemUids[uid] == 'boolean') && itemUids[uid]) {
+            atLeastOneSelected = true;
+            uidList += uid + ',';
+          }
+        }
+        if (! atLeastOneSelected) {
+          alert(no_item_selected_msg);
+        }
+        else {
+          // Update the form and submit it.
+          theForm.templateId.value = templateId;
+          theForm.itemUids.value = uidList;
+          theForm.submit();
+        }
+      }
+    }
+  -->
+  </script>
+
+  <tal:comment replace="nothing">Form submitted when a meeting/item needs to be generated as a document.</tal:comment>
+  <form name="podTemplateForm" method="post"
+        tal:attributes="action python: context.portal_plonemeeting.absolute_url() + '/generateDocument';
+                        target python:test(meetingConfig.getOpenAnnexesInSeparateWindows(), '_blank', '')">
+    <input type="hidden" name="objectUid"/>
+    <input type="hidden" name="templateId"/>
+    <input type="hidden" name="itemUids"/>
+  </form>
+  <span class="discreet"
+        tal:define="isItemParam python: test(context.meta_type=='Meeting', 'false', 'true')"
+        tal:repeat="podTemplate python: meetingConfig.getAvailablePodTemplates(context)">
+        <a tal:attributes="onclick python: 'javascript:generatePodDocument(\'%s\',\'%s\',%s)' % (context.UID(), podTemplate.id, isItemParam)" style="cursor: pointer">
+          <img tal:define="fmt podTemplate/getPodFormat" tal:attributes="src string: $portal_url/$fmt.png"/>
+           <span tal:replace="podTemplate/Title"/>
+        </a>
+  &nbsp;</span>
+</div>

@@ -1,0 +1,88 @@
+<configure xmlns="http://namespaces.zope.org/zope"
+           xmlns:browser="http://namespaces.zope.org/browser"
+           xmlns:five="http://namespaces.zope.org/five"
+           xmlns:genericsetup="http://namespaces.zope.org/genericsetup"
+           i18n_domain="PloneMeeting">
+
+  <five:deprecatedManageAddDelete class=".ToolPloneMeeting.ToolPloneMeeting"/>
+  <five:deprecatedManageAddDelete class=".MeetingConfig.MeetingConfig"/>
+  <five:deprecatedManageAddDelete class=".PodTemplate.PodTemplate"/>
+  <five:deprecatedManageAddDelete class=".Meeting.Meeting"/>
+  <five:deprecatedManageAddDelete class=".MeetingItem.MeetingItem"/>
+  <five:deprecatedManageAddDelete class=".MeetingCategory.MeetingCategory"/>
+  <five:deprecatedManageAddDelete class=".MeetingFile.MeetingFile"/>
+  <five:deprecatedManageAddDelete class=".MeetingFileType.MeetingFileType"/>
+  <five:deprecatedManageAddDelete class=".MeetingGroup.MeetingGroup"/>
+  <five:deprecatedManageAddDelete class=".MeetingAdvice.MeetingAdvice"/>
+  <five:deprecatedManageAddDelete class=".MeetingUser.MeetingUser"/>
+  <five:deprecatedManageAddDelete class=".MeetingAdviceAgreementLevel.MeetingAdviceAgreementLevel"/>
+
+  <five:implements class=".MeetingItem.MeetingItem" interface=".interfaces.IMeetingItem"/>
+  <five:implements class=".Meeting.Meeting" interface=".interfaces.IMeeting"/>
+  <five:implements class=".MeetingAdvice.MeetingAdvice" interface=".interfaces.IMeetingAdvice"/>
+  <five:implements class=".MeetingCategory.MeetingCategory" interface=".interfaces.IMeetingCategory"/>
+  <five:implements class=".ExternalApplication.ExternalApplication" interface=".interfaces.IExternalApplication"/>
+  <five:implements class=".MeetingAdviceAgreementLevel.MeetingAdviceAgreementLevel" interface=".interfaces.IMeetingAdviceAgreementLevel"/>
+  <five:implements class=".MeetingConfig.MeetingConfig" interface=".interfaces.IMeetingConfig"/>
+  <five:implements class=".MeetingFile.MeetingFile" interface=".interfaces.IMeetingFile"/>
+  <five:implements class=".MeetingFileType.MeetingFileType" interface=".interfaces.IMeetingFileType"/>
+  <five:implements class=".MeetingGroup.MeetingGroup" interface=".interfaces.IMeetingGroup"/>
+  <five:implements class=".PodTemplate.PodTemplate" interface=".interfaces.IPodTemplate"/>
+  <five:implements class=".ToolPloneMeeting.ToolPloneMeeting" interface=".interfaces.IToolPloneMeeting"/>
+  <five:implements class=".MeetingUser.MeetingUser" interface=".interfaces.IMeetingUser"/>
+
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingItem"
+           factory="Products.PloneMeeting.MeetingItem.MeetingItemWorkflowConditions"
+           provides=".interfaces.IMeetingItemWorkflowConditions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingItem"
+           factory="Products.PloneMeeting.MeetingItem.MeetingItemWorkflowActions"
+           provides=".interfaces.IMeetingItemWorkflowActions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeeting"
+           factory="Products.PloneMeeting.Meeting.MeetingWorkflowConditions"
+           provides=".interfaces.IMeetingWorkflowConditions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeeting"
+           factory="Products.PloneMeeting.Meeting.MeetingWorkflowActions"
+           provides=".interfaces.IMeetingWorkflowActions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingAdvice"
+           factory="Products.PloneMeeting.MeetingAdvice.MeetingAdviceWorkflowConditions"
+           provides=".interfaces.IMeetingAdviceWorkflowConditions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingAdvice"
+           factory="Products.PloneMeeting.MeetingAdvice.MeetingAdviceWorkflowActions"
+           provides=".interfaces.IMeetingAdviceWorkflowActions" />
+
+  <subscriber for="Products.PloneMeeting.interfaces.IMeetingItem
+              zope.app.container.interfaces.IObjectAddedEvent"
+              handler="Products.PloneMeeting.MeetingItem.onAddMeetingItem"/>
+  <subscriber for="Products.PloneMeeting.interfaces.IMeetingAdvice
+              zope.app.container.interfaces.IObjectAddedEvent"
+              handler="Products.PloneMeeting.MeetingAdvice.onAddMeetingAdvice"/>
+
+  <genericsetup:registerProfile
+    name="default"
+    title="PloneMeeting / Default"
+    description="PloneMeeting default profile"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot" />
+
+  <genericsetup:registerProfile
+    name="test"
+    title="PloneMeeting / Test"
+    description="PloneMeeting test profile"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot" />
+
+  <genericsetup:registerProfile
+    name="archive"
+    title="PloneMeeting / Archive"
+    description="PloneMeeting profile for setting-up an archive site"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFPlone.interfaces.IPloneSiteRoot" />
+
+  <genericsetup:registerProfile
+    name="migrations"
+    title="PloneMeeting / Migrations"
+    description="PloneMeeting profile for performing migrations"
+    provides="Products.GenericSetup.interfaces.EXTENSION"
+    for="Products.CMFCore.interfaces.ISiteRoot" />
+
+</configure>

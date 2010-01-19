@@ -1,0 +1,6 @@
+<tal:block define="_dummy python:request.response.setHeader('content-type','text/javascript;;charset=utf-8')" />
+<metal:block i18n:domain="plone">
+var plonemeeting_delete_confirm_message = '<tal:block tal:replace="python: here.utranslate('plonemeeting_delete_confirm_message', domain='PloneMeeting', escape_for_js=True)" />';
+var plonemeeting_delete_meeting_confirm_message = '<tal:block tal:replace="python: here.utranslate('plonemeeting_delete_meeting_confirm_message', domain='PloneMeeting', escape_for_js=True)" />';
+var no_item_selected_msg = '<tal:block tal:replace="python: here.utranslate('no_selected_items', domain='PloneMeeting', escape_for_js=True)" />'
+</metal:block>

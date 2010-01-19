@@ -1,0 +1,46 @@
+<html xmlns:tal="http://xml.zope.org/namespaces/tal"
+      xmlns:metal="http://xml.zope.org/namespaces/metal"
+      xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+      i18n:domain="PloneMeeting">
+<body>
+
+<div metal:define-macro="portlet" 
+     tal:define="tool python: context.portal_plonemeeting"
+     tal:condition="python: tool.showTodoPortlet(context)">
+
+<metal:block metal:use-macro="here/global_defines/macros/defines" />
+
+<dl class="portlet"
+    tal:define="meetingConfig python:tool.getMeetingConfig(context);
+                meetingFolder python:tool.getPloneMeetingFolder(meetingConfig.getId());
+                topics meetingConfig/getTopicsForPortletToDo;
+                showColors context/portal_plonemeeting/showColorsForUser;">
+
+    <dt class="portletHeader" i18n:translate="todo_portlet_title">To do</dt>
+
+    <tal:block repeat="topic topics">
+       <tal:block define="brains python: context.getBrainsForPortletTodo(topic[0]);
+        topic_url python: meetingFolder.absolute_url() + '/plonemeeting_topic_view?search=%s&scriptId=%s' % (topic[0].getId(), topic[1])">
+         <dd class="portletMeetingItem">
+         <strong><span i18n:translate="" tal:content="python: topic[0].Title() or topic[0].getId()">Topic title</span></strong>
+        </dd>
+        <dt class="portletMeetingItem" tal:condition="not: brains">
+         <span class="discreet" i18n:translate="nothing_to_do">Nothing to do</span>
+        </dt>
+        <dd class="portletMeetingItem" tal:condition="brains" tal:define="global topic_url python: topic[0].absolute_url()" tal:repeat="brain brains">
+         <ul>
+          <li style="margin-bottom: 0" tal:define="brainTitle brain/Title;">
+           <acronym tal:attributes="title brainTitle">
+            <tal:showTitle replace="structure python: tool.getColoredLink(brain.getObject(), showColors, maxLength=45)"/>
+           </acronym>
+          </li>
+         </ul>
+        </dd>
+        <dd tal:condition="brains" class="portletMeetingItem"><p align="right"><a href="#" tal:attributes="href topic_url" i18n:translate="see_everything">See everything...</a></p></dd>
+       </tal:block>
+    </tal:block>
+</dl>
+</div>
+
+</body>
+</html>
