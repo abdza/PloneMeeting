@@ -1,0 +1,369 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="meeting_workflow"
+             title="meeting_workflow"
+             state_variable="review_state"
+             initial_state="created">
+ <permission>View</permission>
+ <permission>Access contents information</permission>
+ <permission>Modify portal content</permission>
+ <permission>Review portal content</permission>
+ <permission>Delete objects</permission>
+ <state state_id="archived" title="archived">
+  <exit-transition transition_id="backToClosed"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="closed" title="closed">
+  <exit-transition transition_id="backToDecided"/>
+  <exit-transition transition_id="archive"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="created" title="created">
+  <exit-transition transition_id="publish"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverUnpublished</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverUnpublished</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="decided" title="decided">
+  <exit-transition transition_id="close"/>
+  <exit-transition transition_id="backToFrozen"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="frozen" title="frozen">
+  <exit-transition transition_id="backToPublished"/>
+  <exit-transition transition_id="decide"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="published" title="published">
+  <exit-transition transition_id="backToCreated"/>
+  <exit-transition transition_id="republish"/>
+  <exit-transition transition_id="freeze"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+  </permission-map>
+ </state>
+ <transition transition_id="archive" title="archive"
+             new_state="archived" trigger="USER"
+             before_script="" after_script="doArchive">
+  <action url="" category="workflow">archive</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayArchive()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="backToClosed"
+             title="backToClosed" new_state="closed"
+             trigger="USER" before_script=""
+             after_script="doBackToClosed">
+  <action url="" category="workflow">backToClosed</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayCorrect()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="backToCreated"
+             title="backToCreated" new_state="created"
+             trigger="USER" before_script=""
+             after_script="doBackToCreated">
+  <action url="" category="workflow">backToCreated</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayCorrect()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="backToDecided"
+             title="backToDecided" new_state="decided"
+             trigger="USER" before_script=""
+             after_script="doBackToDecided">
+  <action url="" category="workflow">backToDecided</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayCorrect()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="backToFrozen"
+             title="backToFrozen" new_state="frozen"
+             trigger="USER" before_script=""
+             after_script="doBackToFrozen">
+  <action url="" category="workflow">backToFrozen</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayCorrect()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="backToPublished"
+             title="backToPublished" new_state="published"
+             trigger="USER" before_script=""
+             after_script="doBackToPublished">
+  <action url="" category="workflow">backToPublished</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayCorrect()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="close" title="close"
+             new_state="closed" trigger="USER"
+             before_script="" after_script="doClose">
+  <action url="" category="workflow">close</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayClose()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="decide" title="decide"
+             new_state="decided" trigger="USER"
+             before_script="" after_script="doDecide">
+  <action url="" category="workflow">decide</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayDecide()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="freeze" title="freeze"
+             new_state="frozen" trigger="USER"
+             before_script="" after_script="doFreeze">
+  <action url="" category="workflow">freeze</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayFreeze()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="publish" title="publish"
+             new_state="published" trigger="USER"
+             before_script="" after_script="doPublish">
+  <action url="" category="workflow">publish</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayPublish()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="republish" title="republish"
+             new_state="published" trigger="USER"
+             before_script="" after_script="doRepublish">
+  <action url="" category="workflow">republish</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayRepublish()</guard-expression>
+  </guard>
+ </transition>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <script script_id="doArchive" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doArchive"/>
+ <script script_id="doBackToClosed" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doBackToClosed"/>
+ <script script_id="doBackToCreated" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doBackToCreated"/>
+ <script script_id="doBackToDecided" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doBackToDecided"/>
+ <script script_id="doBackToFrozen" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doBackToFrozen"/>
+ <script script_id="doBackToPublished"
+         type="External Method" filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doBackToPublished"/>
+ <script script_id="doClose" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doClose"/>
+ <script script_id="doDecide" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doDecide"/>
+ <script script_id="doFreeze" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doFreeze"/>
+ <script script_id="doPublish" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doPublish"/>
+ <script script_id="doRepublish" type="External Method"
+         filename=""
+         module="PloneMeeting.meeting_workflow_scripts"
+         function="doRepublish"/>
+</dc-workflow>

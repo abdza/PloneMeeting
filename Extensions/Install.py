@@ -175,22 +175,27 @@ def install(self, reinstall=False):
         None,
     )
 
-
+    extension_id='Products.PloneMeeting:default'
+    portal_setup = getToolByName(self,'portal_setup')
+    portal_quickinstaller = getToolByName(self,'portal_quickinstaller')
+    portal_setup.runAllImportStepsFromProfile('profile-%s' % extension_id, purge_old=False)
+    product_name = extension_id.split(':')[0]
+    portal_quickinstaller.notifyInstalled(product_name)
     # try to call a workflow install method
     # in 'InstallWorkflows.py' method 'installWorkflows'
-    try:
-        installWorkflows = ExternalMethod('temp', 'temp',
-                                          PROJECTNAME+'.InstallWorkflows',
-                                          'installWorkflows').__of__(self)
-    except NotFound:
-        installWorkflows = None
+    #try:
+    #    installWorkflows = ExternalMethod('temp', 'temp',
+    #                                      PROJECTNAME+'.InstallWorkflows',
+    #                                      'installWorkflows').__of__(self)
+    #except NotFound:
+    #    installWorkflows = None
 
-    if installWorkflows:
-        print >>out,'Workflow Install:'
-        res = installWorkflows(self,out)
-        print >>out,res or 'no output'
-    else:
-        print >>out,'no workflow install'
+    #if installWorkflows:
+    #    print >>out,'Workflow Install:'
+    #    res = installWorkflows(self,out)
+    #    print >>out,res or 'no output'
+    #else:
+    #    print >>out,'no workflow install'
 
     #bind classes to workflows
     wft = getToolByName(self,'portal_workflow')

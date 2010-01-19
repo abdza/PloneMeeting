@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="meetingadvice_workflow"
+             title="meetingadvice_workflow"
+             state_variable="review_state"
+             initial_state="advicecreated">
+ <permission>Modify portal content</permission>
+ <permission>Delete objects</permission>
+ <permission>Access contents information</permission>
+ <permission>View</permission>
+ <permission>Review portal content</permission>
+ <state state_id="adviceclosed" title="adviceclosed">
+  <exit-transition transition_id="adviceBackToPublished"/>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="advicecreated" title="advicecreated">
+  <exit-transition transition_id="advicePublish"/>
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+ </state>
+ <state state_id="advicepublished" title="advicepublished">
+  <exit-transition transition_id="adviceBackToCreated"/>
+  <exit-transition transition_id="adviceClose"/>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+ </state>
+ <transition transition_id="adviceBackToCreated"
+             title="adviceBackToCreated"
+             new_state="advicecreated" trigger="USER"
+             before_script="" after_script="doBackToCreated">
+  <action url="" category="workflow">adviceBackToCreated</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayBackToCreated()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="adviceBackToPublished"
+             title="adviceBackToPublished"
+             new_state="advicepublished" trigger="USER"
+             before_script=""
+             after_script="doBackToPublished">
+  <action url="" category="workflow">adviceBackToPublished</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayBackToPublished()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="adviceClose" title="adviceClose"
+             new_state="adviceclosed" trigger="USER"
+             before_script="" after_script="doClose">
+  <action url="" category="workflow">adviceClose</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayClose()</guard-expression>
+  </guard>
+ </transition>
+ <transition transition_id="advicePublish"
+             title="advicePublish"
+             new_state="advicepublished" trigger="USER"
+             before_script="" after_script="doPublish">
+  <action url="" category="workflow">advicePublish</action>
+  <guard>
+   <guard-expression>python:here.wfConditions().mayPublish()</guard-expression>
+  </guard>
+ </transition>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <script script_id="doBackToCreated" type="External Method"
+         filename=""
+         module="PloneMeeting.meetingadvice_workflow_scripts"
+         function="doBackToCreated"/>
+ <script script_id="doBackToPublished"
+         type="External Method" filename=""
+         module="PloneMeeting.meetingadvice_workflow_scripts"
+         function="doBackToPublished"/>
+ <script script_id="doClose" type="External Method"
+         filename=""
+         module="PloneMeeting.meetingadvice_workflow_scripts"
+         function="doClose"/>
+ <script script_id="doPublish" type="External Method"
+         filename=""
+         module="PloneMeeting.meetingadvice_workflow_scripts"
+         function="doPublish"/>
+</dc-workflow>

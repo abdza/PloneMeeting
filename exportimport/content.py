@@ -84,8 +84,8 @@ def installProducts(context):
     qi = getToolByName(portal, 'portal_quickinstaller')
     if not qi.isProductInstalled('Archetypes'):
         qi.installProduct('Archetypes')
-    if not qi.isProductInstalled('PloneMeeting'):
-        qi.installProduct('PloneMeeting')
+    #if not qi.isProductInstalled('PloneMeeting'):
+    #    qi.installProduct('PloneMeeting')
     return "Necessary products for PloneMeeting installed."
 
 def initializeTool(context):

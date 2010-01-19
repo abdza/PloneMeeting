@@ -1,0 +1,194 @@
+<?xml version="1.0"?>
+<dc-workflow workflow_id="meetingitem_archive_workflow"
+             title="meetingitem_archive_workflow"
+             state_variable="review_state"
+             initial_state="archived">
+ <permission>Access contents information</permission>
+ <permission>View</permission>
+ <permission>Modify portal content</permission>
+ <permission>Review portal content</permission>
+ <permission>Delete objects</permission>
+ <permission>PloneMeeting: Add annex</permission>
+ <permission>PloneMeeting: Write decision</permission>
+ <permission>PloneMeeting: Read decision</permission>
+ <permission>Add portal content</permission>
+ <permission>PloneMeeting: Add MeetingFile</permission>
+ <permission>PloneMeeting: Add MeetingAdvice</permission>
+ <permission>PloneMeeting: Read mandatory advisers</permission>
+ <permission>PloneMeeting: Write mandatory advisers</permission>
+ <permission>PloneMeeting: Read optional advisers</permission>
+ <permission>PloneMeeting: Write optional advisers</permission>
+ <permission>PloneMeeting: Read decision annex</permission>
+ <permission>PloneMeeting: Write decision annex</permission>
+ <permission>PloneMeeting: Read item observations</permission>
+ <permission>PloneMeeting: Write item observations</permission>
+ <state state_id="archived" title="archived">
+  <permission-map name="Access contents information"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
+  </permission-map>
+  <permission-map name="Add portal content" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Delete objects" acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Modify portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Add MeetingAdvice"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Add MeetingFile"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Add annex"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Read decision"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Read decision annex"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Read item observations"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Read mandatory advisers"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Read optional advisers"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Write decision"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Write decision annex"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Write item observations"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Write mandatory advisers"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="PloneMeeting: Write optional advisers"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="Review portal content"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View" acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
+  </permission-map>
+ </state>
+ <variable variable_id="action" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The last transition</description>
+  <default>
+   
+   <expression>transition/getId|nothing</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="actor" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>The ID of the user who performed the last transition</description>
+  <default>
+   
+   <expression>user/getId</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="comments" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Comments about the last transition</description>
+  <default>
+   
+   <expression>python:state_change.kwargs.get('comment', '')</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+ <variable variable_id="review_history" for_catalog="False"
+           for_status="False" update_always="False">
+  <description>Provides access to workflow history</description>
+  <default>
+   
+   <expression>state_change/getHistory</expression>
+  </default>
+  <guard>
+   <guard-permission>Request review</guard-permission>
+   <guard-permission>Review portal content</guard-permission>
+  </guard>
+ </variable>
+ <variable variable_id="time" for_catalog="False"
+           for_status="True" update_always="True">
+  <description>Time of the last transition</description>
+  <default>
+   
+   <expression>state_change/getDateTime</expression>
+  </default>
+  <guard>
+  </guard>
+ </variable>
+</dc-workflow>
