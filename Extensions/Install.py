@@ -32,6 +32,7 @@ __docformat__ = 'plaintext'
 
 import os.path
 import sys
+import transaction
 from StringIO import StringIO
 from sets import Set
 from App.Common import package_home
@@ -64,7 +65,7 @@ def install(self, reinstall=False):
     for dependency in DEPENDENCIES:
         print >> out, "Installing dependency %s:" % dependency
         quickinstaller.installProduct(dependency)
-        get_transaction().commit(1)
+        transaction.commit(1)
 
     classes = listTypes(PROJECTNAME)
     installTypes(self, out,
