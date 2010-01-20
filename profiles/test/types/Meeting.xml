@@ -1,0 +1,42 @@
+<?xml version="1.0"?>
+<object name="Meeting" meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title">Meeting</property>
+ <property name="description"> A meeting made of items </property>
+ <property name="content_icon">meeting.gif</property>
+ <property name="content_meta_type">Meeting</property>
+ <property name="product">PloneMeeting</property>
+ <property name="factory">addMeeting</property>
+ <property name="immediate_view">meeting_view</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">False</property>
+ <property name="allowed_content_types"/>
+ <property name="allow_discussion">False</property>
+ <alias from="edit" to="base_edit"/>
+ <action title="View" action_id="view" category="object"
+    condition_expr="python:not here.portal_factory.isTemporary(here)"
+    url_expr="string:${object_url}/meeting_view" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object" condition_expr=""
+    url_expr="string:${object_url}/base_edit" visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Properties" action_id="metadata" category="object"
+    condition_expr="python:1" url_expr="string:$object_url/base_metadata"
+    visible="True">
+  <permission value="Manage portal"/>
+ </action>
+ <action title="References" action_id="references" category="object"
+    condition_expr="object/archetype_tool/has_graphviz"
+    url_expr="string:${object_url}/reference_graph" visible="True">
+  <permission value="Modify portal content"/>
+  <permission value="Review portal content"/>
+ </action>
+ <action title="show_or_hide_details" action_id="toggleDescriptions"
+    category="document_actions"
+    condition_expr="python:(&quot;meeting_view&quot; in here.REQUEST.get(&quot;ACTUAL_URL&quot;)) or (object_url == here.REQUEST.get(&quot;ACTUAL_URL&quot;))"
+    url_expr="string:javascript:toggleMeetingDescriptions();" visible="True">
+  <permission value="View"/>
+ </action>
+</object>

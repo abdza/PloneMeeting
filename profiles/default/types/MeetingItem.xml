@@ -1,0 +1,81 @@
+<?xml version="1.0"?>
+<object name="MeetingItem" meta_type="Factory-based Type Information"
+   xmlns:i18n="http://xml.zope.org/namespaces/i18n">
+ <property name="title">MeetingItem</property>
+ <property name="description">
+      </property>
+ <property name="content_icon">meetingitem_icon.gif</property>
+ <property name="content_meta_type">MeetingItem</property>
+ <property name="product">PloneMeeting</property>
+ <property name="factory">addMeetingItem</property>
+ <property name="immediate_view">meetingitem_view</property>
+ <property name="global_allow">True</property>
+ <property name="filter_content_types">True</property>
+ <property name="allowed_content_types">
+  <element value="MeetingFile"/>
+  <element value="MeetingAdvice"/>
+ </property>
+ <property name="allow_discussion">False</property>
+ <alias from="edit" to="base_edit"/>
+ <action title="View" action_id="view" category="object"
+    condition_expr="python:not here.portal_factory.isTemporary(here)"
+    url_expr="string:${object_url}/meetingitem_view" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Edit" action_id="edit" category="object" condition_expr=""
+    url_expr="string:${object_url}/base_edit" visible="True">
+  <permission value="Modify portal content"/>
+ </action>
+ <action title="Properties" action_id="metadata" category="object"
+    condition_expr="python:1" url_expr="string:$object_url/base_metadata"
+    visible="True">
+  <permission value="Manage portal"/>
+ </action>
+ <action title="References" action_id="references" category="object"
+    condition_expr="object/archetype_tool/has_graphviz"
+    url_expr="string:${object_url}/reference_graph" visible="True">
+  <permission value="Modify portal content"/>
+  <permission value="Review portal content"/>
+ </action>
+ <action title="Folder Listing" action_id="folderlisting" category="folder"
+    condition_expr="object/isPrincipiaFolderish"
+    url_expr="string:${folder_url}/view" visible="False">
+  <permission value="View"/>
+ </action>
+ <action title="Annexes" action_id="annexes_form" category="object"
+    condition_expr="python:not here.isDefinedInToolOrTemp()"
+    url_expr="string:${object_url}/annexes_form" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="AnnexesDecision" action_id="annexes_decision_form"
+    category="object" condition_expr="python:not here.isDefinedInToolOrTemp()"
+    url_expr="string:${object_url}/annexes_decision_form" visible="True">
+  <permission value="PloneMeeting: Read decision annex"/>
+ </action>
+ <action title="Advices" action_id="advices_form" category="object"
+    condition_expr="python:(here.isAdvicesEnabled() or here.objectValues(&quot;MeetingAdvice&quot;)) and not here.isDefinedInToolOrTemp()"
+    url_expr="string:${object_url}/advices_form" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="votes" action_id="votes_form" category="object"
+    condition_expr="python:here.showVotes()"
+    url_expr="string:${object_url}/votes_form" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="show_or_hide_details" action_id="toggleDescriptions"
+    category="document_actions"
+    condition_expr="python:(&quot;advices_form&quot; in here.REQUEST.get(&quot;ACTUAL_URL&quot;)) or (object_url == here.REQUEST.get(&quot;ACTUAL_URL&quot;))"
+    url_expr="string:javascript:toggleAdvicesDescriptions();" visible="True">
+  <permission value="View"/>
+ </action>
+ <action title="Duplicate" action_id="duplicate" category="object_buttons"
+    condition_expr="python:object.showDuplicateItemAction()"
+    url_expr="string:${object_url}/duplicate_item" visible="True">
+  <permission value="Copy or Move"/>
+ </action>
+ <action title="CopyItem" action_id="copyitem" category="object_buttons"
+    condition_expr="python:object.showCopyItemAction()"
+    url_expr="string:${object_url}/copy_items" visible="True">
+  <permission value="Copy or Move"/>
+ </action>
+</object>
