@@ -34,7 +34,7 @@ from Products.PloneMeeting.MeetingAdvice import MeetingAdvice_schema
 
 # Initialize Zope & Plone test systems.
 ZopeTestCase.installProduct('PloneMeeting')
-PloneTestCase.setupPloneSite(products=['PloneMeeting'])
+PloneTestCase.setupPloneSite(products=['CMFPlacefulWorkflow','PloneMeeting'])
 
 class TestFile:
     '''Stub class that simulates a file upload from a HTTP POST.'''
