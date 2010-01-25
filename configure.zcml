@@ -12,6 +12,31 @@
 
 
   <!-- ##code-section configure.zcml -->
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingItem"
+           factory="Products.PloneMeeting.MeetingItem.MeetingItemWorkflowConditions"
+           provides=".interfaces.IMeetingItemWorkflowConditions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingItem"
+           factory="Products.PloneMeeting.MeetingItem.MeetingItemWorkflowActions"
+           provides=".interfaces.IMeetingItemWorkflowActions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeeting"
+           factory="Products.PloneMeeting.Meeting.MeetingWorkflowConditions"
+           provides=".interfaces.IMeetingWorkflowConditions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeeting"
+           factory="Products.PloneMeeting.Meeting.MeetingWorkflowActions"
+           provides=".interfaces.IMeetingWorkflowActions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingAdvice"
+           factory="Products.PloneMeeting.MeetingAdvice.MeetingAdviceWorkflowConditions"
+           provides=".interfaces.IMeetingAdviceWorkflowConditions" />
+  <adapter for="Products.PloneMeeting.interfaces.IMeetingAdvice"
+           factory="Products.PloneMeeting.MeetingAdvice.MeetingAdviceWorkflowActions"
+           provides=".interfaces.IMeetingAdviceWorkflowActions" />
+
+  <subscriber for="Products.PloneMeeting.interfaces.IMeetingItem
+              zope.app.container.interfaces.IObjectAddedEvent"
+              handler="Products.PloneMeeting.MeetingItem.onAddMeetingItem"/>
+  <subscriber for="Products.PloneMeeting.interfaces.IMeetingAdvice
+              zope.app.container.interfaces.IObjectAddedEvent"
+              handler="Products.PloneMeeting.MeetingAdvice.onAddMeetingAdvice"/>
   <!-- ##/code-section configure.zcml -->
 
 </configure>
