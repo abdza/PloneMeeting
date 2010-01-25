@@ -26,6 +26,8 @@ import os, os.path, time, unicodedata
 from Globals import InitializeClass
 from Products.CMFCore.permissions import View
 from Products.ATContentTypes.content.file import ATFile, ATFileSchema
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+     ReferenceBrowserWidget
 from Products.PloneMeeting.utils import clonePermissions, getCustomAdapter, \
      getOsTempFolder, HubSessionsMarshaller
 import logging

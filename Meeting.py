@@ -30,6 +30,8 @@ from Globals import InitializeClass
 from DateTime import DateTime
 from OFS.ObjectManager import BeforeDeleteException
 from Products.CMFPlone.utils import normalizeString
+from Products.ATReferenceBrowserWidget.ATReferenceBrowserWidget import \
+     ReferenceBrowserWidget
 from Products.CMFCore.permissions import ReviewPortalContent,ModifyPortalContent
 from Products.validation.interfaces.IValidator import IValidator
 from Products.validation import validation
