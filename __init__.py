@@ -2,8 +2,8 @@
 #
 # File: PloneMeeting.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
@@ -24,9 +24,7 @@
 # 02110-1301, USA.
 #
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 
@@ -37,37 +35,26 @@ __docformat__ = 'plaintext'
 #       each generated class and in this file.
 #   - To perform custom initialisation after types have been registered,
 #       use the protected code section at the bottom of initialize().
-#   - To register a customisation policy, create a file CustomizationPolicy.py
-#       with a method register(context) to register the policy.
 
 import logging
 logger = logging.getLogger('PloneMeeting')
-logger.info('Installing Product')
+logger.debug('Installing Product')
 
-try:
-    import CustomizationPolicy
-except ImportError:
-    CustomizationPolicy = None
-
-import os, os.path
+import os
+import os.path
 from Globals import package_home
-from Products.CMFCore import utils as cmfutils
-
-try: # New CMF
-    from Products.CMFCore import permissions as CMFCorePermissions 
-except: # Old CMF
-    from Products.CMFCore import CMFCorePermissions
-
-from Products.CMFCore import DirectoryView
-from Products.CMFPlone.utils import ToolInit
-from Products.Archetypes.atapi import *
+import Products.CMFPlone.interfaces
 from Products.Archetypes import listTypes
+from Products.Archetypes.atapi import *
 from Products.Archetypes.utils import capitalize
+from Products.CMFCore import DirectoryView
+from Products.CMFCore import permissions as cmfpermissions
+from Products.CMFCore import utils as cmfutils
+from Products.CMFPlone.utils import ToolInit
 from config import *
 
 DirectoryView.registerDirectory('skins', product_globals)
-DirectoryView.registerDirectory('skins/PloneMeeting',
-                                    product_globals)
+
 
 ##code-section custom-init-head #fill in your manual code here
 from AccessControl import ModuleSecurityInfo
@@ -78,6 +65,7 @@ class PloneMeetingError(Exception): pass
 
 
 def initialize(context):
+    """initialize product (called by zope)"""
     ##code-section custom-init-top #fill in your manual code here
     ##/code-section custom-init-top
 
@@ -126,11 +114,6 @@ def initialize(context):
         context.registerClass(meta_type   = all_ftis[i]['meta_type'],
                               constructors= (all_constructors[i],),
                               permission  = ADD_CONTENT_PERMISSIONS[klassname])
-
-    # Apply customization-policy, if theres any
-    if CustomizationPolicy and hasattr(CustomizationPolicy, 'register'):
-        CustomizationPolicy.register(context)
-        print 'Customization policy for PloneMeeting installed'
 
     ##code-section custom-init-bottom #fill in your manual code here
 security = ModuleSecurityInfo('Products.PloneMeeting.utils')

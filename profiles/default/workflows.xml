@@ -1,7 +1,5 @@
 <?xml version="1.0"?>
 <object name="portal_workflow" meta_type="Plone Workflow Tool">
- <property
-    name="title">Contains workflow definitions for your portal</property>
  <object name="meeting_archive_workflow" meta_type="Workflow"/>
  <object name="meeting_workflow" meta_type="Workflow"/>
  <object name="meetingadvice_workflow" meta_type="Workflow"/>
@@ -9,40 +7,50 @@
  <object name="meetingitem_workflow" meta_type="Workflow"/>
  <object name="plonemeeting_activity_workflow" meta_type="Workflow"/>
  <object name="plonemeeting_onestate_workflow" meta_type="Workflow"/>
+<!-- ##code-section workflowobjects -->
+<!-- ##/code-section workflowobjects -->   
  <bindings>
-  <type type_id="Discussion Item"/>
+  <type type_id="ToolPloneMeeting" />
+  <type type_id="Dummy">
+   <bound-workflow workflow_id="meeting_archive_workflow" />
+  </type>
   <type type_id="ExternalApplication">
-   <bound-workflow workflow_id="plonemeeting_onestate_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_onestate_workflow" />
   </type>
   <type type_id="Meeting">
-   <bound-workflow workflow_id="meeting_workflow"/>
+   <bound-workflow workflow_id="meeting_workflow" />
   </type>
   <type type_id="MeetingAdvice">
-   <bound-workflow workflow_id="meetingadvice_workflow"/>
+   <bound-workflow workflow_id="meetingadvice_workflow" />
   </type>
   <type type_id="MeetingAdviceAgreementLevel">
-   <bound-workflow workflow_id="plonemeeting_activity_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
   </type>
   <type type_id="MeetingCategory">
-   <bound-workflow workflow_id="plonemeeting_activity_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
   </type>
   <type type_id="MeetingConfig">
-   <bound-workflow workflow_id="plonemeeting_activity_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
   </type>
   <type type_id="MeetingFileType">
-   <bound-workflow workflow_id="plonemeeting_activity_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
   </type>
   <type type_id="MeetingGroup">
-   <bound-workflow workflow_id="plonemeeting_activity_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
   </type>
   <type type_id="MeetingItem">
-   <bound-workflow workflow_id="meetingitem_workflow"/>
+   <bound-workflow workflow_id="meetingitem_workflow" />
   </type>
   <type type_id="MeetingUser">
-   <bound-workflow workflow_id="plonemeeting_activity_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
+  </type>
+  <type type_id="PodTemplate">
+   <bound-workflow workflow_id="plonemeeting_activity_workflow" />
   </type>
   <type type_id="ToolPloneMeeting">
-   <bound-workflow workflow_id="plonemeeting_onestate_workflow"/>
+   <bound-workflow workflow_id="plonemeeting_onestate_workflow" />
   </type>
+<!-- ##code-section workflowbindings -->
+<!-- ##/code-section workflowbindings -->   
  </bindings>
 </object>

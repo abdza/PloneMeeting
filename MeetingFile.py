@@ -2,35 +2,23 @@
 #
 # File: MeetingFile.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -80,23 +68,21 @@ schema = Schema((
 
     ReferenceField(
         name='meetingFileType',
-        widget=ReferenceField._properties['widget'](
+        widget=ReferenceBrowserWidget(
             label='Meetingfiletype',
             label_msgid='PloneMeeting_label_meetingFileType',
             i18n_domain='PloneMeeting',
         ),
         required=True,
-        relationship="MeetingFileType"
+        relationship="MeetingFileType",
     ),
-
     TextField(
         name='extractedText',
-        index="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank",
         widget=TextAreaWidget(
             label='Extractedtext',
             label_msgid='PloneMeeting_label_extractedText',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
 
 ),
@@ -116,42 +102,14 @@ MeetingFile_schema = ModelExtender(MeetingFile_schema, 'file').run()
 MeetingFile_schema.registerLayer('marshall', MeetingFileMarshaller())
 ##/code-section after-schema
 
-class MeetingFile(ATFile):
+class MeetingFile(ATFile, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(ATFile,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingFile'
+    implements(interfaces.IMeetingFile)
 
     meta_type = 'MeetingFile'
-    portal_type = 'MeetingFile'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'MeetingFile.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MeetingFile"
-    typeDescMsgId = 'description_edit_meetingfile'
-
-
-    actions =  (
-
-
-       {'action': "string:${object_url}/file_view",
-        'category': "object",
-        'id': 'view',
-        'name': 'View',
-        'permissions': ("View",),
-        'condition': 'python:not here.portal_factory.isTemporary(here)'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = MeetingFile_schema

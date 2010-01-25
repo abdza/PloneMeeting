@@ -1,0 +1,41 @@
+<?xml version="1.0"?>
+<object name="portal_catalog" meta_type="Plone Catalog Tool">
+  <index name="getCategory" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getCategory"/>
+  </index>
+  <index name="getClassifier" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getClassifier"/>
+  </index>
+  <index name="getProposingGroup" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getProposingGroup"/>
+  </index>
+  <index name="getAssociatedGroups" 
+         meta_type="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank">
+    <indexed_attr value="getAssociatedGroups"/>
+  </index>
+  <index name="getPreferredMeeting" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getPreferredMeeting"/>
+  </index>
+  <index name="getDecision" 
+         meta_type="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank">
+    <indexed_attr value="getDecision"/>
+  </index>
+  <index name="getCopyGroups" 
+         meta_type="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank">
+    <indexed_attr value="getCopyGroups"/>
+  </index>
+  <index name="getDate" 
+         meta_type="FieldIndex">
+    <indexed_attr value="getDate"/>
+  </index>
+  <index name="getExtractedText" 
+         meta_type="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank">
+    <indexed_attr value="getExtractedText"/>
+  </index>
+<!-- ##code-section FOOT -->
+<!-- ##/code-section FOOT -->
+</object>

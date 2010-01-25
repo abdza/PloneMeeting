@@ -2,35 +2,23 @@
 #
 # File: MeetingGroup.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -59,14 +47,13 @@ schema = Schema((
 
     StringField(
         name='acronym',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             label='Acronym',
             label_msgid='PloneMeeting_label_acronym',
             i18n_domain='PloneMeeting',
         ),
-        required=True
+        required=True,
     ),
-
     TextField(
         name='description',
         widget=TextAreaWidget(
@@ -74,20 +61,19 @@ schema = Schema((
             label='Description',
             i18n_domain='PloneMeeting',
         ),
-        accessor="Description"
+        accessor="Description",
     ),
-
     StringField(
         name='givesMandatoryAdviceOn',
         default= defValues.givesMandatoryAdviceOn,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=100,
             description="GivesMandatoryAdviceOn",
             description_msgid="gives_mandatory_advice_on_descr",
             label='Givesmandatoryadviceon',
             label_msgid='PloneMeeting_label_givesMandatoryAdviceOn',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
 
 ),
@@ -106,27 +92,14 @@ MeetingGroup_schema = ModelExtender(MeetingGroup_schema, 'group').run()
 MeetingGroup_schema.registerLayer('marshall', GroupMarshaller())
 ##/code-section after-schema
 
-class MeetingGroup(BaseContent):
+class MeetingGroup(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingGroup'
+    implements(interfaces.IMeetingGroup)
 
     meta_type = 'MeetingGroup'
-    portal_type = 'MeetingGroup'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'MeetingGroup.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MeetingGroup"
-    typeDescMsgId = 'description_edit_meetinggroup'
-
     _at_rename_after_creation = True
 
     schema = MeetingGroup_schema

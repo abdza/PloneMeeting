@@ -2,18 +2,20 @@
 <dc-workflow workflow_id="meetingitem_archive_workflow"
              title="meetingitem_archive_workflow"
              state_variable="review_state"
-             initial_state="archived">
- <permission>Access contents information</permission>
+             initial_state="archived"
+             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+             i18n:domain="plone">
+ <permission>AccessContentsInformation</permission>
  <permission>View</permission>
- <permission>Modify portal content</permission>
- <permission>Review portal content</permission>
- <permission>Delete objects</permission>
- <permission>PloneMeeting: Add annex</permission>
- <permission>PloneMeeting: Write decision</permission>
- <permission>PloneMeeting: Read decision</permission>
- <permission>Add portal content</permission>
- <permission>PloneMeeting: Add MeetingFile</permission>
- <permission>PloneMeeting: Add MeetingAdvice</permission>
+ <permission>ModifyPortalContent</permission>
+ <permission>ReviewPortalContent</permission>
+ <permission>DeleteObjects</permission>
+ <permission>AddAnnex</permission>
+ <permission>WriteDecision</permission>
+ <permission>ReadDecision</permission>
+ <permission>AddPortalContent</permission>
+ <permission>AddMeetingFile</permission>
+ <permission>AddMeetingAdvice</permission>
  <permission>PloneMeeting: Read mandatory advisers</permission>
  <permission>PloneMeeting: Write mandatory advisers</permission>
  <permission>PloneMeeting: Read optional advisers</permission>
@@ -22,7 +24,10 @@
  <permission>PloneMeeting: Write decision annex</permission>
  <permission>PloneMeeting: Read item observations</permission>
  <permission>PloneMeeting: Write item observations</permission>
- <state state_id="archived" title="archived">
+ <permission>Access contents information</permission>
+ <state state_id="archived"
+        title="archived"
+        i18n:attributes="title">
   <permission-map name="Access contents information"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -34,29 +39,38 @@
    <permission-role>MeetingArchiveObserver</permission-role>
    <permission-role>MeetingObserverLocalCopy</permission-role>
   </permission-map>
-  <permission-map name="Add portal content" acquired="False">
+  <permission-map name="AccessContentsInformation"
+                  acquired="False">
    <permission-role>Manager</permission-role>
+   <permission-role>MeetingReviewer</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverLocal</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingMember</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
+   <permission-role>MeetingObserverLocalCopy</permission-role>
   </permission-map>
-  <permission-map name="Delete objects" acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="AddAnnex"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="PloneMeeting: Add MeetingAdvice"
+  <permission-map name="AddMeetingAdvice"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="PloneMeeting: Add MeetingFile"
+  <permission-map name="AddMeetingFile"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="PloneMeeting: Add annex"
+  <permission-map name="AddPortalContent"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="PloneMeeting: Read decision"
+  <permission-map name="DeleteObjects"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="ModifyPortalContent"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
@@ -104,10 +118,6 @@
    <permission-role>MeetingArchiveObserver</permission-role>
    <permission-role>MeetingObserverLocalCopy</permission-role>
   </permission-map>
-  <permission-map name="PloneMeeting: Write decision"
-                  acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
   <permission-map name="PloneMeeting: Write decision annex"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -124,11 +134,16 @@
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="ReadDecision"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="View" acquired="False">
+  <permission-map name="ReviewPortalContent"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View"
+                  acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingReviewer</permission-role>
    <permission-role>MeetingManager</permission-role>
@@ -138,12 +153,15 @@
    <permission-role>MeetingArchiveObserver</permission-role>
    <permission-role>MeetingObserverLocalCopy</permission-role>
   </permission-map>
+  <permission-map name="WriteDecision"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
  </state>
  <variable variable_id="action" for_catalog="False"
            for_status="True" update_always="True">
   <description>The last transition</description>
   <default>
-   
    <expression>transition/getId|nothing</expression>
   </default>
   <guard>
@@ -153,7 +171,6 @@
            for_status="True" update_always="True">
   <description>The ID of the user who performed the last transition</description>
   <default>
-   
    <expression>user/getId</expression>
   </default>
   <guard>
@@ -163,7 +180,6 @@
            for_status="True" update_always="True">
   <description>Comments about the last transition</description>
   <default>
-   
    <expression>python:state_change.kwargs.get('comment', '')</expression>
   </default>
   <guard>
@@ -173,7 +189,6 @@
            for_status="False" update_always="False">
   <description>Provides access to workflow history</description>
   <default>
-   
    <expression>state_change/getHistory</expression>
   </default>
   <guard>
@@ -185,10 +200,10 @@
            for_status="True" update_always="True">
   <description>Time of the last transition</description>
   <default>
-   
    <expression>state_change/getDateTime</expression>
   </default>
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

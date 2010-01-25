@@ -2,35 +2,23 @@
 #
 # File: MeetingUser.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -60,38 +48,35 @@ schema = Schema((
 
     StringField(
         name='title',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             visible=False,
             label='Title',
             label_msgid='PloneMeeting_label_title',
             i18n_domain='PloneMeeting',
         ),
-        accessor="Title"
+        accessor="Title",
     ),
-
     StringField(
         name='ploneUserId',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="MeetingUserPloneUser",
             description_msgid="meeting_user_plone_user_descr",
             label='Ploneuserid',
             label_msgid='PloneMeeting_label_ploneUserId',
             i18n_domain='PloneMeeting',
         ),
-        required= True
+        required= True,
     ),
-
     StringField(
         name='duty',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="MeetingUserDuty",
             description_msgid="meeting_user_duty_descr",
             label='Duty',
             label_msgid='PloneMeeting_label_duty',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     LinesField(
         name='usages',
         widget=MultiSelectionWidget(
@@ -104,21 +89,19 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         multiValued=1,
-        vocabulary='listUsages'
+        vocabulary='listUsages',
     ),
-
     ImageField(
         name='signatureImage',
-        widget=ImageWidget(
+        widget=ImageField._properties['widget'](
             description="MeetingUserSignatureImage",
             description_msgid="meeting_user_signature_image_descr",
             label='Signatureimage',
             label_msgid='PloneMeeting_label_signatureImage',
             i18n_domain='PloneMeeting',
         ),
-        storage=AttributeStorage()
+        storage=AnnotationStorage(),
     ),
-
     BooleanField(
         name='signatureIsDefault',
         default= False,
@@ -128,7 +111,7 @@ schema = Schema((
             label='Signatureisdefault',
             label_msgid='PloneMeeting_label_signatureIsDefault',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
 
 ),
@@ -147,27 +130,14 @@ MeetingUser_schema = ModelExtender(MeetingUser_schema, 'muser').run()
 MeetingUser_schema.registerLayer('marshall', MeetingUserMarshaller())
 ##/code-section after-schema
 
-class MeetingUser(BaseContent):
+class MeetingUser(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingUser'
+    implements(interfaces.IMeetingUser)
 
     meta_type = 'MeetingUser'
-    portal_type = 'MeetingUser'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'MeetingUser.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MeetingUser"
-    typeDescMsgId = 'description_edit_meetinguser'
-
     _at_rename_after_creation = True
 
     schema = MeetingUser_schema

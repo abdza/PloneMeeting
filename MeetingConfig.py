@@ -2,35 +2,23 @@
 #
 # File: MeetingConfig.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -187,9 +175,8 @@ schema = Schema((
             label='Assembly',
             label_msgid='PloneMeeting_label_assembly',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     TextField(
         name='signatures',
         default= defValues.signatures,
@@ -199,12 +186,11 @@ schema = Schema((
             label='Signatures',
             label_msgid='PloneMeeting_label_signatures',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='folderTitle',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="FolderTitle",
             description_msgid="folder_title_descr",
@@ -212,12 +198,11 @@ schema = Schema((
             label_msgid='PloneMeeting_label_folderTitle',
             i18n_domain='PloneMeeting',
         ),
-        required=True
+        required=True,
     ),
-
     StringField(
         name='shortName',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="ShortName",
             description_msgid="short_name_descr",
             condition="python: here.portal_factory.isTemporary(here)",
@@ -226,9 +211,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         required=True,
-        validators=('shortNameIsUnique',)
+        validators=('shortNameIsUnique',),
     ),
-
     BooleanField(
         name='isDefault',
         default= defValues.isDefault,
@@ -238,9 +222,8 @@ schema = Schema((
             label='Isdefault',
             label_msgid='PloneMeeting_label_isDefault',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     IntegerField(
         name='lastItemNumber',
         default=defValues.lastItemNumber,
@@ -250,9 +233,8 @@ schema = Schema((
             label='Lastitemnumber',
             label_msgid='PloneMeeting_label_lastItemNumber',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     IntegerField(
         name='lastMeetingNumber',
         default=defValues.lastMeetingNumber,
@@ -262,21 +244,19 @@ schema = Schema((
             label='Lastmeetingnumber',
             label_msgid='PloneMeeting_label_lastMeetingNumber',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='configVersion',
         default=defValues.configVersion,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="ConfigVersion",
             description_msgid="config_version_descr",
             label='Configversion',
             label_msgid='PloneMeeting_label_configVersion',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     LinesField(
         name='usedItemAttributes',
         widget=MultiSelectionWidget(
@@ -290,9 +270,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listUsedItemAttributes',
         default= defValues.usedItemAttributes,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     LinesField(
         name='usedMeetingAttributes',
         widget=MultiSelectionWidget(
@@ -306,9 +285,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listUsedMeetingAttributes',
         default= defValues.usedMeetingAttributes,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     BooleanField(
         name='useGroupsAsCategories',
         default= defValues.useGroupsAsCategories,
@@ -319,9 +297,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_useGroupsAsCategories',
             i18n_domain='PloneMeeting',
         ),
-        schemata="data"
+        schemata="data",
     ),
-
     BooleanField(
         name='toDiscussDefault',
         default= defValues.toDiscussDefault,
@@ -332,9 +309,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_toDiscussDefault',
             i18n_domain='PloneMeeting',
         ),
-        schemata="data"
+        schemata="data",
     ),
-
     BooleanField(
         name='toDiscussLateDefault',
         default= defValues.toDiscussLateDefault,
@@ -345,9 +321,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_toDiscussLateDefault',
             i18n_domain='PloneMeeting',
         ),
-        schemata="data"
+        schemata="data",
     ),
-
     TextField(
         name='itemReferenceFormat',
         default= defValues.itemReferenceFormat,
@@ -358,9 +333,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_itemReferenceFormat',
             i18n_domain='PloneMeeting',
         ),
-        schemata="data"
+        schemata="data",
     ),
-
     StringField(
         name='sortingMethodOnAddItem',
         default= defValues.sortingMethodOnAddItem,
@@ -374,9 +348,8 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         schemata="data",
-        vocabulary='listSortingMethods'
+        vocabulary='listSortingMethods',
     ),
-
     TextField(
         name='allItemTags',
         default= defValues.allItemTags,
@@ -387,9 +360,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_allItemTags',
             i18n_domain='PloneMeeting',
         ),
-        schemata="data"
+        schemata="data",
     ),
-
     BooleanField(
         name='sortAllItemTags',
         default= defValues.sortAllItemTags,
@@ -400,9 +372,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_sortAllItemTags',
             i18n_domain='PloneMeeting',
         ),
-        schemata="data"
+        schemata="data",
     ),
-
     LinesField(
         name='recordItemHistoryStates',
         widget=MultiSelectionWidget(
@@ -416,9 +387,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listItemStates',
         default= defValues.recordItemHistoryStates,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     StringField(
         name='itemWorkflow',
         widget=SelectionWidget(
@@ -433,13 +403,12 @@ schema = Schema((
         schemata="workflow",
         vocabulary='listWorkflows',
         default= defValues.itemWorkflow,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     StringField(
         name='itemConditionsInterface',
         default= defValues.itemConditionsInterface,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="ItemConditionsInterface",
             description_msgid="item_conditions_interface_descr",
@@ -448,13 +417,12 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         schemata="workflow",
-        validators=('itemConditionsInterfaceValidator',)
+        validators=('itemConditionsInterfaceValidator',),
     ),
-
     StringField(
         name='itemActionsInterface',
         default= defValues.itemActionsInterface,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="ItemActionsInterface",
             description_msgid="item_actions_interface_descr",
@@ -463,9 +431,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         schemata="workflow",
-        validators=('itemActionsInterfaceValidator',)
+        validators=('itemActionsInterfaceValidator',),
     ),
-
     StringField(
         name='meetingWorkflow',
         widget=SelectionWidget(
@@ -480,13 +447,12 @@ schema = Schema((
         schemata="workflow",
         vocabulary='listWorkflows',
         default= defValues.meetingWorkflow,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     StringField(
         name='meetingConditionsInterface',
         default= defValues.meetingConditionsInterface,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="MeetingConditionsInterface",
             description_msgid="meeting_conditions_interface_descr",
@@ -495,13 +461,12 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         schemata="workflow",
-        validators=('meetingConditionsInterfaceValidator',)
+        validators=('meetingConditionsInterfaceValidator',),
     ),
-
     StringField(
         name='meetingActionsInterface',
         default= defValues.meetingActionsInterface,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="MeetingActionsInterface",
             description_msgid="meeting_actions_interface_descr",
@@ -510,13 +475,12 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         schemata="workflow",
-        validators=('meetingActionsInterfaceValidator',)
+        validators=('meetingActionsInterfaceValidator',),
     ),
-
     StringField(
         name='adviceConditionsInterface',
         default= defValues.adviceConditionsInterface,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="AdviceConditionsInterface",
             description_msgid="advice_conditions_interface_descr",
@@ -525,13 +489,12 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         schemata="workflow",
-        validators=('adviceConditionsInterfaceValidator',)
+        validators=('adviceConditionsInterfaceValidator',),
     ),
-
     StringField(
         name='adviceActionsInterface',
         default= defValues.adviceActionsInterface,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="AdviceActionsInterface",
             description_msgid="advice_actions_interface_descr",
@@ -540,9 +503,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         schemata="workflow",
-        validators=('adviceActionsInterfaceValidator',)
+        validators=('adviceActionsInterfaceValidator',),
     ),
-
     LinesField(
         name='itemTopicStates',
         widget=MultiSelectionWidget(
@@ -556,9 +518,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listItemStates',
         default= defValues.itemTopicStates,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     LinesField(
         name='meetingTopicStates',
         widget=MultiSelectionWidget(
@@ -572,9 +533,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listMeetingStates',
         default= defValues.meetingTopicStates,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     LinesField(
         name='decisionTopicStates',
         widget=MultiSelectionWidget(
@@ -588,9 +548,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listMeetingStates',
         default= defValues.decisionTopicStates,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     IntegerField(
         name='maxShownMeetings',
         default=defValues.maxShownMeetings,
@@ -602,9 +561,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         required=True,
-        schemata="gui"
+        schemata="gui",
     ),
-
     IntegerField(
         name='maxDaysDecisions',
         default= defValues.maxDaysDecisions,
@@ -616,9 +574,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         required=True,
-        schemata="gui"
+        schemata="gui",
     ),
-
     StringField(
         name='meetingAppDefaultView',
         default= defValues.meetingAppDefaultView,
@@ -631,9 +588,8 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         schemata="gui",
-        vocabulary='listMeetingAppAvailableViews'
+        vocabulary='listMeetingAppAvailableViews',
     ),
-
     LinesField(
         name='itemsListVisibleColumns',
         widget=MultiSelectionWidget(
@@ -647,9 +603,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listItemsListVisibleColumns',
         default= defValues.itemsListVisibleColumns,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     IntegerField(
         name='maxShownAvailableItems',
         default= defValues.maxShownAvailableItems,
@@ -660,9 +615,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxShownAvailableItems',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     IntegerField(
         name='maxShownMeetingItems',
         default= defValues.maxShownMeetingItems,
@@ -673,9 +627,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxShownMeetingItems',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     IntegerField(
         name='maxShownLateItems',
         default= defValues.maxShownLateItems,
@@ -686,9 +639,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxShownLateItems',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     BooleanField(
         name='enableDuplication',
         default= defValues.enableDuplication,
@@ -699,9 +651,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_enableDuplication',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     BooleanField(
         name='enableGotoPage',
         default= defValues.enableGotoPage,
@@ -712,9 +663,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_enableGotoPage',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     BooleanField(
         name='enableGotoItem',
         default= defValues.enableGotoItem,
@@ -725,9 +675,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_enableGotoItem',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     BooleanField(
         name='openAnnexesInSeparateWindows',
         default= defValues.openAnnexesInSeparateWindows,
@@ -738,9 +687,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_openAnnexesInSeparateWindows',
             i18n_domain='PloneMeeting',
         ),
-        schemata="gui"
+        schemata="gui",
     ),
-
     ReferenceField(
         name='toDoListTopics',
         widget=ReferenceBrowserWidget(
@@ -756,9 +704,8 @@ schema = Schema((
         allowed_types=('Topic',),
         schemata="gui",
         multiValued=True,
-        relationship="ToDoTopics"
+        relationship="ToDoTopics",
     ),
-
     LinesField(
         name='mailItemEvents',
         widget=MultiSelectionWidget(
@@ -772,9 +719,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listItemEvents',
         default= defValues.mailItemEvents,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     LinesField(
         name='mailMeetingEvents',
         widget=MultiSelectionWidget(
@@ -788,13 +734,12 @@ schema = Schema((
         multiValued=1,
         vocabulary='listMeetingEvents',
         default= defValues.mailMeetingEvents,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     StringField(
         name='tasksMacro',
         default= defValues.tasksMacro,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=70,
             description="TasksMacro",
             description_msgid="tasks_macro_descr",
@@ -802,9 +747,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_tasksMacro',
             i18n_domain='PloneMeeting',
         ),
-        schemata="tasks"
+        schemata="tasks",
     ),
-
     StringField(
         name='taskCreatorRole',
         default= defValues.taskCreatorRole,
@@ -817,9 +761,8 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         schemata="tasks",
-        vocabulary='listRoles'
+        vocabulary='listRoles',
     ),
-
     BooleanField(
         name='useAdvices',
         default= defValues.useAdvices,
@@ -830,9 +773,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_useAdvices',
             i18n_domain='PloneMeeting',
         ),
-        schemata="advices"
+        schemata="advices",
     ),
-
     LinesField(
         name='optionalAdvisers',
         widget=MultiSelectionWidget(
@@ -846,9 +788,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listOptionalAdvisers',
         default=defValues.optionalAdvisers,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     BooleanField(
         name='useCopies',
         default= defValues.useCopies,
@@ -859,9 +800,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_useCopies',
             i18n_domain='PloneMeeting',
         ),
-        schemata="advices"
+        schemata="advices",
     ),
-
     LinesField(
         name='selectableCopyGroups',
         widget=MultiSelectionWidget(
@@ -875,9 +815,8 @@ schema = Schema((
         enforceVocabulary=True,
         schemata="advices",
         multiValued=1,
-        vocabulary='listSelectableCopyGroups'
+        vocabulary='listSelectableCopyGroups',
     ),
-
     BooleanField(
         name='useVotes',
         default= defValues.useVotes,
@@ -888,9 +827,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_useVotes',
             i18n_domain='PloneMeeting',
         ),
-        schemata="votes"
+        schemata="votes",
     ),
-
     LinesField(
         name='votesEncoder',
         widget=MultiSelectionWidget(
@@ -905,9 +843,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listVotesEncoders',
         default=defValues.votesEncoder,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     LinesField(
         name='usedVoteValues',
         widget=MultiSelectionWidget(
@@ -922,9 +859,8 @@ schema = Schema((
         multiValued=1,
         vocabulary='listAllVoteValues',
         default=defValues.usedVoteValues,
-        enforceVocabulary=True
+        enforceVocabulary=True,
     ),
-
     StringField(
         name='defaultVoteValue',
         default=defValues.defaultVoteValue,
@@ -937,7 +873,7 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         schemata="votes",
-        vocabulary='listAllVoteValues'
+        vocabulary='listAllVoteValues',
     ),
 
 ),
@@ -958,27 +894,14 @@ MeetingConfig_schema = ModelExtender(MeetingConfig_schema, 'config').run()
 MeetingConfig_schema.registerLayer('marshall', ConfigMarshaller())
 ##/code-section after-schema
 
-class MeetingConfig(OrderedBaseFolder):
+class MeetingConfig(OrderedBaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(OrderedBaseFolder,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingConfig'
+    implements(interfaces.IMeetingConfig)
 
     meta_type = 'MeetingConfig'
-    portal_type = 'MeetingConfig'
-    allowed_content_types = ['Folder']
-    filter_content_types = 1
-    global_allow = 1
-    #content_icon = 'MeetingConfig.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MeetingConfig"
-    typeDescMsgId = 'description_edit_meetingconfig'
-
     _at_rename_after_creation = True
 
     schema = MeetingConfig_schema
@@ -1193,7 +1116,6 @@ class MeetingConfig(OrderedBaseFolder):
         # Update the factory tool with the list of types to register
         self.portal_factory.manage_setPortalFactoryTypes(
             listOfTypeIds=factoryTypesToRegister+registeredFactoryTypes)
-
     security.declarePrivate('createTopics')
     def createTopics(self):
         '''Adds a bunch of topics within the 'topics' sub-folder.'''
@@ -1581,7 +1503,6 @@ class MeetingConfig(OrderedBaseFolder):
         '''Returns a list of Plone groups members of MeetingGroups advisers.'''
         return DisplayList(tuple([(pg.getId(), pg.getProperty('title')) \
             for pg in self.getMeetingGroups(suffixes=['advisers', ])]))
-
     security.declarePublic('getMeetingGroups')
     def getMeetingGroups(self, suffixes=[]):
         '''Returns the list of Plone groups that are related to a MeetingGroup.

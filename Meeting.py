@@ -2,35 +2,23 @@
 #
 # File: Meeting.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -532,51 +520,46 @@ schema = Schema((
 
     StringField(
         name='title',
-        widget=StringWidget(
-            visible=False,
+        widget=StringField._properties['widget'](
+            visible="False",
             label='Title',
             label_msgid='PloneMeeting_label_title',
             i18n_domain='PloneMeeting',
         ),
-        accessor="Title"
+        accessor="Title",
     ),
-
     DateTimeField(
         name='date',
-        index="FieldIndex",
-        widget=CalendarWidget(
+        widget=DateTimeField._properties['widget'](
             label='Date',
             label_msgid='PloneMeeting_label_date',
             i18n_domain='PloneMeeting',
         ),
         required=True,
-        validators=('meetingDateValidator',)
+        validators=('meetingDateValidator',),
     ),
-
     DateTimeField(
         name='startDate',
-        widget=CalendarWidget(
+        widget=DateTimeField._properties['widget'](
             condition="python: here.attributeIsUsed('startDate')",
             label='Startdate',
             label_msgid='PloneMeeting_label_startDate',
             i18n_domain='PloneMeeting',
         ),
         optional=True,
-        validators=('meetingDateValidator',)
+        validators=('meetingDateValidator',),
     ),
-
     DateTimeField(
         name='endDate',
-        widget=CalendarWidget(
+        widget=DateTimeField._properties['widget'](
             condition="python: here.attributeIsUsed('endDate')",
             label='Enddate',
             label_msgid='PloneMeeting_label_endDate',
             i18n_domain='PloneMeeting',
         ),
         optional=True,
-        validators=('meetingDateValidator',)
+        validators=('meetingDateValidator',),
     ),
-
     TextField(
         name='assembly',
         widget=TextAreaWidget(
@@ -587,9 +570,8 @@ schema = Schema((
         ),
         default_output_type="text/html",
         optional=True,
-        default_method="getDefaultAssembly"
+        default_method="getDefaultAssembly",
     ),
-
     LinesField(
         name='attendees',
         widget=MultiSelectionWidget(
@@ -602,9 +584,8 @@ schema = Schema((
         optional=True,
         multiValued=1,
         vocabulary='listAssemblyMembers',
-        default_method="getDefaultAttendees"
+        default_method="getDefaultAttendees",
     ),
-
     LinesField(
         name='absents',
         widget=MultiSelectionWidget(
@@ -616,9 +597,8 @@ schema = Schema((
         ),
         optional=True,
         multiValued=1,
-        vocabulary='listAssemblyMembers'
+        vocabulary='listAssemblyMembers',
     ),
-
     LinesField(
         name='excused',
         widget=MultiSelectionWidget(
@@ -630,24 +610,21 @@ schema = Schema((
         ),
         optional=True,
         multiValued=1,
-        vocabulary='listAssemblyMembers'
+        vocabulary='listAssemblyMembers',
     ),
-
     StringField(
         name='place',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             condition="python: here.attributeIsUsed('place')",
             label='Place',
             label_msgid='PloneMeeting_label_place',
             i18n_domain='PloneMeeting',
         ),
         optional=True,
-        searchable=True
+        searchable=True,
     ),
-
     TextField(
         name='observations',
-        allowable_content_types=('text/html',),
         widget=RichWidget(
             condition="python: here.attributeIsUsed('observations')",
             label_msgid="PloneMeeting_meetingObservations",
@@ -656,39 +633,36 @@ schema = Schema((
         ),
         default_content_type="text/html",
         searchable=True,
+        allowable_content_types=('text/html',),
         default_output_type="text/html",
-        optional=True
+        optional=True,
     ),
-
     ReferenceField(
         name='items',
-        widget=ReferenceField._properties['widget'](
-            visible=False,
+        widget=ReferenceBrowserWidget(
+            visible="False",
             label='Items',
             label_msgid='PloneMeeting_label_items',
             i18n_domain='PloneMeeting',
         ),
         allowed_types="('MeetingItem',)",
         multiValued=True,
-        relationship="MeetingItems"
+        relationship="MeetingItems",
     ),
-
     ReferenceField(
         name='lateItems',
-        widget=ReferenceField._properties['widget'](
-            visible=False,
+        widget=ReferenceBrowserWidget(
+            visible="False",
             label='Lateitems',
             label_msgid='PloneMeeting_label_lateItems',
             i18n_domain='PloneMeeting',
         ),
         allowed_types="('MeetingItem',)",
         multiValued=True,
-        relationship="MeetingLateItems"
+        relationship="MeetingLateItems",
     ),
-
     TextField(
         name='allItemsAtOnce',
-        allowable_content_types=('text/html',),
         widget=RichWidget(
             condition="python: here.showAllItemsAtOnce()",
             parastyles=[["h2|itemTitle","Title"],["div|itemBody","Body"]],
@@ -699,11 +673,11 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         default_content_type="text/html",
+        allowable_content_types=('text/html',),
         validators=('checkAllItemsAtOnce',),
         default_output_type="text/html",
-        edit_accessor="getAllItemsAtOnce"
+        edit_accessor="getAllItemsAtOnce",
     ),
-
     IntegerField(
         name='meetingNumber',
         default=-1,
@@ -712,9 +686,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_meetingNumber',
             i18n_domain='PloneMeeting',
         ),
-        schemata="metadata"
+        schemata="metadata",
     ),
-
     IntegerField(
         name='firstItemNumber',
         default=-1,
@@ -723,19 +696,17 @@ schema = Schema((
             label_msgid='PloneMeeting_label_firstItemNumber',
             i18n_domain='PloneMeeting',
         ),
-        schemata="metadata"
+        schemata="metadata",
     ),
-
     StringField(
         name='meetingConfigVersion',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             label='Meetingconfigversion',
             label_msgid='PloneMeeting_label_meetingConfigVersion',
             i18n_domain='PloneMeeting',
         ),
-        schemata="metadata"
+        schemata="metadata",
     ),
-
     TextField(
         name='signatures',
         widget=TextAreaWidget(
@@ -743,7 +714,7 @@ schema = Schema((
             label_msgid='PloneMeeting_label_signatures',
             i18n_domain='PloneMeeting',
         ),
-        schemata="metadata"
+        schemata="metadata",
     ),
 
 ),
@@ -763,59 +734,13 @@ Meeting_schema = ModelExtender(Meeting_schema, 'meeting').run()
 Meeting_schema.registerLayer('marshall', MeetingMarshaller())
 ##/code-section after-schema
 
-class Meeting(BaseContent):
+class Meeting(BaseContent, BrowserDefaultMixin):
     """ A meeting made of items """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'Meeting'
+    implements(interfaces.IMeeting)
 
     meta_type = 'Meeting'
-    portal_type = 'Meeting'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    content_icon = 'meeting.gif'
-    immediate_view = 'meeting_view'
-    default_view = 'meeting_view'
-    suppl_views = ()
-    typeDescription = "Meeting"
-    typeDescMsgId = 'description_edit_meeting'
-
-
-    actions =  (
-
-
-       {'action': "string:$object_url/base_metadata",
-        'category': "object",
-        'id': 'metadata',
-        'name': 'Properties',
-        'permissions': ("Manage portal",),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/meeting_view",
-        'category': "object",
-        'id': 'view',
-        'name': 'View',
-        'permissions': ("View",),
-        'condition': 'python:not here.portal_factory.isTemporary(here)'
-       },
-
-
-       {'action': "string:javascript:toggleMeetingDescriptions();",
-        'category': "document_actions",
-        'id': 'toggleDescriptions',
-        'name': 'show_or_hide_details',
-        'permissions': ("View",),
-        'condition': 'python:("meeting_view" in here.REQUEST.get("ACTUAL_URL")) or (object_url == here.REQUEST.get("ACTUAL_URL"))'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = Meeting_schema

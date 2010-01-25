@@ -2,35 +2,23 @@
 #
 # File: ExternalApplication.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -62,13 +50,12 @@ schema = Schema((
             label='Notify',
             label_msgid='PloneMeeting_label_notify',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='notifyUrl',
         default= defValues.notifyUrl,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="NotifyUrl",
             description_msgid="notify_url_descr",
             size=70,
@@ -76,13 +63,12 @@ schema = Schema((
             label_msgid='PloneMeeting_label_notifyUrl',
             i18n_domain='PloneMeeting',
         ),
-        validators=('isURL',)
+        validators=('isURL',),
     ),
-
     StringField(
         name='notifyEmail',
         default= defValues.notifyEmail,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="NotifyEmail",
             description_msgid="notify_email_descr",
             size=70,
@@ -90,13 +76,12 @@ schema = Schema((
             label_msgid='PloneMeeting_label_notifyEmail',
             i18n_domain='PloneMeeting',
         ),
-        validators=('isEmail',)
+        validators=('isEmail',),
     ),
-
     StringField(
         name='notifyProxy',
         default= defValues.notifyProxy,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="NotifyProxy",
             description_msgid="notify_proxy_descr",
             size=70,
@@ -104,21 +89,19 @@ schema = Schema((
             label_msgid='PloneMeeting_label_notifyProxy',
             i18n_domain='PloneMeeting',
         ),
-        validators=('isURL',)
+        validators=('isURL',),
     ),
-
     StringField(
         name='notifyLogin',
         default= defValues.notifyLogin,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="NotifyLogin",
             description_msgid="notify_login_descr",
             label='Notifylogin',
             label_msgid='PloneMeeting_label_notifyLogin',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='notifyPassword',
         default= defValues.notifyPassword,
@@ -128,45 +111,41 @@ schema = Schema((
             label='Notifypassword',
             label_msgid='PloneMeeting_label_notifyPassword',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='loginHeaderKey',
         default= defValues.loginHeaderKey,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="LoginHeaderKey",
             description_msgid="login_header_key_descr",
             label='Loginheaderkey',
             label_msgid='PloneMeeting_label_loginHeaderKey',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='passwordHeaderKey',
         default= defValues.passwordHeaderKey,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="PasswordHeaderKey",
             description_msgid="password_header_key_descr",
             label='Passwordheaderkey',
             label_msgid='PloneMeeting_label_passwordHeaderKey',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='meetingParamName',
         default= defValues.meetingParamName,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="MeetingParamName",
             description_msgid="meeting_param_name_descr",
             label='Meetingparamname',
             label_msgid='PloneMeeting_label_meetingParamName',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='notifyProtocol',
         default= defValues.notifyProtocol,
@@ -178,7 +157,7 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         enforceVocabulary=True,
-        vocabulary='listProtocols'
+        vocabulary='listProtocols',
     ),
 
 ),
@@ -196,27 +175,14 @@ ExternalApplication_schema = ModelExtender(
     ExternalApplication_schema, 'extapp').run()
 ##/code-section after-schema
 
-class ExternalApplication(BaseContent):
+class ExternalApplication(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'ExternalApplication'
+    implements(interfaces.IExternalApplication)
 
     meta_type = 'ExternalApplication'
-    portal_type = 'ExternalApplication'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'ExternalApplication.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "ExternalApplication"
-    typeDescMsgId = 'description_edit_externalapplication'
-
     _at_rename_after_creation = True
 
     schema = ExternalApplication_schema

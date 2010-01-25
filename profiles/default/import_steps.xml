@@ -1,9 +1,46 @@
 <?xml version="1.0"?>
 <import-steps>
- <import-step id="installproducts-PloneMeeting" version="20060707-01"
-              handler="Products.PloneMeeting.exportimport.content.installProducts"
-              title="Install necessary products for PloneMeeting.">
-  <dependency step="toolset"/>
-  Install necessary products for PloneMeeting.
+
+ <import-step 
+    id="PloneMeeting-Hide-Tools-From-Navigation" 
+    handler="Products.PloneMeeting.setuphandlers.setupHideToolsFromNavigation"
+    title="Hide Custom tools from Navigation for PloneMeeting"
+    version="2010-01-25T09:21:41.192078">
+   <dependency step="PloneMeeting-QI-dependencies"/>
+   Hides custom tools from navigation tree for PloneMeeting
  </import-step>
+
+ 
+
+ <import-step 
+    id="PloneMeeting-Setup-Catalog-Multiplex" 
+    handler="Products.PloneMeeting.setuphandlers.setupCatalogMultiplex"
+    title="setup catalog multiplex for PloneMeeting"
+    version="2010-01-25T09:21:41.192078">
+   <dependency step="toolset"/>
+   setup catalog multiplex for PloneMeeting
+ </import-step>
+
+ <import-step 
+    id="PloneMeeting-Update-RoleMappings" 
+    handler="Products.PloneMeeting.setuphandlers.updateRoleMappings"
+    title="Update Workflow role mappings for PloneMeeting"
+    version="2010-01-25T09:21:41.192078">
+   <dependency step="PloneMeeting-QI-dependencies"/>
+   updates the workflow role mappings for PloneMeeting
+ </import-step>
+
+ <import-step 
+    id="PloneMeeting-postInstall" 
+    handler="Products.PloneMeeting.setuphandlers.postInstall"
+    title="manual coded post-install for PloneMeeting"
+    version="2010-01-25T09:21:41.192078">
+   <dependency step="PloneMeeting-QI-dependencies"/>
+   manual coded post-install for PloneMeeting
+ </import-step>
+
+<!-- ##code-section ADDITIONALSTEPS -->
+<!-- ##/code-section ADDITIONALSTEPS -->
+
 </import-steps>
+ 

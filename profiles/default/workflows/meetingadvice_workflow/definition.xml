@@ -2,27 +2,35 @@
 <dc-workflow workflow_id="meetingadvice_workflow"
              title="meetingadvice_workflow"
              state_variable="review_state"
-             initial_state="advicecreated">
- <permission>Modify portal content</permission>
- <permission>Delete objects</permission>
- <permission>Access contents information</permission>
+             initial_state="advicecreated"
+             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+             i18n:domain="plone">
+ <permission>ModifyPortalContent</permission>
+ <permission>DeleteObjects</permission>
+ <permission>AccessContentsInformation</permission>
  <permission>View</permission>
- <permission>Review portal content</permission>
- <state state_id="adviceclosed" title="adviceclosed">
+ <permission>ReviewPortalContent</permission>
+ <permission>Access contents information</permission>
+ <state state_id="adviceclosed"
+        title="adviceclosed"
+        i18n:attributes="title">
   <exit-transition transition_id="adviceBackToPublished"/>
-  <permission-map name="Delete objects" acquired="False">
-   <permission-role>Manager</permission-role>
-  </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="DeleteObjects"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="ModifyPortalContent"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="ReviewPortalContent"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
  </state>
- <state state_id="advicecreated" title="advicecreated">
+ <state state_id="advicecreated"
+        title="advicecreated"
+        i18n:attributes="title">
   <exit-transition transition_id="advicePublish"/>
   <permission-map name="Access contents information"
                   acquired="False">
@@ -30,42 +38,53 @@
    <permission-role>MeetingAdviceEditor</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Delete objects" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>MeetingAdviceEditor</permission-role>
-   <permission-role>MeetingManager</permission-role>
-  </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="AccessContentsInformation"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingAdviceEditor</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="DeleteObjects"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingAdviceEditor</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="View" acquired="False">
+  <permission-map name="ModifyPortalContent"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="ReviewPortalContent"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingAdviceEditor</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="View"
+                  acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingAdviceEditor</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
  </state>
- <state state_id="advicepublished" title="advicepublished">
+ <state state_id="advicepublished"
+        title="advicepublished"
+        i18n:attributes="title">
   <exit-transition transition_id="adviceBackToCreated"/>
   <exit-transition transition_id="adviceClose"/>
-  <permission-map name="Delete objects" acquired="False">
-   <permission-role>Manager</permission-role>
-   <permission-role>MeetingManager</permission-role>
-  </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="DeleteObjects"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="ModifyPortalContent"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+  </permission-map>
+  <permission-map name="ReviewPortalContent"
                   acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingManager</permission-role>
@@ -73,45 +92,56 @@
  </state>
  <transition transition_id="adviceBackToCreated"
              title="adviceBackToCreated"
-             new_state="advicecreated" trigger="USER"
-             before_script="" after_script="doBackToCreated">
-  <action url="" category="workflow">adviceBackToCreated</action>
+             new_state="advicecreated"
+             trigger="USER"
+             before_script=""
+             after_script=""
+             i18n:attributes="title">
+  <action url="" category="workflow" i18n:translate="">adviceBackToCreated</action>
   <guard>
-   <guard-expression>python:here.wfConditions().mayBackToCreated()</guard-expression>
+    <guard-expression>python:here.wfConditions().mayBackToCreated()</guard-expression>
   </guard>
  </transition>
  <transition transition_id="adviceBackToPublished"
              title="adviceBackToPublished"
-             new_state="advicepublished" trigger="USER"
+             new_state="advicepublished"
+             trigger="USER"
              before_script=""
-             after_script="doBackToPublished">
-  <action url="" category="workflow">adviceBackToPublished</action>
+             after_script=""
+             i18n:attributes="title">
+  <action url="" category="workflow" i18n:translate="">adviceBackToPublished</action>
   <guard>
-   <guard-expression>python:here.wfConditions().mayBackToPublished()</guard-expression>
+    <guard-expression>python:here.wfConditions().mayBackToPublished()</guard-expression>
   </guard>
  </transition>
- <transition transition_id="adviceClose" title="adviceClose"
-             new_state="adviceclosed" trigger="USER"
-             before_script="" after_script="doClose">
-  <action url="" category="workflow">adviceClose</action>
+ <transition transition_id="adviceClose"
+             title="adviceClose"
+             new_state="adviceclosed"
+             trigger="USER"
+             before_script=""
+             after_script=""
+             i18n:attributes="title">
+  <action url="" category="workflow" i18n:translate="">adviceClose</action>
   <guard>
-   <guard-expression>python:here.wfConditions().mayClose()</guard-expression>
+    <guard-expression>python:here.wfConditions().mayClose()</guard-expression>
   </guard>
  </transition>
  <transition transition_id="advicePublish"
              title="advicePublish"
-             new_state="advicepublished" trigger="USER"
-             before_script="" after_script="doPublish">
-  <action url="" category="workflow">advicePublish</action>
+             new_state="advicepublished"
+             trigger="USER"
+             before_script=""
+             after_script=""
+             i18n:attributes="title">
+  <action url="" category="workflow" i18n:translate="">advicePublish</action>
   <guard>
-   <guard-expression>python:here.wfConditions().mayPublish()</guard-expression>
+    <guard-expression>python:here.wfConditions().mayPublish()</guard-expression>
   </guard>
  </transition>
  <variable variable_id="action" for_catalog="False"
            for_status="True" update_always="True">
   <description>The last transition</description>
   <default>
-   
    <expression>transition/getId|nothing</expression>
   </default>
   <guard>
@@ -121,7 +151,6 @@
            for_status="True" update_always="True">
   <description>The ID of the user who performed the last transition</description>
   <default>
-   
    <expression>user/getId</expression>
   </default>
   <guard>
@@ -131,7 +160,6 @@
            for_status="True" update_always="True">
   <description>Comments about the last transition</description>
   <default>
-   
    <expression>python:state_change.kwargs.get('comment', '')</expression>
   </default>
   <guard>
@@ -141,7 +169,6 @@
            for_status="False" update_always="False">
   <description>Provides access to workflow history</description>
   <default>
-   
    <expression>state_change/getHistory</expression>
   </default>
   <guard>
@@ -153,26 +180,10 @@
            for_status="True" update_always="True">
   <description>Time of the last transition</description>
   <default>
-   
    <expression>state_change/getDateTime</expression>
   </default>
   <guard>
   </guard>
  </variable>
- <script script_id="doBackToCreated" type="External Method"
-         filename=""
-         module="PloneMeeting.meetingadvice_workflow_scripts"
-         function="doBackToCreated"/>
- <script script_id="doBackToPublished"
-         type="External Method" filename=""
-         module="PloneMeeting.meetingadvice_workflow_scripts"
-         function="doBackToPublished"/>
- <script script_id="doClose" type="External Method"
-         filename=""
-         module="PloneMeeting.meetingadvice_workflow_scripts"
-         function="doClose"/>
- <script script_id="doPublish" type="External Method"
-         filename=""
-         module="PloneMeeting.meetingadvice_workflow_scripts"
-         function="doPublish"/>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

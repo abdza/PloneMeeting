@@ -2,13 +2,18 @@
 <dc-workflow workflow_id="plonemeeting_activity_workflow"
              title="plonemeeting_activity_workflow"
              state_variable="review_state"
-             initial_state="active">
+             initial_state="active"
+             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+             i18n:domain="plone">
  <permission>View</permission>
+ <permission>AccessContentsInformation</permission>
+ <permission>ModifyPortalContent</permission>
+ <permission>ReviewPortalContent</permission>
+ <permission>DeleteObjects</permission>
  <permission>Access contents information</permission>
- <permission>Modify portal content</permission>
- <permission>Review portal content</permission>
- <permission>Delete objects</permission>
- <state state_id="active" title="active">
+ <state state_id="active"
+        title="active"
+        i18n:attributes="title">
   <exit-transition transition_id="deactivate"/>
   <permission-map name="Access contents information"
                   acquired="False">
@@ -17,28 +22,39 @@
    <permission-role>MeetingObserverGlobal</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Delete objects" acquired="False">
+  <permission-map name="AccessContentsInformation"
+                  acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="DeleteObjects"
                   acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="ModifyPortalContent"
                   acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="View" acquired="False">
+  <permission-map name="ReviewPortalContent"
+                  acquired="False">
+   <permission-role>Owner</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View"
+                  acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>MeetingObserverGlobal</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
  </state>
- <state state_id="inactive" title="inactive">
+ <state state_id="inactive"
+        title="inactive"
+        i18n:attributes="title">
   <exit-transition transition_id="activate"/>
   <permission-map name="Access contents information"
                   acquired="False">
@@ -47,48 +63,64 @@
    <permission-role>MeetingObserverGlobal</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Delete objects" acquired="False">
+  <permission-map name="AccessContentsInformation"
+                  acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingManager</permission-role>
   </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="DeleteObjects"
                   acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="ModifyPortalContent"
                   acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="View" acquired="False">
+  <permission-map name="ReviewPortalContent"
+                  acquired="False">
+   <permission-role>Owner</permission-role>
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View"
+                  acquired="False">
    <permission-role>Owner</permission-role>
    <permission-role>Manager</permission-role>
    <permission-role>MeetingObserverGlobal</permission-role>
    <permission-role>MeetingManager</permission-role>
   </permission-map>
  </state>
- <transition transition_id="activate" title="activate"
-             new_state="active" trigger="USER"
-             before_script="" after_script="">
-  <action url="" category="workflow">activate</action>
+ <transition transition_id="activate"
+             title="activate"
+             new_state="active"
+             trigger="USER"
+             before_script=""
+             after_script=""
+             i18n:attributes="title">
+  <action url="" category="workflow" i18n:translate="">activate</action>
   <guard>
-   <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Review portal content</guard-permission>
   </guard>
  </transition>
- <transition transition_id="deactivate" title="deactivate"
-             new_state="inactive" trigger="USER"
-             before_script="" after_script="">
-  <action url="" category="workflow">deactivate</action>
+ <transition transition_id="deactivate"
+             title="deactivate"
+             new_state="inactive"
+             trigger="USER"
+             before_script=""
+             after_script=""
+             i18n:attributes="title">
+  <action url="" category="workflow" i18n:translate="">deactivate</action>
   <guard>
-   <guard-permission>Review portal content</guard-permission>
+    <guard-permission>Review portal content</guard-permission>
   </guard>
  </transition>
  <variable variable_id="action" for_catalog="False"
            for_status="True" update_always="True">
   <description>The last transition</description>
   <default>
-   
    <expression>transition/getId|nothing</expression>
   </default>
   <guard>
@@ -98,7 +130,6 @@
            for_status="True" update_always="True">
   <description>The ID of the user who performed the last transition</description>
   <default>
-   
    <expression>user/getId</expression>
   </default>
   <guard>
@@ -108,7 +139,6 @@
            for_status="True" update_always="True">
   <description>Comments about the last transition</description>
   <default>
-   
    <expression>python:state_change.kwargs.get('comment', '')</expression>
   </default>
   <guard>
@@ -118,7 +148,6 @@
            for_status="False" update_always="False">
   <description>Provides access to workflow history</description>
   <default>
-   
    <expression>state_change/getHistory</expression>
   </default>
   <guard>
@@ -130,10 +159,10 @@
            for_status="True" update_always="True">
   <description>Time of the last transition</description>
   <default>
-   
    <expression>state_change/getDateTime</expression>
   </default>
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>

@@ -2,35 +2,23 @@
 #
 # File: ToolPloneMeeting.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 
@@ -150,7 +138,7 @@ schema = Schema((
     StringField(
         name='unoEnabledPython',
         default= defValues.unoEnabledPython,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=60,
             label="Path of a UNO-enabled Python interpreter (ie /usr/bin/python)",
             description="UnoEnabledPython",
@@ -158,9 +146,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_unoEnabledPython',
             i18n_domain='PloneMeeting',
         ),
-        validators=('unoEnabledPythonValidator',)
+        validators=('unoEnabledPythonValidator',),
     ),
-
     IntegerField(
         name='openOfficePort',
         default= defValues.openOfficePort,
@@ -170,9 +157,8 @@ schema = Schema((
             label='Openofficeport',
             label_msgid='PloneMeeting_label_openOfficePort',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     BooleanField(
         name='ploneDiskAware',
         default= defValues.ploneDiskAware,
@@ -182,13 +168,12 @@ schema = Schema((
             label='Plonediskaware',
             label_msgid='PloneMeeting_label_ploneDiskAware',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='meetingFolderTitle',
         default= defValues.meetingFolderTitle,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=60,
             description="MeetingFolderTitle",
             description_msgid="meeting_folder_title",
@@ -196,9 +181,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_meetingFolderTitle',
             i18n_domain='PloneMeeting',
         ),
-        required=True
+        required=True,
     ),
-
     BooleanField(
         name='navigateLocally',
         default= defValues.navigateLocally,
@@ -208,13 +192,12 @@ schema = Schema((
             label='Navigatelocally',
             label_msgid='PloneMeeting_label_navigateLocally',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='functionalAdminEmail',
         default=defValues.functionalAdminEmail,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=60,
             description="FunctionalAdminEmail",
             description_msgid="functional_admin_email_descr",
@@ -222,22 +205,20 @@ schema = Schema((
             label_msgid='PloneMeeting_label_functionalAdminEmail',
             i18n_domain='PloneMeeting',
         ),
-        validators=('isEmail',)
+        validators=('isEmail',),
     ),
-
     StringField(
         name='functionalAdminName',
         default=defValues.functionalAdminName,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=60,
             description="FunctionalAdminName",
             description_msgid="functional_admin_name_descr",
             label='Functionaladminname',
             label_msgid='PloneMeeting_label_functionalAdminName',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='usedColorSystem',
         default= defValues.usedColorSystem,
@@ -250,9 +231,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         enforceVocabulary=True,
-        vocabulary='listAvailableColorSystems'
+        vocabulary='listAvailableColorSystems',
     ),
-
     TextField(
         name='colorSystemDisabledFor',
         default= defValues.colorSystemDisabledFor,
@@ -262,9 +242,8 @@ schema = Schema((
             label='Colorsystemdisabledfor',
             label_msgid='PloneMeeting_label_colorSystemDisabledFor',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     BooleanField(
         name='restrictUsers',
         default= defValues.restrictUsers,
@@ -274,9 +253,8 @@ schema = Schema((
             label='Restrictusers',
             label_msgid='PloneMeeting_label_restrictUsers',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     TextField(
         name='unrestrictedUsers',
         default= defValues.unrestrictedUsers,
@@ -286,22 +264,20 @@ schema = Schema((
             label='Unrestrictedusers',
             label_msgid='PloneMeeting_label_unrestrictedUsers',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     StringField(
         name='dateFormat',
         default= defValues.dateFormat,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="DateFormat",
             description_msgid="date_format_descr",
             label='Dateformat',
             label_msgid='PloneMeeting_label_dateFormat',
             i18n_domain='PloneMeeting',
         ),
-        required=True
+        required=True,
     ),
-
     BooleanField(
         name='extractTextFromFiles',
         default= defValues.extractTextFromFiles,
@@ -311,9 +287,8 @@ schema = Schema((
             label='Extracttextfromfiles',
             label_msgid='PloneMeeting_label_extractTextFromFiles',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     LinesField(
         name='availableOcrLanguages',
         default= defValues.availableOcrLanguages,
@@ -326,9 +301,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         multiValued=1,
-        vocabulary='listOcrLanguages'
+        vocabulary='listOcrLanguages',
     ),
-
     StringField(
         name='defaultOcrLanguage',
         default= defValues.defaultOcrLanguage,
@@ -339,9 +313,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_defaultOcrLanguage',
             i18n_domain='PloneMeeting',
         ),
-        vocabulary='listOcrLanguages'
+        vocabulary='listOcrLanguages',
     ),
-
     IntegerField(
         name='maxSearchResults',
         default= defValues.maxSearchResults,
@@ -352,9 +325,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxSearchResults',
             i18n_domain='PloneMeeting',
         ),
-        schemata="pm_search"
+        schemata="pm_search",
     ),
-
     IntegerField(
         name='maxShownFoundItems',
         default= defValues.maxShownFoundItems,
@@ -365,9 +337,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxShownFoundItems',
             i18n_domain='PloneMeeting',
         ),
-        schemata="pm_search"
+        schemata="pm_search",
     ),
-
     IntegerField(
         name='maxShownFoundMeetings',
         default= defValues.maxShownFoundMeetings,
@@ -378,9 +349,8 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxShownFoundMeetings',
             i18n_domain='PloneMeeting',
         ),
-        schemata="pm_search"
+        schemata="pm_search",
     ),
-
     IntegerField(
         name='maxShownFoundAnnexes',
         default= defValues.maxShownFoundAnnexes,
@@ -391,7 +361,7 @@ schema = Schema((
             label_msgid='PloneMeeting_label_maxShownFoundAnnexes',
             i18n_domain='PloneMeeting',
         ),
-        schemata="pm_search"
+        schemata="pm_search",
     ),
 
 ),
@@ -410,43 +380,14 @@ ToolPloneMeeting_schema = ModelExtender(ToolPloneMeeting_schema, 'tool').run()
 ToolPloneMeeting_schema.registerLayer('marshall', ToolMarshaller())
 ##/code-section after-schema
 
-class ToolPloneMeeting(UniqueObject, OrderedBaseFolder):
+class ToolPloneMeeting(UniqueObject, OrderedBaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(UniqueObject,'__implements__',()),) + (getattr(OrderedBaseFolder,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'PloneMeeting'
+    implements(interfaces.IToolPloneMeeting)
 
     meta_type = 'ToolPloneMeeting'
-    portal_type = 'ToolPloneMeeting'
-    allowed_content_types = ['MeetingConfig', 'MeetingGroup', 'ExternalApplication']
-    filter_content_types = 1
-    global_allow = 0
-    #content_icon = 'ToolPloneMeeting.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "PloneMeeting"
-    typeDescMsgId = 'description_edit_toolplonemeeting'
-    #toolicon = 'ToolPloneMeeting.gif'
-
-
-    actions =  (
-
-
-       {'action': "string:$object_url/base_metadata",
-        'category': "object",
-        'id': 'metadata',
-        'name': 'Properties',
-        'permissions': ("Manage portal",),
-        'condition': 'python:1'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = ToolPloneMeeting_schema

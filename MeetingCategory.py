@@ -2,35 +2,23 @@
 #
 # File: MeetingCategory.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -58,21 +46,19 @@ schema = Schema((
             label='Description',
             i18n_domain='PloneMeeting',
         ),
-        accessor="Description"
+        accessor="Description",
     ),
-
     StringField(
         name='categoryId',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             description="CategoryId",
             description_msgid="category_category_id_descr",
             label='Categoryid',
             label_msgid='PloneMeeting_label_categoryId',
             i18n_domain='PloneMeeting',
         ),
-        searchable=True
+        searchable=True,
     ),
-
     IntegerField(
         name='itemsCount',
         default=0,
@@ -83,7 +69,7 @@ schema = Schema((
             label_msgid='PloneMeeting_label_itemsCount',
             i18n_domain='PloneMeeting',
         ),
-        schemata="metadata"
+        schemata="metadata",
     ),
 
 ),
@@ -102,27 +88,14 @@ MeetingCategory_schema = ModelExtender(MeetingCategory_schema, 'category').run()
 MeetingCategory_schema.registerLayer('marshall', CategoryMarshaller())
 ##/code-section after-schema
 
-class MeetingCategory(BaseContent):
+class MeetingCategory(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingCategory'
+    implements(interfaces.IMeetingCategory)
 
     meta_type = 'MeetingCategory'
-    portal_type = 'MeetingCategory'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'MeetingCategory.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MeetingCategory"
-    typeDescMsgId = 'description_edit_meetingcategory'
-
     _at_rename_after_creation = True
 
     schema = MeetingCategory_schema

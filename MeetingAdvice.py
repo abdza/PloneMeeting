@@ -2,35 +2,23 @@
 #
 # File: MeetingAdvice.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -163,14 +151,13 @@ schema = Schema((
     StringField(
         name='title',
         visible=False,
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             label='Title',
             label_msgid='PloneMeeting_label_title',
             i18n_domain='PloneMeeting',
         ),
-        accessor="Title"
+        accessor="Title",
     ),
-
     StringField(
         name='agreementLevel',
         widget=SelectionWidget(
@@ -182,12 +169,10 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         vocabulary='listAgreementLevels',
-        required=True
+        required=True,
     ),
-
     TextField(
         name='description',
-        allowable_content_types=('text/html',),
         widget=RichWidget(
             label="MeetingAdviceDescription",
             label_msgid="advice_description",
@@ -197,10 +182,10 @@ schema = Schema((
         ),
         default_content_type="text/html",
         searchable=True,
+        allowable_content_types=('text/html',),
         default_output_type="text/html",
-        accessor="Description"
+        accessor="Description",
     ),
-
     StringField(
         name='adviserName',
         required=True,
@@ -214,7 +199,7 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         vocabulary='listAdvisersNames',
-        default_method='getDefaultAdviserName'
+        default_method='getDefaultAdviserName',
     ),
 
 ),
@@ -235,51 +220,14 @@ MeetingAdvice_schema.moveField('agreementLevel', pos=2)
 MeetingAdvice_schema.registerLayer('marshall', AdviceMarshaller())
 ##/code-section after-schema
 
-class MeetingAdvice(OrderedBaseFolder):
+class MeetingAdvice(OrderedBaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(OrderedBaseFolder,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingAdvice'
+    implements(interfaces.IMeetingAdvice)
 
     meta_type = 'MeetingAdvice'
-    portal_type = 'MeetingAdvice'
-    allowed_content_types = []
-    filter_content_types = 1
-    global_allow = 1
-    #content_icon = 'MeetingAdvice.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "MeetingAdvice"
-    typeDescMsgId = 'description_edit_meetingadvice'
-
-
-    actions =  (
-
-
-       {'action': "string:$object_url/base_metadata",
-        'category': "object",
-        'id': 'metadata',
-        'name': 'Properties',
-        'permissions': ("Manage portal",),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/meetingadvice_view",
-        'category': "object",
-        'id': 'view',
-        'name': 'View',
-        'permissions': ("View",),
-        'condition': 'python:not here.portal_factory.isTemporary(here)'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = MeetingAdvice_schema
@@ -356,10 +304,10 @@ class MeetingAdvice(OrderedBaseFolder):
         # advisers group on whose behalf the advice is registered
         self.manage_addLocalRoles(
             self.getAdviserName(), ('MeetingAdviceEditor',))
-
     security.declareProtected('Modify portal content', 'onEdit')
     def onEdit(self, isCreated):
         '''See doc in interfaces.py.'''
+    security.declarePublic('listAgreementLevels')
     security.declarePublic('listAgreementLevels')
     def listAgreementLevels(self):
         '''Returns a list containing the active agreementLevels.'''

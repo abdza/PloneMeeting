@@ -2,35 +2,23 @@
 #
 # File: PodTemplate.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -69,12 +57,11 @@ schema = Schema((
             label='Description',
             i18n_domain='PloneMeeting',
         ),
-        accessor="Description"
+        accessor="Description",
     ),
-
     FileField(
         name='podTemplate',
-        widget=FileWidget(
+        widget=FileField._properties['widget'](
             description="PodTemplate",
             description_msgid="pod_template_descr",
             label='Podtemplate',
@@ -82,9 +69,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         required=True,
-        storage=AttributeStorage()
+        storage=AttributeStorage(),
     ),
-
     StringField(
         name='podFormat',
         default="odt",
@@ -97,21 +83,19 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         vocabulary='listPodFormats',
-        required=True
+        required=True,
     ),
-
     StringField(
         name='podCondition',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size=100,
             description="PodCondition",
             description_msgid="pod_condition_descr",
             label='Podcondition',
             label_msgid='PloneMeeting_label_podCondition',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     LinesField(
         name='podPermission',
         default="View",
@@ -125,9 +109,8 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         multiValued=1,
-        vocabulary='listPodPermissions'
+        vocabulary='listPodPermissions',
     ),
-
     StringField(
         name='freezeEvent',
         widget=SelectionWidget(
@@ -138,7 +121,7 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         enforceVocabulary= True,
-        vocabulary='listFreezeEvents'
+        vocabulary='listFreezeEvents',
     ),
 
 ),
@@ -173,27 +156,14 @@ PodTemplate_schema = ModelExtender(PodTemplate_schema, 'pod').run()
 PodTemplate_schema.registerLayer('marshall', PodTemplateMarshaller())
 ##/code-section after-schema
 
-class PodTemplate(BaseContent):
+class PodTemplate(BaseContent, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(BaseContent,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'PodTemplate'
+    implements(interfaces.IPodTemplate)
 
     meta_type = 'PodTemplate'
-    portal_type = 'PodTemplate'
-    allowed_content_types = []
-    filter_content_types = 0
-    global_allow = 1
-    #content_icon = 'PodTemplate.gif'
-    immediate_view = 'base_view'
-    default_view = 'base_view'
-    suppl_views = ()
-    typeDescription = "PodTemplate"
-    typeDescMsgId = 'description_edit_podtemplate'
-
     _at_rename_after_creation = True
 
     schema = PodTemplate_schema

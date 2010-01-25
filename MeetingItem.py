@@ -2,35 +2,23 @@
 #
 # File: MeetingItem.py
 #
-# Copyright (c) 2009 by PloneGov
-# Generator: ArchGenXML Version 1.5.2
+# Copyright (c) 2010 by []
+# Generator: ArchGenXML Version 2.4.1
 #            http://plone.org/products/archgenxml
 #
 # GNU General Public License (GPL)
 #
-# This program is free software; you can redistribute it and/or
-# modify it under the terms of the GNU General Public License
-# as published by the Free Software Foundation; either version 2
-# of the License, or (at your option) any later version.
-#
-# This program is distributed in the hope that it will be useful,
-# but WITHOUT ANY WARRANTY; without even the implied warranty of
-# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the
-# GNU General Public License for more details.
-#
-# You should have received a copy of the GNU General Public License
-# along with this program; if not, write to the Free Software
-# Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA
-# 02110-1301, USA.
-#
 
-__author__ = """Gaetan DELANNAY <gaetan.delannay@geezteem.com>, Gauthier BASTIEN
-<gbastien@commune.sambreville.be>, Stephan GEULETTE
-<stephan.geulette@uvcw.be>"""
+__author__ = """unknown <unknown>"""
 __docformat__ = 'plaintext'
 
 from AccessControl import ClassSecurityInfo
 from Products.Archetypes.atapi import *
+from zope.interface import implements
+import interfaces
+
+from Products.CMFDynamicViewFTI.browserdefault import BrowserDefaultMixin
+
 from Products.PloneMeeting.config import *
 
 ##code-section module-header #fill in your manual code here
@@ -458,7 +446,6 @@ schema = Schema((
 
     TextField(
         name='description',
-        allowable_content_types=('text/html',),
         widget=RichWidget(
             label_msgid="meeting_item_description",
             label="Description",
@@ -466,13 +453,12 @@ schema = Schema((
         ),
         default_content_type="text/html",
         searchable=True,
+        allowable_content_types=('text/html',),
         default_output_type="text/html",
-        accessor="Description"
+        accessor="Description",
     ),
-
     StringField(
         name='category',
-        index="FieldIndex",
         widget=SelectionWidget(
             condition="python: here.showCategory()",
             description="Category",
@@ -481,12 +467,10 @@ schema = Schema((
             label_msgid='PloneMeeting_label_category',
             i18n_domain='PloneMeeting',
         ),
-        vocabulary='listCategories'
+        vocabulary='listCategories',
     ),
-
     ReferenceField(
         name='classifier',
-        index="FieldIndex",
         widget=ReferenceBrowserWidget(
             description="Classifier",
             description_msgid="item_classifier_descr",
@@ -499,27 +483,23 @@ schema = Schema((
             label_msgid='PloneMeeting_label_classifier',
             i18n_domain='PloneMeeting',
         ),
+        allowed_types=('MeetingCategory',),
+        optional=True,
         multiValued=False,
         relationship="ItemClassification",
-        allowed_types=('MeetingCategory',),
-        optional=True
     ),
-
     StringField(
         name='proposingGroup',
-        index="FieldIndex",
         widget=SelectionWidget(
             format="select",
             label='Proposinggroup',
             label_msgid='PloneMeeting_label_proposingGroup',
             i18n_domain='PloneMeeting',
         ),
-        vocabulary='listProposingGroup'
+        vocabulary='listProposingGroup',
     ),
-
     LinesField(
         name='associatedGroups',
-        index="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank",
         widget=MultiSelectionWidget(
             condition="python: here.attributeIsUsed('associatedGroups')",
             format="checkbox",
@@ -529,22 +509,19 @@ schema = Schema((
         ),
         optional=True,
         multiValued=1,
-        vocabulary='listAssociatedGroups'
+        vocabulary='listAssociatedGroups',
     ),
-
     StringField(
         name='preferredMeeting',
         default='whatever',
-        index="FieldIndex",
         widget=SelectionWidget(
             condition="python: not here.isDefinedInTool()",
             label='Preferredmeeting',
             label_msgid='PloneMeeting_label_preferredMeeting',
             i18n_domain='PloneMeeting',
         ),
-        vocabulary='listMeetingsAcceptingItems'
+        vocabulary='listMeetingsAcceptingItems',
     ),
-
     LinesField(
         name='itemTags',
         widget=MultiSelectionWidget(
@@ -554,15 +531,14 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         multiValued=1,
-        searchable=True,
         vocabulary='listItemTags',
+        searchable=True,
         enforceVocabulary=True,
-        optional=True
+        optional=True,
     ),
-
     StringField(
         name='itemKeywords',
-        widget=StringWidget(
+        widget=StringField._properties['widget'](
             size= 100,
             condition="python: here.attributeIsUsed('itemKeywords')",
             label='Itemkeywords',
@@ -570,12 +546,10 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         optional=True,
-        searchable=True
+        searchable=True,
     ),
-
     TextField(
         name='decision',
-        index="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank",
         widget=RichWidget(
             label='Decision',
             label_msgid='PloneMeeting_label_decision',
@@ -586,9 +560,8 @@ schema = Schema((
         searchable=True,
         allowable_content_types=('text/html',),
         default_output_type="text/html",
-        write_permission="PloneMeeting: Write decision"
+        write_permission="PloneMeeting: Write decision",
     ),
-
     LinesField(
         name='mandatoryAdvisers',
         widget=MultiSelectionWidget(
@@ -603,9 +576,8 @@ schema = Schema((
         vocabulary='listMandatoryAdvisers',
         enforceVocabulary= True,
         write_permission="PloneMeeting: Write mandatory advisers",
-        read_permission="PloneMeeting: Read mandatory advisers"
+        read_permission="PloneMeeting: Read mandatory advisers",
     ),
-
     LinesField(
         name='optionalAdvisers',
         widget=MultiSelectionWidget(
@@ -620,9 +592,8 @@ schema = Schema((
         vocabulary='listOptionalAdvisers',
         enforceVocabulary=True,
         write_permission="PloneMeeting: Write optional advisers",
-        read_permission="PloneMeeting: Read optional advisers"
+        read_permission="PloneMeeting: Read optional advisers",
     ),
-
     TextField(
         name='observations',
         widget=RichWidget(
@@ -637,12 +608,11 @@ schema = Schema((
         allowable_content_types=('text/html',),
         default_output_type="text/html",
         optional=True,
-        write_permission="PloneMeeting: Write item observations"
+        write_permission="PloneMeeting: Write item observations",
     ),
-
     ReferenceField(
         name='annexes',
-        widget=ReferenceField._properties['widget'](
+        widget=ReferenceBrowserWidget(
             visible=False,
             label='Annexes',
             label_msgid='PloneMeeting_label_annexes',
@@ -650,12 +620,11 @@ schema = Schema((
         ),
         multiValued=True,
         relationship="ItemAnnexes",
-        write_permission="PloneMeeting: Add annex"
+        write_permission="PloneMeeting: Add annex",
     ),
-
     ReferenceField(
         name='annexesDecision',
-        widget=ReferenceField._properties['widget'](
+        widget=ReferenceBrowserWidget(
             visible=False,
             label='Annexesdecision',
             label_msgid='PloneMeeting_label_annexesDecision',
@@ -664,31 +633,28 @@ schema = Schema((
         write_permission="PloneMeeting: Write decision annex",
         read_permission="PloneMeeting: Read decision annex",
         relationship="DecisionAnnexes",
-        multiValued=True
+        multiValued=True,
     ),
-
     IntegerField(
         name='itemNumber',
         widget=IntegerField._properties['widget'](
-            visible=False,
+            visible="False",
             label='Itemnumber',
             label_msgid='PloneMeeting_label_itemNumber',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
-
     BooleanField(
         name='toDiscuss',
         widget=BooleanField._properties['widget'](
-            visible=False,
+            visible="False",
             label='Todiscuss',
             label_msgid='PloneMeeting_label_toDiscuss',
             i18n_domain='PloneMeeting',
         ),
         optional=True,
-        default_method="getDefaultToDiscuss"
+        default_method="getDefaultToDiscuss",
     ),
-
     StringField(
         name='meetingTransitionInsertingMe',
         widget=SelectionWidget(
@@ -698,9 +664,8 @@ schema = Schema((
             i18n_domain='PloneMeeting',
         ),
         enforceVocabulary=True,
-        vocabulary='listMeetingTransitions'
+        vocabulary='listMeetingTransitions',
     ),
-
     TextField(
         name='itemSignatures',
         widget=TextAreaWidget(
@@ -708,12 +673,10 @@ schema = Schema((
             label_msgid='PloneMeeting_label_itemSignatures',
             i18n_domain='PloneMeeting',
         ),
-        schemata="metadata"
+        schemata="metadata",
     ),
-
     LinesField(
         name='copyGroups',
-        index="ZCTextIndex, lexicon_id=plone_lexicon, index_type=Okapi BM25 Rank",
         widget=MultiSelectionWidget(
             size=10,
             condition='python:here.isCopiesEnabled()',
@@ -725,9 +688,8 @@ schema = Schema((
         ),
         enforceVocabulary=True,
         multiValued=1,
-        vocabulary='listCopyGroups'
+        vocabulary='listCopyGroups',
     ),
-
     BooleanField(
         name='votesAreSecret',
         default=False,
@@ -736,7 +698,7 @@ schema = Schema((
             label='Votesaresecret',
             label_msgid='PloneMeeting_label_votesAreSecret',
             i18n_domain='PloneMeeting',
-        )
+        ),
     ),
 
 ),
@@ -757,114 +719,14 @@ MeetingItem_schema = ModelExtender(MeetingItem_schema, 'item').run()
 MeetingItem_schema.registerLayer('marshall', MeetingItemMarshaller())
 ##/code-section after-schema
 
-class MeetingItem(OrderedBaseFolder):
+class MeetingItem(OrderedBaseFolder, BrowserDefaultMixin):
     """
     """
     security = ClassSecurityInfo()
-    __implements__ = (getattr(OrderedBaseFolder,'__implements__',()),)
 
-    # This name appears in the 'add' box
-    archetype_name = 'MeetingItem'
+    implements(interfaces.IMeetingItem)
 
     meta_type = 'MeetingItem'
-    portal_type = 'MeetingItem'
-    allowed_content_types = ['MeetingFile', 'MeetingAdvice']
-    filter_content_types = 1
-    global_allow = 1
-    content_icon = 'meetingitem_icon.gif'
-    immediate_view = 'meetingitem_view'
-    default_view = 'meetingitem_view'
-    suppl_views = ()
-    typeDescription = "MeetingItem"
-    typeDescMsgId = 'description_edit_meetingitem'
-
-
-    actions =  (
-
-
-       {'action': "string:$object_url/base_metadata",
-        'category': "object",
-        'id': 'metadata',
-        'name': 'Properties',
-        'permissions': ("Manage portal",),
-        'condition': 'python:1'
-       },
-
-
-       {'action': "string:${object_url}/meetingitem_view",
-        'category': "object",
-        'id': 'view',
-        'name': 'View',
-        'permissions': ("View",),
-        'condition': 'python:not here.portal_factory.isTemporary(here)'
-       },
-
-
-       {'action': "string:${object_url}/annexes_form",
-        'category': "object",
-        'id': 'annexes_form',
-        'name': 'Annexes',
-        'permissions': ("View",),
-        'condition': 'python:not here.isDefinedInToolOrTemp()'
-       },
-
-
-       {'action': "string:${object_url}/annexes_decision_form",
-        'category': "object",
-        'id': 'annexes_decision_form',
-        'name': 'AnnexesDecision',
-        'permissions': ("PloneMeeting: Read decision annex",),
-        'condition': 'python:not here.isDefinedInToolOrTemp()'
-       },
-
-
-       {'action': "string:${object_url}/advices_form",
-        'category': "object",
-        'id': 'advices_form',
-        'name': 'Advices',
-        'permissions': ("View",),
-        'condition': 'python:(here.isAdvicesEnabled() or here.objectValues("MeetingAdvice")) and not here.isDefinedInToolOrTemp()'
-       },
-
-
-       {'action': "string:${object_url}/votes_form",
-        'category': "object",
-        'id': 'votes_form',
-        'name': 'votes',
-        'permissions': ("View",),
-        'condition': 'python:here.showVotes()'
-       },
-
-
-       {'action': "string:javascript:toggleAdvicesDescriptions();",
-        'category': "document_actions",
-        'id': 'toggleDescriptions',
-        'name': 'show_or_hide_details',
-        'permissions': ("View",),
-        'condition': 'python:("advices_form" in here.REQUEST.get("ACTUAL_URL")) or (object_url == here.REQUEST.get("ACTUAL_URL"))'
-       },
-
-
-       {'action': "string:${object_url}/duplicate_item",
-        'category': "object_buttons",
-        'id': 'duplicate',
-        'name': 'Duplicate',
-        'permissions': ("Copy or Move",),
-        'condition': 'python:object.showDuplicateItemAction()'
-       },
-
-
-       {'action': "string:${object_url}/copy_items",
-        'category': "object_buttons",
-        'id': 'copyitem',
-        'name': 'CopyItem',
-        'permissions': ("Copy or Move",),
-        'condition': 'python:object.showCopyItemAction()'
-       },
-
-
-    )
-
     _at_rename_after_creation = True
 
     schema = MeetingItem_schema
@@ -1480,6 +1342,7 @@ class MeetingItem(OrderedBaseFolder):
     def onEdit(self, isCreated):
         '''See doc in interfaces.py.'''
     security.declarePublic('getInsertOrder')
+    security.declarePublic('getInsertOrder')
     def getInsertOrder(self, sortOrder):
         '''When inserting an item into a meeting, depending on the sort method
            chosen in the meeting config we must insert the item at a given
@@ -1519,7 +1382,6 @@ class MeetingItem(OrderedBaseFolder):
                 if member.has_permission(writePermission, self):
                     field.set(self, self.adapted().transformRichTextField(
                         field.getName(), field.get(self)))
-
     security.declarePrivate('at_post_create_script')
     def at_post_create_script(self):
         # Add a custom modification_date that does not take into account some

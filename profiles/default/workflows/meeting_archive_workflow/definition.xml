@@ -2,13 +2,18 @@
 <dc-workflow workflow_id="meeting_archive_workflow"
              title="meeting_archive_workflow"
              state_variable="review_state"
-             initial_state="archived">
+             initial_state="archived"
+             xmlns:i18n="http://xml.zope.org/namespaces/i18n"
+             i18n:domain="plone">
  <permission>View</permission>
+ <permission>AccessContentsInformation</permission>
+ <permission>ReviewPortalContent</permission>
+ <permission>ModifyPortalContent</permission>
+ <permission>DeleteObjects</permission>
  <permission>Access contents information</permission>
- <permission>Review portal content</permission>
- <permission>Modify portal content</permission>
- <permission>Delete objects</permission>
- <state state_id="archived" title="archived">
+ <state state_id="archived"
+        title="archived"
+        i18n:attributes="title">
   <permission-map name="Access contents information"
                   acquired="False">
    <permission-role>Manager</permission-role>
@@ -16,18 +21,27 @@
    <permission-role>MeetingObserverGlobal</permission-role>
    <permission-role>MeetingArchiveObserver</permission-role>
   </permission-map>
-  <permission-map name="Delete objects" acquired="False">
+  <permission-map name="AccessContentsInformation"
+                  acquired="False">
    <permission-role>Manager</permission-role>
+   <permission-role>MeetingManager</permission-role>
+   <permission-role>MeetingObserverGlobal</permission-role>
+   <permission-role>MeetingArchiveObserver</permission-role>
   </permission-map>
-  <permission-map name="Modify portal content"
+  <permission-map name="DeleteObjects"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="Review portal content"
+  <permission-map name="ModifyPortalContent"
                   acquired="False">
    <permission-role>Manager</permission-role>
   </permission-map>
-  <permission-map name="View" acquired="False">
+  <permission-map name="ReviewPortalContent"
+                  acquired="False">
+   <permission-role>Manager</permission-role>
+  </permission-map>
+  <permission-map name="View"
+                  acquired="False">
    <permission-role>Manager</permission-role>
    <permission-role>MeetingManager</permission-role>
    <permission-role>MeetingObserverGlobal</permission-role>
@@ -38,7 +52,6 @@
            for_status="True" update_always="True">
   <description>The last transition</description>
   <default>
-   
    <expression>transition/getId|nothing</expression>
   </default>
   <guard>
@@ -48,7 +61,6 @@
            for_status="True" update_always="True">
   <description>The ID of the user who performed the last transition</description>
   <default>
-   
    <expression>user/getId</expression>
   </default>
   <guard>
@@ -58,7 +70,6 @@
            for_status="True" update_always="True">
   <description>Comments about the last transition</description>
   <default>
-   
    <expression>python:state_change.kwargs.get('comment', '')</expression>
   </default>
   <guard>
@@ -68,7 +79,6 @@
            for_status="False" update_always="False">
   <description>Provides access to workflow history</description>
   <default>
-   
    <expression>state_change/getHistory</expression>
   </default>
   <guard>
@@ -80,10 +90,10 @@
            for_status="True" update_always="True">
   <description>Time of the last transition</description>
   <default>
-   
    <expression>state_change/getDateTime</expression>
   </default>
   <guard>
   </guard>
  </variable>
+ <!-- We dont use workflow scripts any more, we use subscribers -->
 </dc-workflow>
