@@ -54,7 +54,7 @@
          i18n:attributes="title"
          action_id="toggleDescriptions"
          category="document_actions" 
-         condition_expr="python:("meeting_view" in here.REQUEST.get("ACTUAL_URL")) or (object_url == here.REQUEST.get("ACTUAL_URL"))"
+         condition_expr="python:('meeting_view' in here.REQUEST.get('ACTUAL_URL')) or (object_url == here.REQUEST.get('ACTUAL_URL'))"
          url_expr="string:javascript:toggleMeetingDescriptions();" 
          visible="True">
   <permission value="View"/>

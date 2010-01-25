@@ -78,7 +78,7 @@
          i18n:attributes="title"
          action_id="advices_form"
          category="object" 
-         condition_expr="python:(here.isAdvicesEnabled() or here.objectValues("MeetingAdvice")) and not here.isDefinedInToolOrTemp()"
+         condition_expr="python:(here.isAdvicesEnabled() or here.objectValues('MeetingAdvice')) and not here.isDefinedInToolOrTemp()"
          url_expr="string:${object_url}/advices_form" 
          visible="True">
   <permission value="View"/>
@@ -96,7 +96,7 @@
          i18n:attributes="title"
          action_id="toggleDescriptions"
          category="document_actions" 
-         condition_expr="python:("advices_form" in here.REQUEST.get("ACTUAL_URL")) or (object_url == here.REQUEST.get("ACTUAL_URL"))"
+         condition_expr="python:('advices_form' in here.REQUEST.get('ACTUAL_URL')) or (object_url == here.REQUEST.get('ACTUAL_URL'))"
          url_expr="string:javascript:toggleAdvicesDescriptions();" 
          visible="True">
   <permission value="View"/>
